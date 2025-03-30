@@ -1,0 +1,64 @@
+@startuml
+
+interface Product {
+    String sku
+    int price
+}
+
+class Author {
+    String givenName
+    String familyName
+}
+
+class Book {
+    String isbn
+    String title
+    Author author
+}
+
+Product <|.. Book
+Book::author "*" --> "1" Author
+
+class OrderLineItem {
+    Product item
+    int quantity
+}
+
+OrderLineItem::item "*" --> "1" Product
+
+class ShoppingBasket {
+    List orderLineItems
+
+    addItem(Product product)
+    removeItem(OrderLineItem orderLineItem)
+    updateItemQuantity(OrderLineItem orderLineItem, int quantity)
+}
+
+ShoppingBasket::orderLineItems "1" *-> "*" OrderLineItem
+
+class PaymentCard {
+    String cardNumber
+    LocalDate expiryDate
+}
+
+class Order {
+    Instant timestamp
+    List orderLineItems
+    PaymentCard paymentCard
+}
+
+Order::orderLineItems "1" *-> "*" OrderLineItem
+Order::paymentCard "*" --> "1" PaymentCard
+
+class Account {
+    List orders
+}
+
+Account::orders "*" --> Order
+
+class User {
+    Account account
+}
+User::account "1" *--> "1" Account
+
+@enduml

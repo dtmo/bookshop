@@ -1,0 +1,29 @@
+@startuml
+
+left to right direction
+
+:Anonymous: --> (Search books)
+:Anonymous: --> (View book details)
+:Anonymous: --> (Add book to shopping basket)
+:Anonymous: --> (Create customer account)
+:Anonymous: --> (Sign in)
+
+:Customer: --> (Search books)
+:Customer: --> (View book details)
+:Customer: --> (Add book to shopping basket)
+:Customer: --> (Order shopping basket items)
+:Customer: --> (Edit shopping basket)
+:Customer: --> (Search own orders)
+:Customer: --> (View order details)
+:Customer: --> (Cancel order)
+
+:Admin: --> (Search books)
+:Admin: --> (View book details)
+:Admin: --> (Add book to system)
+:Admin: --> (Edit book details)
+:Admin: --> (Delete book)
+:Admin: --> (Search customer orders)
+:Admin: --> (View customer order details)
+:Admin: --> (Cancel customer order)
+
+@enduml

@@ -1,0 +1,43 @@
+@startuml
+
+skinparam Linetype ortho
+
+entity Product {
+    * product_id : number <<generated>>
+    --
+    * price : number
+    * stock_keeping_unit : text
+}
+
+entity Author {
+    * author_id : number <<generated>>
+    --
+    * name : text
+    alias : text
+    birthdate : date
+}
+
+entity Book {
+    * book_id : number <<generated>>
+    --
+    * product_id : number
+    * title : text
+    production_credits : text
+    summary : text
+    language : text
+    subject : text
+}
+
+Product ||--o| Book
+
+entity BookAuthor {
+    * book_author_id : number <<generated>>
+    --
+    * book_id : number
+    * author_id : number
+}
+
+Book ||--|{ BookAuthor
+BookAuthor }|--|| Author
+
+@enduml

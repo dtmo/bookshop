@@ -1,23 +1,30 @@
 @startuml
 
 interface Product {
-    String sku
-    int price
+    String stockKeepingUnit
+    long price
 }
 
+' Based on Project Gutenberg agent
 class Author {
-    String givenName
-    String familyName
+    String name
+    String alias
+    LocalDate birthdate
 }
 
 class Book {
-    String isbn
     String title
     Author author
+    ' https://www.loc.gov/marc/bibliographic/bd508.html
+    String productionCredits
+    ' https://www.loc.gov/marc/bibliographic/bd520.html
+    String summary
+    String language
+    String subject
 }
 
 Product <|.. Book
-Book::author "*" --> "1" Author
+Book::author "*" --> "1..*" Author
 
 class OrderLineItem {
     Product item

@@ -6,12 +6,12 @@ using Spring Boot and, possibly also, Quarkus.
 ## Use Cases
 
 Initial thoughts on use cases for the app can be found in:
-[Book Shop Use Cases](book_shop_use_cases.md)
+[Book Shop Use Cases](docs/design/book_shop_use_cases.md)
 
 ## Domain Model
 
 A model capturing details of the Book Shop domain can be found in:
-[Book Shop Domain Model](book_shop_domain_model.md)
+[Book Shop Domain Model](docs/design/book_shop_domain_model.md)
 
 ## Updating design docs
 

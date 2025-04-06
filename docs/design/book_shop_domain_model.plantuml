@@ -1,6 +1,6 @@
 @startuml
 
-interface Product {
+abstract class Product {
     String stockKeepingUnit
     long price
 }
@@ -14,7 +14,6 @@ class Author {
 
 class Book {
     String title
-    Author author
     ' https://www.loc.gov/marc/bibliographic/bd508.html
     String productionCredits
     ' https://www.loc.gov/marc/bibliographic/bd520.html
@@ -23,49 +22,53 @@ class Book {
     String subject
 }
 
-Product <|.. Book
-Book::author "*" --> "1..*" Author
+Product <|-- Book
+Book "*" --> "authors 1..*" Author
 
 class OrderLineItem {
-    Product item
     int quantity
 }
 
-OrderLineItem::item "*" --> "1" Product
+OrderLineItem "*" --> "item 1" Product
 
 class ShoppingBasket {
-    List orderLineItems
-
     addItem(Product product)
     removeItem(OrderLineItem orderLineItem)
     updateItemQuantity(OrderLineItem orderLineItem, int quantity)
 }
 
-ShoppingBasket::orderLineItems "1" *-> "*" OrderLineItem
+ShoppingBasket "1" *--> "orderLineItems *" OrderLineItem
 
 class PaymentCard {
     String cardNumber
     LocalDate expiryDate
 }
 
-class Order {
-    Instant timestamp
-    List orderLineItems
-    PaymentCard paymentCard
+enum OrderState {
+    NEW
+    PREPARING
+    PREPARED
+    DISPATCHED
+    CANCELLED
 }
 
-Order::orderLineItems "1" *-> "*" OrderLineItem
-Order::paymentCard "*" --> "1" PaymentCard
+class Order {
+    Instant creationTimestamp
+}
+
+Order *--> "orderState 1" OrderState
+Order "1" *--> "orderLineItems *" OrderLineItem
+Order "*" --> "paymentCard 1" PaymentCard
 
 class Account {
-    List orders
 }
 
-Account::orders "*" --> Order
+Account "1" --> "orders *" Order
+Account "1" *--> "paymentCard *" PaymentCard
 
 class User {
-    Account account
+    String name
 }
-User::account "1" *--> "1" Account
+User "1" *--> "account 1" Account
 
 @enduml

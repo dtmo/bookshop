@@ -45,9 +45,8 @@ class PaymentCard {
 }
 
 enum OrderState {
-    NEW
-    PREPARING
-    PREPARED
+    WAITING
+    PROCESSING
     DISPATCHED
     CANCELLED
 }

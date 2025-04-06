@@ -69,6 +69,19 @@ reset to an empty state, and the order delivery process begins.
 The order has a creation time, and a state to indicate where it is in the order
 processing workflow.
 
+### Order State
+
+![Order State Model](out/book_shop_order_state/book_shop_order_state.svg)
+
+An order starts out in the _Waiting_ state. Once preparation of the order has
+started it enters the _Processing_ state, where it remains until it is ready for
+dispatch and payment is taken. When payment is taken it enters the _Dispatched_
+state where it is sent to the customer.
+
+At any time up to the _Dispatched_ state the customer may request to cancel the
+order, at which point it will transition to the _Cancelled_ state. Once
+cancelled, no payment will be taken and any processing will be reverted.
+
 ## Payment Card
 
 The bookshop, if it existed, would be a cashless business. Each order would

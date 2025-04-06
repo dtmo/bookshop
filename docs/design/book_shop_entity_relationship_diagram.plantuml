@@ -2,42 +2,72 @@
 
 skinparam Linetype ortho
 
-entity Product {
+entity product {
     * id : number <<generated>>
     --
     * price : number
-    * stock_keeping_unit : text
+    * stock_keeping_unit : varchar
 }
 
-entity Author {
+entity author {
     * id : number <<generated>>
     --
-    * name : text
-    alias : text
+    * name : varchar
+    alias : varchar
     birthdate : date
 }
 
-entity Book {
+entity book {
     * id : number <<generated>>
     --
     * product_id : number
-    * title : text
-    production_credits : text
-    summary : text
-    language : text
-    subject : text
+    * title : varchar
+    production_credits : varchar
+    summary : varchar
+    language : varchar
+    subject : varchar
 }
 
-Product ||--o| Book
+product ||--o| book
 
-entity BookAuthor {
+entity book_author {
     * id : number <<generated>>
     --
     * book_id : number
     * author_id : number
 }
 
-Book ||--|{ BookAuthor
-BookAuthor }|--|| Author
+book ||--|{ book_author
+book_author }|--|| author
+
+entity payment_card {
+    * id : number <<generated>>
+    --
+    * name : varchar
+    * cardholder_name : varchar
+    * card_number : varchar
+    * expiry : date
+}
+
+entity order {
+    * id : number <<generated>>
+    --
+    * creation_time : timestamp
+    * payment_card_id : number
+    * order_state : varchar
+}
+
+order }o--|| payment_card
+
+entity order_line_item {
+    * id : number <<generated>>
+    --
+    * order_id : number
+    * product_id : number
+    * unit_price : number
+}
+
+order_line_item }|--|| order
+product ||--o{ order_line_item
 
 @enduml

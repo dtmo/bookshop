@@ -25,11 +25,19 @@ class Book {
 Product <|-- Book
 Book "*" --> "authors 1..*" Author
 
-class OrderLineItem {
+class ShoppingBasketLineItem {
     int quantity
 }
 
-OrderLineItem "*" --> "item 1" Product
+ShoppingBasketLineItem "*" --> "product 1" Product
+
+note as N1
+    ShoppingBasketLineItem does not include
+    the product unit price which means the
+    product price may change until the order
+    is created.
+endnote
+N1 ... ShoppingBasketLineItem
 
 class ShoppingBasket {
     addItem(Product product)
@@ -37,12 +45,28 @@ class ShoppingBasket {
     updateItemQuantity(OrderLineItem orderLineItem, int quantity)
 }
 
-ShoppingBasket "1" *--> "orderLineItems *" OrderLineItem
+ShoppingBasket "1" *--> "lineItems *" ShoppingBasketLineItem
 
 class PaymentCard {
     String cardNumber
     LocalDate expiryDate
 }
+
+class OrderLineItem {
+    int quantity
+    long unitPrice
+}
+
+OrderLineItem "*" --> "product 1" Product
+
+note as N2
+    OrderLineItem unitPrice records the product
+    price at the point where the order was made
+    so changes to the product price during order
+    processing will not result in unexpected
+    payments.
+endnote
+N2 ... OrderLineItem
 
 enum OrderState {
     WAITING
@@ -56,7 +80,7 @@ class Order {
 }
 
 Order *--> "orderState 1" OrderState
-Order "1" *--> "orderLineItems *" OrderLineItem
+Order "1" *--> "lineItems 1..*" OrderLineItem
 Order "*" --> "paymentCard 1" PaymentCard
 
 class Account {

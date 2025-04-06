@@ -3,14 +3,14 @@
 skinparam Linetype ortho
 
 entity Product {
-    * product_id : number <<generated>>
+    * id : number <<generated>>
     --
     * price : number
     * stock_keeping_unit : text
 }
 
 entity Author {
-    * author_id : number <<generated>>
+    * id : number <<generated>>
     --
     * name : text
     alias : text
@@ -18,7 +18,7 @@ entity Author {
 }
 
 entity Book {
-    * book_id : number <<generated>>
+    * id : number <<generated>>
     --
     * product_id : number
     * title : text
@@ -31,7 +31,7 @@ entity Book {
 Product ||--o| Book
 
 entity BookAuthor {
-    * book_author_id : number <<generated>>
+    * id : number <<generated>>
     --
     * book_id : number
     * author_id : number

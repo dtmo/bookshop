@@ -2,12 +2,81 @@
 
 skinparam Linetype ortho
 
+entity user {
+    * id : number <<generated>>
+    --
+    * name : varchar
+}
+
+entity account {
+    * id : number <<generated>>
+    --
+    * name : varchar
+}
+
+entity account_user {
+    * id : number <<generated>>
+    --
+    * account_id : number
+    * user_id : number
+}
+
+account_user }|--|| user
+account_user }|--|| account
+
 entity product {
     * id : number <<generated>>
     --
     * price : number
     * stock_keeping_unit : varchar
 }
+
+entity shopping_basket_line_item {
+    * id : number <<generated>>
+    --
+    * account_id : number
+    * product_id : number
+    * quantity : number
+}
+
+shopping_basket_line_item }o--|| account
+shopping_basket_line_item }o--|| product
+
+entity payment_card {
+    * id : number <<generated>>
+    --
+    * name : varchar
+    * cardholder_name : varchar
+    * card_number : varchar
+    * expiry : date
+    * account_id : number
+}
+
+payment_card }o--|| account
+
+entity order {
+    * id : number <<generated>>
+    --
+    * creation_time : timestamp
+    * payment_card_id : number
+    * order_state : varchar
+    * account_id : number
+}
+
+order }o--|| payment_card
+order }o--|| account
+
+entity order_line_item {
+    * id : number <<generated>>
+    --
+    * order_id : number
+    * product_id : number
+    * quantity : number
+    * unit_price : number
+}
+
+order_line_item }|--|| order
+product ||--o{ order_line_item
 
 entity author {
     * id : number <<generated>>
@@ -39,35 +108,5 @@ entity book_author {
 
 book ||--|{ book_author
 book_author }|--|| author
-
-entity payment_card {
-    * id : number <<generated>>
-    --
-    * name : varchar
-    * cardholder_name : varchar
-    * card_number : varchar
-    * expiry : date
-}
-
-entity order {
-    * id : number <<generated>>
-    --
-    * creation_time : timestamp
-    * payment_card_id : number
-    * order_state : varchar
-}
-
-order }o--|| payment_card
-
-entity order_line_item {
-    * id : number <<generated>>
-    --
-    * order_id : number
-    * product_id : number
-    * unit_price : number
-}
-
-order_line_item }|--|| order
-product ||--o{ order_line_item
 
 @enduml

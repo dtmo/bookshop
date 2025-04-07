@@ -6,6 +6,41 @@
                         http://www.liquibase.org/xml/ns/pro http://www.liquibase.org/xml/ns/pro/liquibase-pro-4.6.xsd
                         ">
     <changeSet id="1" author="">
+        <createTable tableName="user">
+            <column name="id" type="number">
+                <constraints primaryKey="true" primaryKeyName="pk_user" nullable="false"
+                    unique="true" />
+            </column>
+            <column name="name" type="varchar">
+                <constraints nullable="false" />
+            </column>
+        </createTable>
+
+        <createTable tableName="account">
+            <column name="id" type="number">
+                <constraints primaryKey="true" primaryKeyName="pk_account" nullable="false"
+                    unique="true" />
+            </column>
+            <column name="name" type="varchar">
+                <constraints nullable="false" />
+            </column>
+        </createTable>
+
+        <createTable tableName="user_accounts">
+            <column name="id" type="number">
+                <constraints primaryKey="true" primaryKeyName="pk_user_accounts" nullable="false"
+                    unique="true" />
+            </column>
+            <column name="user_id" type="number">
+                <constraints nullable="false" unique="true" referencedTableName="user"
+                    referencedColumnNames="id" foreignKeyName="fk_user_accounts_user_id" />
+            </column>
+            <column name="account_id" type="number">
+                <constraints nullable="false" unique="true" referencedTableName="account"
+                    referencedColumnNames="id" foreignKeyName="fk_user_accounts_account_id" />
+            </column>
+        </createTable>
+
         <createTable tableName="product">
             <column name="id" type="number">
                 <constraints primaryKey="true" primaryKeyName="pk_product" nullable="false"
@@ -17,6 +52,104 @@
             <column name="stock_keeping_unit" type="varchar">
                 <constraints nullable="false" unique="true" />
             </column>
+        </createTable>
+
+        <createTable tableName="shopping_basket_line_item">
+            <column name="id" type="number">
+                <constraints primaryKey="true" primaryKeyName="pk_shopping_basket_line_item"
+                    nullable="false"
+                    unique="true" />
+            </column>
+            <column name="account_id" type="number">
+                <constraints nullable="false" unique="true" referencedTableName="account"
+                    referencedColumnNames="id"
+                    foreignKeyName="fk_shopping_basket_line_item_account_id" />
+            </column>
+            <column name="product_id" type="number">
+                <constraints nullable="false" unique="true" referencedTableName="product"
+                    referencedColumnNames="id"
+                    foreignKeyName="fk_shopping_basket_line_item_product_id" />
+            </column>
+            <column name="quantity" type="number">
+                <constraints nullable="false" />
+            </column>
+        </createTable>
+
+        <createTable tableName="payment_card">
+            <column name="id" type="number">
+                <constraints primaryKey="true" primaryKeyName="pk_payment_card" nullable="false"
+                    unique="true" />
+            </column>
+            <column name="name" type="varchar">
+                <constraints nullable="false" />
+            </column>
+            <column name="cardholder_name" type="varchar">
+                <constraints nullable="false" />
+            </column>
+            <column name="card_number" type="varchar">
+                <constraints nullable="false" />
+            </column>
+            <column name="expiry" type="date">
+                <constraints nullable="false" />
+            </column>
+            <column name="account_id" type="number">
+                <constraints nullable="false" unique="true" referencedTableName="account"
+                    referencedColumnNames="id" foreignKeyName="fk_payment_card_account_id" />
+            </column>
+        </createTable>
+
+        <createTable tableName="order">
+            <column name="id" type="number">
+                <constraints primaryKey="true" primaryKeyName="pk_order" nullable="false"
+                    unique="true" />
+            </column>
+            <column name="creation_time" type="timestamp">
+                <constraints nullable="false" />
+            </column>
+            <column name="payment_card_id" type="number">
+                <constraints nullable="false" unique="true" referencedTableName="payment_card"
+                    referencedColumnNames="id" foreignKeyName="fk_order_payment_card_id" />
+            </column>
+            <column name="order_state" type="varchar">
+                <constraints nullable="false" />
+            </column>
+            <column name="account_id" type="number">
+                <constraints nullable="false" unique="true" referencedTableName="account"
+                    referencedColumnNames="id" foreignKeyName="fk_payment_card_account_id" />
+            </column>
+        </createTable>
+
+        <createTable tableName="order_line_item">
+            <column name="id" type="number">
+                <constraints primaryKey="true" primaryKeyName="pk_order_line_item" nullable="false"
+                    unique="true" />
+            </column>
+            <column name="order_id" type="number">
+                <constraints nullable="false" unique="true" referencedTableName="order"
+                    referencedColumnNames="id" foreignKeyName="fk_order_line_item_order_id" />
+            </column>
+            <column name="product_id" type="number">
+                <constraints nullable="false" unique="true" referencedTableName="product"
+                    referencedColumnNames="id" foreignKeyName="fk_order_line_item_product_id" />
+            </column>
+            <column name="quantity" type="number">
+                <constraints nullable="false" />
+            </column>
+            <column name="unit_price" type="number">
+                <constraints nullable="false" />
+            </column>
+        </createTable>
+
+        <createTable tableName="author">
+            <column name="id" type="number">
+                <constraints primaryKey="true" primaryKeyName="pk_author" nullable="false"
+                    unique="true" />
+            </column>
+            <column name="name" type="varchar">
+                <constraints nullable="false" />
+            </column>
+            <column name="alias" type="varchar" />
+            <column name="birth_date" type="date" />
         </createTable>
 
         <createTable tableName="book">
@@ -37,30 +170,18 @@
             <column name="subject" type="text" />
         </createTable>
 
-        <createTable tableName="author">
+        <createTable tableName="book_authors">
             <column name="id" type="number">
-                <constraints primaryKey="true" primaryKeyName="pk_author" nullable="false"
-                    unique="true" />
-            </column>
-            <column name="name" type="varchar">
-                <constraints nullable="false" />
-            </column>
-            <column name="alias" type="varchar" />
-            <column name="birth_date" type="date" />
-        </createTable>
-
-        <createTable tableName="book_author">
-            <column name="id" type="number">
-                <constraints primaryKey="true" primaryKeyName="pk_book_author" nullable="false"
+                <constraints primaryKey="true" primaryKeyName="pk_book_authors" nullable="false"
                     unique="true" />
             </column>
             <column name="book_id" type="number">
                 <constraints nullable="false" unique="true" referencedTableName="book"
-                    referencedColumnNames="id" foreignKeyName="fk_book_author_book_id" />
+                    referencedColumnNames="id" foreignKeyName="fk_book_authors_book_id" />
             </column>
             <column name="author_id" type="number">
                 <constraints nullable="false" unique="true" referencedTableName="author"
-                    referencedColumnNames="id" foreignKeyName="fk_book_author_author_id" />
+                    referencedColumnNames="id" foreignKeyName="fk_book_authors_author_id" />
             </column>
         </createTable>
     </changeSet>

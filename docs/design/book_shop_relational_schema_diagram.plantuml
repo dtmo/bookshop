@@ -14,7 +14,7 @@ entity account {
     * name : varchar
 }
 
-entity user_account {
+entity user_accounts {
     * id : number <<generated>>
     --
     * account_id : number
@@ -83,15 +83,15 @@ entity book {
     subject : varchar
 }
 
-entity book_author {
+entity book_authors {
     * id : number <<generated>>
     --
     * book_id : number
     * author_id : number
 }
 
-user::id ||--|{ user_account::user_id
-user_account::account_id }|--|| account::id
+user::id ||--|{ user_accounts::user_id
+user_accounts::account_id }|--|| account::id
 account::id ||--o{ shopping_basket_line_item::account_id
 shopping_basket_line_item::product_id }o--|| product::id
 account::id ||--o{ payment_card::account_id
@@ -100,7 +100,7 @@ order::id ||--|{ order_line_item::order_id
 order::payment_card_id }o--|| payment_card::id
 order_line_item::product_id }o--|| product::id
 product::id ||--o| book::product_id
-book::id ||--|{ book_author::book_id
-book_author::author_id }|--|| author::id
+book::id ||--|{ book_authors::book_id
+book_authors::author_id }|--|| author::id
 
 @enduml

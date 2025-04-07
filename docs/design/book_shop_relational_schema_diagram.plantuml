@@ -1,6 +1,6 @@
 @startuml
 
-skinparam Linetype ortho
+left to right direction
 
 entity user {
     * id : number <<generated>>
@@ -14,15 +14,12 @@ entity account {
     * name : varchar
 }
 
-entity account_user {
+entity user_account {
     * id : number <<generated>>
     --
     * account_id : number
     * user_id : number
 }
-
-account_user }|--|| user
-account_user }|--|| account
 
 entity product {
     * id : number <<generated>>
@@ -39,9 +36,6 @@ entity shopping_basket_line_item {
     * quantity : number
 }
 
-shopping_basket_line_item }o--|| account
-shopping_basket_line_item }o--|| product
-
 entity payment_card {
     * id : number <<generated>>
     --
@@ -52,8 +46,6 @@ entity payment_card {
     * account_id : number
 }
 
-payment_card }o--|| account
-
 entity order {
     * id : number <<generated>>
     --
@@ -63,9 +55,6 @@ entity order {
     * account_id : number
 }
 
-order }o--|| payment_card
-order }o--|| account
-
 entity order_line_item {
     * id : number <<generated>>
     --
@@ -74,9 +63,6 @@ entity order_line_item {
     * quantity : number
     * unit_price : number
 }
-
-order_line_item }|--|| order
-product ||--o{ order_line_item
 
 entity author {
     * id : number <<generated>>
@@ -97,8 +83,6 @@ entity book {
     subject : varchar
 }
 
-product ||--o| book
-
 entity book_author {
     * id : number <<generated>>
     --
@@ -106,7 +90,17 @@ entity book_author {
     * author_id : number
 }
 
-book ||--|{ book_author
-book_author }|--|| author
+user::id ||--|{ user_account::user_id
+user_account::account_id }|--|| account::id
+account::id ||--o{ shopping_basket_line_item::account_id
+shopping_basket_line_item::product_id }o--|| product::id
+account::id ||--o{ payment_card::account_id
+account::id ||--o{ order::account_id
+order::id ||--|{ order_line_item::order_id
+order::payment_card_id }o--|| payment_card::id
+order_line_item::product_id }o--|| product::id
+product::id ||--o| book::product_id
+book::id ||--|{ book_author::book_id
+book_author::author_id }|--|| author::id
 
 @enduml

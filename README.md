@@ -13,6 +13,11 @@ Initial thoughts on use cases for the app can be found in:
 A model capturing details of the Book Shop domain can be found in:
 [Book Shop Domain Model](docs/design/book_shop_domain_model.md)
 
+## Data Persistence
+
+Details of the approach for data persistence can be foun in:
+[Book Shop Data Persistence](docs/design/book_shop_data_persistence.md)
+
 ## Updating design docs
 
 The design doc diagrams are generated using [PlantUML](https://plantuml/com).

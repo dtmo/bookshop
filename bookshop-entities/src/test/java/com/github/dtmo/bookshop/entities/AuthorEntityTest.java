@@ -2,21 +2,11 @@ package com.github.dtmo.bookshop.entities;
 
 import org.junit.jupiter.api.Test;
 
-import jakarta.persistence.EntityManager;
-import jakarta.persistence.EntityTransaction;
+import nl.jqno.equalsverifier.EqualsVerifier;
 
-public class AuthorEntityTest extends AbstractIntegrationTest{
-
+public class AuthorEntityTest {
     @Test
-    public void testAuthor() {
-        final EntityManager entityManager = getEntityManagerFactory().createEntityManager();
-
-        EntityTransaction entityTransaction = entityManager.getTransaction();
-        entityTransaction.begin();
-        AuthorEntity authorEntity = new AuthorEntity();
-        authorEntity.setName("Earnest Scribbler");
-
-        entityManager.persist(authorEntity);
-        entityTransaction.commit();
+    public void testEqualsHashcode() {
+        EqualsVerifier.forClass(AuthorEntity.class).verify();
     }
 }

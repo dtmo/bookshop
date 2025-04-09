@@ -1,5 +1,7 @@
 package com.github.dtmo.bookshop.entities;
 
+import java.util.Objects;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -21,4 +23,32 @@ public class AccountEntity {
 
     @NonNull
     private String name;
+
+    @Override
+    public boolean equals(final Object object) {
+        final boolean equal;
+
+        if (this == object) {
+            equal = true;
+        } else if (object == null) {
+            equal = false;
+        } else if (object instanceof AccountEntity) {
+            final AccountEntity other = (AccountEntity) object;
+            equal = Objects.equals(this.name, other.name);
+        } else {
+            equal = false;
+        }
+
+        return equal;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(this.name);
+    }
+
+    @Override
+    public String toString() {
+        return String.format("AccountEntity[id=\"%s\", name=\"%s\"]", this.id, this.name);
+    }
 }

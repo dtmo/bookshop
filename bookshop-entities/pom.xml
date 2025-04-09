@@ -63,6 +63,11 @@
             <artifactId>postgresql</artifactId>
             <scope>test</scope>
         </dependency>
+            <dependency>
+                <groupId>nl.jqno.equalsverifier</groupId>
+                <artifactId>equalsverifier</artifactId>
+                <scope>test</scope>
+            </dependency>
         <dependency>
             <groupId>${project.groupId}</groupId>
             <artifactId>bookshop-db-schema</artifactId>

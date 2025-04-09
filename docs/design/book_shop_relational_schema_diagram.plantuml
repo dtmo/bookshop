@@ -69,7 +69,6 @@ entity author {
     --
     * name : varchar
     alias : varchar
-    birthdate : date
 }
 
 entity book {

@@ -9,7 +9,6 @@ abstract class Product {
 class Author {
     String name
     String alias
-    LocalDate birthdate
 }
 
 class Book {

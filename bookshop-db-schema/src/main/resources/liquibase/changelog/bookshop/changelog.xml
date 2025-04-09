@@ -16,6 +16,8 @@
             </column>
         </createTable>
 
+        <addAutoIncrement tableName="user" columnName="id" />
+
         <createTable tableName="account">
             <column name="id" type="number">
                 <constraints primaryKey="true" primaryKeyName="pk_account" nullable="false"
@@ -25,6 +27,8 @@
                 <constraints nullable="false" />
             </column>
         </createTable>
+
+        <addAutoIncrement tableName="account" columnName="id" />
 
         <createTable tableName="user_accounts">
             <column name="id" type="number">
@@ -41,6 +45,8 @@
             </column>
         </createTable>
 
+        <addAutoIncrement tableName="user_accounts" columnName="id" />
+
         <createTable tableName="product">
             <column name="id" type="number">
                 <constraints primaryKey="true" primaryKeyName="pk_product" nullable="false"
@@ -53,6 +59,8 @@
                 <constraints nullable="false" unique="true" />
             </column>
         </createTable>
+
+        <addAutoIncrement tableName="product" columnName="id" />
 
         <createTable tableName="shopping_basket_line_item">
             <column name="id" type="number">
@@ -74,6 +82,8 @@
                 <constraints nullable="false" />
             </column>
         </createTable>
+
+        <addAutoIncrement tableName="shopping_basket_line_item" columnName="id" />
 
         <createTable tableName="payment_card">
             <column name="id" type="number">
@@ -98,6 +108,8 @@
             </column>
         </createTable>
 
+        <addAutoIncrement tableName="payment_card" columnName="id" />
+
         <createTable tableName="order">
             <column name="id" type="number">
                 <constraints primaryKey="true" primaryKeyName="pk_order" nullable="false"
@@ -118,6 +130,8 @@
                     referencedColumnNames="id" foreignKeyName="fk_payment_card_account_id" />
             </column>
         </createTable>
+
+        <addAutoIncrement tableName="order" columnName="id" />
 
         <createTable tableName="order_line_item">
             <column name="id" type="number">
@@ -140,6 +154,8 @@
             </column>
         </createTable>
 
+        <addAutoIncrement tableName="order_line_item" columnName="id" />
+
         <createTable tableName="author">
             <column name="id" type="number">
                 <constraints primaryKey="true" primaryKeyName="pk_author" nullable="false"
@@ -149,8 +165,9 @@
                 <constraints nullable="false" />
             </column>
             <column name="alias" type="varchar" />
-            <column name="birth_date" type="date" />
         </createTable>
+
+        <addAutoIncrement tableName="author" columnName="id" />
 
         <createTable tableName="book">
             <column name="id" type="number">
@@ -170,6 +187,8 @@
             <column name="subject" type="text" />
         </createTable>
 
+        <addAutoIncrement tableName="book" columnName="id" />
+
         <createTable tableName="book_authors">
             <column name="id" type="number">
                 <constraints primaryKey="true" primaryKeyName="pk_book_authors" nullable="false"
@@ -184,5 +203,7 @@
                     referencedColumnNames="id" foreignKeyName="fk_book_authors_author_id" />
             </column>
         </createTable>
+
+        <addAutoIncrement tableName="book_authors" columnName="id" />
     </changeSet>
 </databaseChangeLog>

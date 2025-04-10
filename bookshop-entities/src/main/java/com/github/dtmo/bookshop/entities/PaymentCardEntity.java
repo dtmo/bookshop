@@ -1,6 +1,6 @@
 package com.github.dtmo.bookshop.entities;
 
-import java.util.Set;
+import java.time.LocalDate;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -9,8 +9,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
-import jakarta.persistence.JoinTable;
-import jakarta.persistence.ManyToMany;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
@@ -24,18 +23,16 @@ import lombok.Setter;
 import lombok.ToString;
 
 @Entity
-@Table(name = "author")
+@Table(name = "payment_card")
 @RequiredArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PACKAGE)
 @AllArgsConstructor(access = AccessLevel.PACKAGE)
 @Builder
 @Getter
 @Setter
-// Different authors can share the same name (e.g. David Mitchell) and so
-// equality can only really be determined based on the "id" field.
 @EqualsAndHashCode(of = "id")
 @ToString
-public class AuthorEntity {
+public class PaymentCardEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
@@ -45,10 +42,19 @@ public class AuthorEntity {
     @NonNull
     private String name;
 
-    @Column(name = "alias")
-    private String alias;
+    @Column(name = "cardholder_name")
+    @NonNull
+    private String cardholderName;
 
-    @ManyToMany(fetch = FetchType.LAZY)
-    @JoinTable(name = "author_books", joinColumns = @JoinColumn(name = "author_id"), inverseJoinColumns = @JoinColumn(name = "book_id"))
-    private Set<BookEntity> books;
+    @Column(name = "card_number")
+    @NonNull
+    private String cardNumber;
+
+    @Column(name = "expiry")
+    @NonNull
+    private LocalDate expiry;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "account_id")
+    private AccountEntity account;
 }

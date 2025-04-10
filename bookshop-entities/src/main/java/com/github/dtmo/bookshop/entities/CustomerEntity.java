@@ -14,6 +14,7 @@ import jakarta.persistence.ManyToMany;
 import jakarta.persistence.Table;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -24,12 +25,13 @@ import lombok.ToString;
 
 @Entity
 @Table(name = "customer")
-@NoArgsConstructor(access = AccessLevel.PACKAGE)
 @RequiredArgsConstructor
-@AllArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PACKAGE)
+@AllArgsConstructor(access = AccessLevel.PACKAGE)
+@Builder
 @Getter
 @Setter
-@EqualsAndHashCode(of = "name")
+@EqualsAndHashCode(of = "id")
 @ToString
 public class CustomerEntity {
     @Id

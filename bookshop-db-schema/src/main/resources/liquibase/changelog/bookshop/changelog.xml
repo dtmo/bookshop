@@ -30,11 +30,13 @@
 
         <createTable tableName="customer_accounts">
             <column name="customer_id" type="number">
-                <constraints primaryKey="true" primaryKeyName="pk_customer_accounts" referencedTableName="customer"
+                <constraints primaryKey="true" primaryKeyName="pk_customer_accounts"
+                    referencedTableName="customer"
                     referencedColumnNames="id" foreignKeyName="fk_customer_accounts_customer_id" />
             </column>
             <column name="account_id" type="number">
-                <constraints primaryKey="true" primaryKeyName="pk_customer_accounts" referencedTableName="account"
+                <constraints primaryKey="true" primaryKeyName="pk_customer_accounts"
+                    referencedTableName="account"
                     referencedColumnNames="id" foreignKeyName="fk_customer_accounts_account_id" />
             </column>
         </createTable>
@@ -54,25 +56,20 @@
         <addAutoIncrement tableName="product" columnName="id" />
 
         <createTable tableName="shopping_basket_line_item">
-            <column name="id" type="number">
-                <constraints primaryKey="true" primaryKeyName="pk_shopping_basket_line_item" />
-            </column>
             <column name="account_id" type="number">
-                <constraints nullable="false" unique="true" referencedTableName="account"
-                    referencedColumnNames="id"
+                <constraints primaryKey="true" primaryKeyName="pk_shopping_basket_line_item"
+                    referencedTableName="account" referencedColumnNames="id"
                     foreignKeyName="fk_shopping_basket_line_item_account_id" />
             </column>
             <column name="product_id" type="number">
-                <constraints nullable="false" unique="true" referencedTableName="product"
-                    referencedColumnNames="id"
+                <constraints primaryKey="true" primaryKeyName="pk_shopping_basket_line_item"
+                    referencedTableName="product" referencedColumnNames="id"
                     foreignKeyName="fk_shopping_basket_line_item_product_id" />
             </column>
             <column name="quantity" type="number">
                 <constraints nullable="false" />
             </column>
         </createTable>
-
-        <addAutoIncrement tableName="shopping_basket_line_item" columnName="id" />
 
         <createTable tableName="payment_card">
             <column name="id" type="number">
@@ -121,16 +118,15 @@
         <addAutoIncrement tableName="order" columnName="id" />
 
         <createTable tableName="order_line_item">
-            <column name="id" type="number">
-                <constraints primaryKey="true" primaryKeyName="pk_order_line_item" />
-            </column>
             <column name="order_id" type="number">
-                <constraints nullable="false" unique="true" referencedTableName="order"
-                    referencedColumnNames="id" foreignKeyName="fk_order_line_item_order_id" />
+                <constraints primaryKey="true" primaryKeyName="pk_order_line_item"
+                    referencedTableName="order" referencedColumnNames="id"
+                    foreignKeyName="fk_order_line_item_order_id" />
             </column>
             <column name="product_id" type="number">
-                <constraints nullable="false" unique="true" referencedTableName="product"
-                    referencedColumnNames="id" foreignKeyName="fk_order_line_item_product_id" />
+                <constraints primaryKey="true" primaryKeyName="pk_order_line_item"
+                    referencedTableName="product" referencedColumnNames="id"
+                    foreignKeyName="fk_order_line_item_product_id" />
             </column>
             <column name="quantity" type="number">
                 <constraints nullable="false" />
@@ -139,8 +135,6 @@
                 <constraints nullable="false" />
             </column>
         </createTable>
-
-        <addAutoIncrement tableName="order_line_item" columnName="id" />
 
         <createTable tableName="author">
             <column name="id" type="number">
@@ -174,13 +168,15 @@
         <addAutoIncrement tableName="book" columnName="id" />
 
         <createTable tableName="author_books">
-            <column name="book_id" type="number">
-                <constraints primaryKey="true" primaryKeyName="pk_author_books" referencedTableName="book"
-                    referencedColumnNames="id" foreignKeyName="fk_author_books_book_id" />
-            </column>
             <column name="author_id" type="number">
-                <constraints primaryKey="true" primaryKeyName="pk_author_books" referencedTableName="author"
+                <constraints primaryKey="true" primaryKeyName="pk_author_books"
+                    referencedTableName="author"
                     referencedColumnNames="id" foreignKeyName="fk_author_books_author_id" />
+            </column>
+            <column name="book_id" type="number">
+                <constraints primaryKey="true" primaryKeyName="pk_author_books"
+                    referencedTableName="book"
+                    referencedColumnNames="id" foreignKeyName="fk_author_books_book_id" />
             </column>
         </createTable>
     </changeSet>

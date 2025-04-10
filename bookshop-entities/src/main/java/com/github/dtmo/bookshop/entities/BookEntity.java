@@ -8,9 +8,8 @@ import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
+import jakarta.persistence.PrimaryKeyJoinColumn;
 import jakarta.persistence.Table;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
@@ -24,31 +23,41 @@ import lombok.Setter;
 import lombok.ToString;
 
 @Entity
-@Table(name = "author")
+@Table(name = "book")
+@PrimaryKeyJoinColumn(name = "product_id")
 @RequiredArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PACKAGE)
 @AllArgsConstructor(access = AccessLevel.PACKAGE)
 @Builder
 @Getter
 @Setter
-// Different authors can share the same name (e.g. David Mitchell) and so
-// equality can only really be determined based on the "id" field.
-@EqualsAndHashCode(of = "id")
+// None of the book fields can reliably be used to determine equality, however,
+// each book is a product and each distinct product has a unique SKU, so we can
+// determine equality based on that.
+@EqualsAndHashCode(callSuper = true)
 @ToString
-public class AuthorEntity {
+public class BookEntity extends ProductEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private Long id;
 
-    @Column(name = "name")
+    @Column(name = "title")
     @NonNull
-    private String name;
+    private String title;
 
-    @Column(name = "alias")
-    private String alias;
+    @Column(name = "production_credits")
+    private String productionCredits;
 
-    @ManyToMany(fetch = FetchType.LAZY)
-    @JoinTable(name = "author_books", joinColumns = @JoinColumn(name = "author_id"), inverseJoinColumns = @JoinColumn(name = "book_id"))
-    private Set<BookEntity> books;
+    @Column(name = "summary")
+    private String summary;
+
+    @Column(name = "language")
+    private String language;
+
+    @Column(name = "subject")
+    private String subject;
+
+    @ManyToMany(mappedBy = "books", fetch = FetchType.LAZY)
+    private Set<AuthorEntity> authors;
 }

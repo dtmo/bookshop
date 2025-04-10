@@ -1,0 +1,47 @@
+package com.github.dtmo.bookshop.entities;
+
+import jakarta.persistence.Column;
+import jakarta.persistence.Embeddable;
+import jakarta.persistence.EmbeddedId;
+import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.Table;
+import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
+
+@Entity
+@Table(name = "shopping_basket_line_item")
+@NoArgsConstructor(access = AccessLevel.PACKAGE)
+@AllArgsConstructor(access = AccessLevel.PACKAGE)
+@Builder
+@Getter
+@Setter
+@EqualsAndHashCode(of = "id")
+@ToString
+public class ShoppingBasketLineItemEntity {
+    @Embeddable
+    public static class ShoppingBasketLineItemId {
+        @ManyToOne(fetch = FetchType.LAZY)
+        @JoinColumn(name = "account_id")
+        private AccountEntity account;
+
+        @ManyToOne(fetch = FetchType.LAZY)
+        @JoinColumn(name = "product_id")
+        private ProductEntity product;
+    }
+
+    @EmbeddedId
+    private ShoppingBasketLineItemId id;
+
+    @Column(name = "quantity")
+    private long quantity;
+}

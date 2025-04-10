@@ -24,9 +24,10 @@ import lombok.ToString;
 
 @Entity
 @Table(name = "account")
-@NoArgsConstructor(access = AccessLevel.PACKAGE)
 @RequiredArgsConstructor
-@AllArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PACKAGE)
+@AllArgsConstructor(access = AccessLevel.PACKAGE)
+@Builder
 @Getter
 @Setter
 // While accounts should have unique names, an account could be renamed, which

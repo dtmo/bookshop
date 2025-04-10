@@ -6,7 +6,7 @@ it various data storage and retrieval requirements.
 ## Relational Database
 
 For handling transactional processing, a traditional relational database such as
-[PostgreSQL](https://www.postgresql.org/) is appropriate. As such, user
+[PostgreSQL](https://www.postgresql.org/) is appropriate. As such, customer
 accounts, orders, and book details need to be represented in a relational
 schema.
 

@@ -1,54 +1,49 @@
 package com.github.dtmo.bookshop.entities;
 
 import java.util.Objects;
+import java.util.Set;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.ManyToMany;
 import jakarta.persistence.Table;
-import lombok.Data;
+import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.NonNull;
+import lombok.RequiredArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
 
 @Entity
 @Table(name = "account")
-@Data
-@NoArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PACKAGE)
+@RequiredArgsConstructor
+@AllArgsConstructor
+@Getter
+@Setter
+// While accounts should have unique names, an account could be renamed, which
+// would make the name a terrible natural key, so we determine equality based on
+// the ID field.
+@EqualsAndHashCode(of = "id")
+@ToString
 public class AccountEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @NonNull
+    @Column(name = "id")
     private Long id;
 
+    @Column(name = "name")
     @NonNull
     private String name;
 
-    @Override
-    public boolean equals(final Object object) {
-        final boolean equal;
-
-        if (this == object) {
-            equal = true;
-        } else if (object == null) {
-            equal = false;
-        } else if (object instanceof AccountEntity) {
-            final AccountEntity other = (AccountEntity) object;
-            equal = Objects.equals(this.name, other.name);
-        } else {
-            equal = false;
-        }
-
-        return equal;
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(this.name);
-    }
-
-    @Override
-    public String toString() {
-        return String.format("AccountEntity[id=\"%s\", name=\"%s\"]", this.id, this.name);
-    }
+    @ManyToMany(mappedBy = "accounts", fetch = FetchType.LAZY)
+    private Set<CustomerEntity> customers;
 }

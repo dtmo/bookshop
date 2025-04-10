@@ -2,7 +2,7 @@
 
 left to right direction
 
-entity user {
+entity customer {
     * id : number <<generated>>
     --
     * name : varchar
@@ -14,11 +14,11 @@ entity account {
     * name : varchar
 }
 
-entity user_accounts {
+entity customer_accounts {
     * id : number <<generated>>
     --
     * account_id : number
-    * user_id : number
+    * customer_id : number
 }
 
 entity product {
@@ -89,8 +89,8 @@ entity book_authors {
     * author_id : number
 }
 
-user::id ||--|{ user_accounts::user_id
-user_accounts::account_id }|--|| account::id
+customer::id ||--|{ customer_accounts::customer_id
+customer_accounts::account_id }|--|| account::id
 account::id ||--o{ shopping_basket_line_item::account_id
 shopping_basket_line_item::product_id }o--|| product::id
 account::id ||--o{ payment_card::account_id

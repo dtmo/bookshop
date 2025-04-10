@@ -11,7 +11,6 @@ import org.junit.jupiter.api.Test;
 
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityTransaction;
-import jakarta.persistence.Query;
 import jakarta.persistence.TypedQuery;
 
 public class AuthorEntityIntegrationTest extends AbstractIntegrationTest {

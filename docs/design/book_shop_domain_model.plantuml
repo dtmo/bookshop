@@ -88,9 +88,9 @@ class Account {
 Account "1" --> "orders *" Order
 Account "1" *--> "paymentCard *" PaymentCard
 
-class User {
+class Customer {
     String name
 }
-User "1" *--> "account 1" Account
+Customer "1" *--> "account 1" Account
 
 @enduml

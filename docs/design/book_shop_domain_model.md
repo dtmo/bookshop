@@ -93,10 +93,10 @@ immediately prior to dispatch.
 An _Account_ holds details of _Payment Cards_ and _Order_ histories. At some
 future point there may be support for accounts to which multiple users have
 access, or conversely support for users to have multiple accounts, so _Account_
-is represented as a separate entity to a user.
+is represented as a separate entity to a customer.
 
-## User
+## Customer
 
-A _User_ represents an actual person who us able to authenticate with the system
+A _customer_ represents an actual person who us able to authenticate with the system
 and interact with it. They have a name, which is not necessarily unique, and an
 associated _Account_.

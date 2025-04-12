@@ -14,6 +14,7 @@ import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
+import lombok.experimental.SuperBuilder;
 
 @Entity
 @Inheritance(strategy = InheritanceType.JOINED)
@@ -21,6 +22,7 @@ import lombok.RequiredArgsConstructor;
 @Data
 @RequiredArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PACKAGE)
+@SuperBuilder
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
 public abstract class ProductEntity {
     @Id

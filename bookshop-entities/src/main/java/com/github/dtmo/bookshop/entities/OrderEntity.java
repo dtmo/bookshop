@@ -1,6 +1,7 @@
 package com.github.dtmo.bookshop.entities;
 
 import java.time.Instant;
+import java.util.List;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -12,6 +13,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
@@ -50,13 +52,19 @@ public class OrderEntity {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "payment_card_id")
+    @NonNull
     private PaymentCardEntity paymentCard;
 
     @Column(name = "order_state")
     @Enumerated(EnumType.STRING)
+    @NonNull
     private OrderState state;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "account_id")
+    @NonNull
     private AccountEntity account;
+
+    @OneToMany(mappedBy = "id.order", fetch = FetchType.LAZY)
+    private List<OrderLineItemEntity> lineItems;
 }

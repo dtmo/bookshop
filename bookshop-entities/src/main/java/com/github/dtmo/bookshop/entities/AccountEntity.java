@@ -9,6 +9,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToMany;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
@@ -43,4 +44,7 @@ public class AccountEntity {
 
     @ManyToMany(mappedBy = "accounts", fetch = FetchType.LAZY)
     private Set<CustomerEntity> customers;
+
+    @OneToMany(mappedBy = "account", fetch = FetchType.LAZY)
+    private Set<PaymentCardEntity> paymentCardEntities;
 }

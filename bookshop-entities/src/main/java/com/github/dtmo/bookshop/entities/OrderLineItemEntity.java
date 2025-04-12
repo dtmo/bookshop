@@ -27,13 +27,19 @@ import lombok.RequiredArgsConstructor;
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
 public class OrderLineItemEntity {
     @Embeddable
+    @Data
+    @RequiredArgsConstructor
+    @NoArgsConstructor(access = AccessLevel.PACKAGE)
+    @Builder
     public static class OrderLineItemId {
         @ManyToOne(fetch = FetchType.LAZY)
         @JoinColumn(name = "order_id")
+        @NonNull
         private OrderEntity order;
 
         @ManyToOne(fetch = FetchType.LAZY)
         @JoinColumn(name = "product_id")
+        @NonNull
         private ProductEntity product;
     }
 

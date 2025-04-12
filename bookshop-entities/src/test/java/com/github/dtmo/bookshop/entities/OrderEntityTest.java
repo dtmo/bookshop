@@ -91,8 +91,8 @@ public class OrderEntityTest {
                 .suppress(Warning.SURROGATE_KEY)
                 .withPrefabValues(AccountEntity.class, redAccountEntity, blueAccountEntity)
                 .withPrefabValues(PaymentCardEntity.class, redPaymentCardEntity, bluePaymentCardEntity)
-                .withPrefabValues(OrderLineItemEntity.class, redOrderLineItemEntity, blueOrderLineItemEntity)
+                .withPrefabValues(OrderLineItemEntity.class, redOrderLineItemEntity,
+                        blueOrderLineItemEntity)
                 .verify();
-
     }
 }

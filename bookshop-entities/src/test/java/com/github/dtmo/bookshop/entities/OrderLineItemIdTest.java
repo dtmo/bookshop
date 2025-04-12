@@ -42,6 +42,5 @@ public class OrderLineItemIdTest {
         EqualsVerifier.forClass(OrderLineItemEntity.OrderLineItemId.class)
                 .withPrefabValues(OrderEntity.class, redOrderEntity, blueOrderEntity)
                 .verify();
-
     }
 }

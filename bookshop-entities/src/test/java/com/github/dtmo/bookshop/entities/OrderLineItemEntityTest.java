@@ -44,6 +44,5 @@ public class OrderLineItemEntityTest {
                 .suppress(Warning.SURROGATE_KEY)
                 .withPrefabValues(OrderEntity.class, redOrderEntity, blueOrderEntity)
                 .verify();
-
     }
 }

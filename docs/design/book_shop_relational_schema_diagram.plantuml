@@ -29,10 +29,9 @@ entity product {
 }
 
 entity shopping_basket_line_item {
-    * id : number <<generated>>
-    --
     * account_id : number
     * product_id : number
+    --
     * quantity : number
 }
 
@@ -56,10 +55,9 @@ entity order {
 }
 
 entity order_line_item {
-    * id : number <<generated>>
-    --
     * order_id : number
     * product_id : number
+    --
     * quantity : number
     * unit_price : number
 }
@@ -72,9 +70,8 @@ entity author {
 }
 
 entity book {
-    * id : number <<generated>>
-    --
     * product_id : number
+    --
     * title : varchar
     production_credits : varchar
     summary : varchar
@@ -83,10 +80,9 @@ entity book {
 }
 
 entity book_authors {
-    * id : number <<generated>>
-    --
     * book_id : number
     * author_id : number
+    --
 }
 
 customer::id ||--|{ customer_accounts::customer_id
@@ -99,7 +95,7 @@ order::id ||--|{ order_line_item::order_id
 order::payment_card_id }o--|| payment_card::id
 order_line_item::product_id }o--|| product::id
 product::id ||--o| book::product_id
-book::id ||--|{ book_authors::book_id
+book::product_id ||--|{ book_authors::book_id
 book_authors::author_id }|--|| author::id
 
 @enduml

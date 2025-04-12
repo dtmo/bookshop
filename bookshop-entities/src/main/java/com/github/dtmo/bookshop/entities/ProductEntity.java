@@ -9,29 +9,31 @@ import jakarta.persistence.Inheritance;
 import jakarta.persistence.InheritanceType;
 import jakarta.persistence.Table;
 import lombok.AccessLevel;
+import lombok.Data;
 import lombok.EqualsAndHashCode;
-import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.NonNull;
+import lombok.RequiredArgsConstructor;
 
 @Entity
 @Inheritance(strategy = InheritanceType.JOINED)
 @Table(name = "product")
+@Data
+@RequiredArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PACKAGE)
-@Getter
-@Setter
-@EqualsAndHashCode(of = "id")
-@ToString
+@EqualsAndHashCode(onlyExplicitlyIncluded = true)
 public abstract class ProductEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
+    @EqualsAndHashCode.Include
     private Long id;
 
     @Column(name = "price")
-    private long price;
+    @NonNull
+    private Long price;
 
     @Column(name = "stock_keeping_unit")
+    @NonNull
     private String stockKeepingUnit;
 }

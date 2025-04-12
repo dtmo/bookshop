@@ -15,30 +15,27 @@ import jakarta.persistence.Table;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
+import lombok.Data;
 import lombok.EqualsAndHashCode;
-import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
-import lombok.Setter;
-import lombok.ToString;
 
 @Entity
 @Table(name = "author")
+@Data
 @RequiredArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PACKAGE)
 @AllArgsConstructor(access = AccessLevel.PACKAGE)
 @Builder
-@Getter
-@Setter
-// Different authors can share the same name (e.g. David Mitchell) and so
-// equality can only really be determined based on the "id" field.
-@EqualsAndHashCode(of = "id")
-@ToString
+@EqualsAndHashCode(onlyExplicitlyIncluded = true)
 public class AuthorEntity {
+    // Different authors can share the same name (e.g. David Mitchell) and so
+    // equality can only really be determined based on the "id" field.
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
+    @EqualsAndHashCode.Include
     private Long id;
 
     @Column(name = "name")

@@ -14,7 +14,6 @@ import jakarta.persistence.Table;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
-import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.NonNull;
@@ -31,10 +30,6 @@ import lombok.ToString;
 @Builder
 @Getter
 @Setter
-// None of the book fields can reliably be used to determine equality, however,
-// each book is a product and each distinct product has a unique SKU, so we can
-// determine equality based on that.
-@EqualsAndHashCode(callSuper = true)
 @ToString
 public class BookEntity extends ProductEntity {
     @Id

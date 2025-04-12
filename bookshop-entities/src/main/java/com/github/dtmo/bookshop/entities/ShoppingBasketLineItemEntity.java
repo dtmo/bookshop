@@ -5,28 +5,26 @@ import jakarta.persistence.Embeddable;
 import jakarta.persistence.EmbeddedId;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
-import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
+import lombok.Data;
 import lombok.EqualsAndHashCode;
-import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.NonNull;
+import lombok.RequiredArgsConstructor;
 
 @Entity
 @Table(name = "shopping_basket_line_item")
+@Data
+@RequiredArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PACKAGE)
 @AllArgsConstructor(access = AccessLevel.PACKAGE)
 @Builder
-@Getter
-@Setter
-@EqualsAndHashCode(of = "id")
-@ToString
+@EqualsAndHashCode(onlyExplicitlyIncluded = true)
 public class ShoppingBasketLineItemEntity {
     @Embeddable
     public static class ShoppingBasketLineItemId {
@@ -40,8 +38,10 @@ public class ShoppingBasketLineItemEntity {
     }
 
     @EmbeddedId
+    @EqualsAndHashCode.Include
     private ShoppingBasketLineItemId id;
 
     @Column(name = "quantity")
-    private long quantity;
+    @NonNull
+    private Long quantity;
 }

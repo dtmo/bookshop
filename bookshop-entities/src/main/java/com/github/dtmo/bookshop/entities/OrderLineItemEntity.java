@@ -11,21 +11,20 @@ import jakarta.persistence.Table;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
+import lombok.Data;
 import lombok.EqualsAndHashCode;
-import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.NonNull;
+import lombok.RequiredArgsConstructor;
 
 @Entity
 @Table(name = "order_line_item")
+@Data
+@RequiredArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PACKAGE)
 @AllArgsConstructor(access = AccessLevel.PACKAGE)
 @Builder
-@Getter
-@Setter
-@EqualsAndHashCode(of = "id")
-@ToString
+@EqualsAndHashCode(onlyExplicitlyIncluded = true)
 public class OrderLineItemEntity {
     @Embeddable
     public static class OrderLineItemId {
@@ -39,11 +38,14 @@ public class OrderLineItemEntity {
     }
 
     @EmbeddedId
+    @EqualsAndHashCode.Include
     private OrderLineItemId id;
 
     @Column(name = "quantity")
-    private long quantity;
+    @NonNull
+    private Long quantity;
 
     @Column(name = "unit_price")
-    private long unitPrice;
+    @NonNull
+    private Long unitPrice;
 }

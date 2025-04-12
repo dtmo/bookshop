@@ -16,24 +16,20 @@ import jakarta.persistence.Table;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
+import lombok.Data;
 import lombok.EqualsAndHashCode;
-import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
-import lombok.Setter;
-import lombok.ToString;
 
 @Entity
 @Table(name = "order")
+@Data
 @RequiredArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PACKAGE)
 @AllArgsConstructor(access = AccessLevel.PACKAGE)
 @Builder
-@Getter
-@Setter
-@EqualsAndHashCode(of = "id")
-@ToString
+@EqualsAndHashCode(onlyExplicitlyIncluded = true)
 public class OrderEntity {
     public static enum OrderState {
         WAITING,
@@ -45,6 +41,7 @@ public class OrderEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
+    @EqualsAndHashCode.Include
     private Long id;
 
     @Column(name = "creation_time")

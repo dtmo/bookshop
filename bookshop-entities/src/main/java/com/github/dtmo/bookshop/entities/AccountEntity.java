@@ -1,6 +1,5 @@
 package com.github.dtmo.bookshop.entities;
 
-import java.util.Objects;
 import java.util.Set;
 
 import jakarta.persistence.Column;
@@ -14,31 +13,28 @@ import jakarta.persistence.Table;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
+import lombok.Data;
 import lombok.EqualsAndHashCode;
-import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
-import lombok.Setter;
-import lombok.ToString;
 
 @Entity
 @Table(name = "account")
+@Data
 @RequiredArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PACKAGE)
 @AllArgsConstructor(access = AccessLevel.PACKAGE)
 @Builder
-@Getter
-@Setter
-// While accounts should have unique names, an account could be renamed, which
-// would make the name a terrible natural key, so we determine equality based on
-// the ID field.
-@EqualsAndHashCode(of = "id")
-@ToString
+@EqualsAndHashCode(onlyExplicitlyIncluded = true)
 public class AccountEntity {
+    // While accounts should have unique names, an account could be renamed, which
+    // would make the name a terrible natural key, so we determine equality based on
+    // the ID field.
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
+    @EqualsAndHashCode.Include
     private Long id;
 
     @Column(name = "name")

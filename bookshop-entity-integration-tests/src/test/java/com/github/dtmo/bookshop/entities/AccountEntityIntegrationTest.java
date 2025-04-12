@@ -32,11 +32,11 @@ public class AccountEntityIntegrationTest extends AbstractIntegrationTest {
         entityTransaction.begin();
 
         // Given a customer exists
-        final CustomerEntity customer = getCustomerEntitysupplier().get();
+        final CustomerEntity customer = getCustomerEntitySupplier().get();
         entityManager.persist(customer);
 
         // And an account exists
-        final AccountEntity account = getAccountEntitiysupplier().get();
+        final AccountEntity account = getAccountEntitysupplier().get();
         entityManager.persist(account);
 
         entityTransaction.commit();
@@ -66,11 +66,11 @@ public class AccountEntityIntegrationTest extends AbstractIntegrationTest {
         entityTransaction.begin();
 
         // Given a customer exists
-        final CustomerEntity customer = getCustomerEntitysupplier().get();
+        final CustomerEntity customer = getCustomerEntitySupplier().get();
         entityManager.persist(customer);
 
         // And an account exists
-        final AccountEntity account = getAccountEntitiysupplier().get();
+        final AccountEntity account = getAccountEntitysupplier().get();
         entityManager.persist(account);
 
         // And the customer and account are linked

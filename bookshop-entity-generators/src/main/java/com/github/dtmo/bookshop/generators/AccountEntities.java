@@ -9,10 +9,12 @@ public class AccountEntities {
     public static Supplier<AccountEntity> createIncrementingNameSupplier() {
         return new Supplier<AccountEntity>() {
             private LongSupplier counter = Sequences.createIncrementingLongSupplier();
-            
+
             @Override
             public AccountEntity get() {
-                return new AccountEntity(String.format("Account #%s", counter.getAsLong()));
+                return AccountEntity.builder()
+                        .name(String.format("Account #%s", counter.getAsLong()))
+                        .build();
             }
         };
     }

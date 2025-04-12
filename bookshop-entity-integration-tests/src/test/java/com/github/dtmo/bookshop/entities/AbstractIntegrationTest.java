@@ -26,7 +26,7 @@ import jakarta.persistence.PersistenceConfiguration;
  * will not have to wait for the container to reoeatedly stop and start.
  */
 public abstract class AbstractIntegrationTest {
-    private static final Supplier<AccountEntity> accountEntitiySupplier = AccountEntities
+    private static final Supplier<AccountEntity> accountEntitySupplier = AccountEntities
             .createIncrementingNameSupplier();
     private static final Supplier<AuthorEntity> authorEntitySupplier = AuthorEntities
             .createIncrementingAuthorNameSupplier();
@@ -106,15 +106,15 @@ public abstract class AbstractIntegrationTest {
                 persistenceUnitProperties);
     }
 
-    protected static Supplier<AccountEntity> getAccountEntitiysupplier() {
-        return accountEntitiySupplier;
+    protected static Supplier<AccountEntity> getAccountEntitysupplier() {
+        return accountEntitySupplier;
     }
 
     protected static Supplier<AuthorEntity> getAuthorEntitysupplier() {
         return authorEntitySupplier;
     }
 
-    protected static Supplier<CustomerEntity> getCustomerEntitysupplier() {
+    protected static Supplier<CustomerEntity> getCustomerEntitySupplier() {
         return customerEntitySupplier;
     }
 

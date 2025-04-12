@@ -9,11 +9,14 @@ public class CustomerEntities {
     public static Supplier<CustomerEntity> createIncrementingNameSupplier() {
         return new Supplier<CustomerEntity>() {
             private LongSupplier counter = Sequences.createIncrementingLongSupplier();
-            
+
             @Override
             public CustomerEntity get() {
-                return new CustomerEntity(String.format("Customer #%s", counter.getAsLong()));
+                return CustomerEntity.builder()
+                        .name(String.format("Customer #%s", counter.getAsLong()))
+                        .build();
             }
         };
     }
+
 }

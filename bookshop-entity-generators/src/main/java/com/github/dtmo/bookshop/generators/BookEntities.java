@@ -9,10 +9,12 @@ public class BookEntities {
     public static Supplier<BookEntity> createIncrementingTitleNameSupplier() {
         return new Supplier<BookEntity>() {
             private LongSupplier counter = Sequences.createIncrementingLongSupplier();
-            
+
             @Override
             public BookEntity get() {
-                return new BookEntity(String.format("Book #%s", counter.getAsLong()));
+                return BookEntity.builder()
+                        .title(String.format("Book #%s", counter.getAsLong()))
+                        .build();
             }
         };
     }

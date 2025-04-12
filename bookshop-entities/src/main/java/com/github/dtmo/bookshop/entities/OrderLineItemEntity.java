@@ -20,7 +20,6 @@ import lombok.RequiredArgsConstructor;
 @Entity
 @Table(name = "order_line_item")
 @Data
-@RequiredArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PACKAGE)
 @AllArgsConstructor(access = AccessLevel.PACKAGE)
 @Builder
@@ -30,7 +29,6 @@ public class OrderLineItemEntity {
     @Data
     @RequiredArgsConstructor
     @NoArgsConstructor(access = AccessLevel.PACKAGE)
-    @Builder
     public static class OrderLineItemId {
         @ManyToOne(fetch = FetchType.LAZY)
         @JoinColumn(name = "order_id")

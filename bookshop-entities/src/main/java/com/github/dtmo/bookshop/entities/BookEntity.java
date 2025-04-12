@@ -10,10 +10,10 @@ import jakarta.persistence.PrimaryKeyJoinColumn;
 import jakarta.persistence.Table;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.NonNull;
-import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 import lombok.experimental.SuperBuilder;
@@ -21,7 +21,6 @@ import lombok.experimental.SuperBuilder;
 @Entity
 @Table(name = "book")
 @PrimaryKeyJoinColumn(name = "product_id")
-@RequiredArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PACKAGE)
 @AllArgsConstructor(access = AccessLevel.PACKAGE)
 @Getter
@@ -46,5 +45,6 @@ public class BookEntity extends ProductEntity {
     private String subject;
 
     @ManyToMany(mappedBy = "books", fetch = FetchType.LAZY)
-    private Set<AuthorEntity> authors;
+    @Builder.Default
+    private Set<AuthorEntity> authors = Set.of();
 }

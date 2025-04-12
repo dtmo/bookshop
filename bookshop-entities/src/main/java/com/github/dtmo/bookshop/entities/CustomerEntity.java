@@ -19,12 +19,10 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.NonNull;
-import lombok.RequiredArgsConstructor;
 
 @Entity
 @Table(name = "customer")
 @Data
-@RequiredArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PACKAGE)
 @AllArgsConstructor(access = AccessLevel.PACKAGE)
 @Builder
@@ -42,5 +40,6 @@ public class CustomerEntity {
 
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(name = "customer_accounts", joinColumns = @JoinColumn(name = "customer_id"), inverseJoinColumns = @JoinColumn(name = "account_id"))
-    private Set<AccountEntity> accounts;
+    @Builder.Default
+    private Set<AccountEntity> accounts = Set.of();
 }

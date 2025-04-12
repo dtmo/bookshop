@@ -22,12 +22,10 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.NonNull;
-import lombok.RequiredArgsConstructor;
 
 @Entity
 @Table(name = "order")
 @Data
-@RequiredArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PACKAGE)
 @AllArgsConstructor(access = AccessLevel.PACKAGE)
 @Builder
@@ -66,5 +64,6 @@ public class OrderEntity {
     private AccountEntity account;
 
     @OneToMany(mappedBy = "id.order", fetch = FetchType.LAZY)
-    private List<OrderLineItemEntity> lineItems;
+    @Builder.Default
+    private List<OrderLineItemEntity> lineItems = List.of();
 }

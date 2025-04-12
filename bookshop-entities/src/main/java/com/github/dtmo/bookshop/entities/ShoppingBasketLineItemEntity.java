@@ -20,7 +20,6 @@ import lombok.RequiredArgsConstructor;
 @Entity
 @Table(name = "shopping_basket_line_item")
 @Data
-@RequiredArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PACKAGE)
 @AllArgsConstructor(access = AccessLevel.PACKAGE)
 @Builder
@@ -30,7 +29,6 @@ public class ShoppingBasketLineItemEntity {
     @Data
     @RequiredArgsConstructor
     @NoArgsConstructor(access = AccessLevel.PACKAGE)
-    @Builder
     public static class ShoppingBasketLineItemId {
         @ManyToOne(fetch = FetchType.LAZY)
         @JoinColumn(name = "account_id")

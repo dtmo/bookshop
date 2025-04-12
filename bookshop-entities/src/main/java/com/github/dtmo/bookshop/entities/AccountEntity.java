@@ -1,5 +1,6 @@
 package com.github.dtmo.bookshop.entities;
 
+import java.util.List;
 import java.util.Set;
 
 import jakarta.persistence.Column;
@@ -18,12 +19,10 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.NonNull;
-import lombok.RequiredArgsConstructor;
 
 @Entity
 @Table(name = "account")
 @Data
-@RequiredArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PACKAGE)
 @AllArgsConstructor(access = AccessLevel.PACKAGE)
 @Builder
@@ -43,8 +42,14 @@ public class AccountEntity {
     private String name;
 
     @ManyToMany(mappedBy = "accounts", fetch = FetchType.LAZY)
-    private Set<CustomerEntity> customers;
+    @Builder.Default
+    private Set<CustomerEntity> customers = Set.of();
 
     @OneToMany(mappedBy = "account", fetch = FetchType.LAZY)
-    private Set<PaymentCardEntity> paymentCardEntities;
+    @Builder.Default
+    private Set<PaymentCardEntity> paymentCardEntities = Set.of();
+
+    @OneToMany(mappedBy = "id.account", fetch = FetchType.LAZY)
+    @Builder.Default
+    private List<ShoppingBasketLineItemEntity> shopppingBasketLineItems = List.of();
 }

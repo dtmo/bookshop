@@ -3,6 +3,7 @@ package com.github.dtmo.bookshop.entities;
 import java.time.Duration;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.function.Supplier;
 
 import org.testcontainers.containers.BindMode;
 import org.testcontainers.containers.GenericContainer;
@@ -10,6 +11,10 @@ import org.testcontainers.containers.Network;
 import org.testcontainers.containers.PostgreSQLContainer;
 import org.testcontainers.containers.startupcheck.OneShotStartupCheckStrategy;
 import org.testcontainers.utility.DockerImageName;
+
+import com.github.dtmo.bookshop.generators.AccountEntities;
+import com.github.dtmo.bookshop.generators.AuthorEntities;
+import com.github.dtmo.bookshop.generators.CustomerEntities;
 
 import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.Persistence;
@@ -21,6 +26,13 @@ import jakarta.persistence.PersistenceConfiguration;
  * will not have to wait for the container to reoeatedly stop and start.
  */
 public abstract class AbstractIntegrationTest {
+    private static final Supplier<AccountEntity> accountEntitiySupplier = AccountEntities
+            .createIncrementingNameSupplier();
+    private static final Supplier<AuthorEntity> authorEntitySupplier = AuthorEntities
+            .createIncrementingAuthorNameSupplier();
+    private static final Supplier<CustomerEntity> customerEntitySupplier = CustomerEntities
+            .createIncrementingNameSupplier();
+
     private static EntityManagerFactory entityManagerFactory;
 
     // The use of this static initializer to create the containers and entity
@@ -94,10 +106,22 @@ public abstract class AbstractIntegrationTest {
                 persistenceUnitProperties);
     }
 
+    protected static Supplier<AccountEntity> getAccountEntitiysupplier() {
+        return accountEntitiySupplier;
+    }
+
+    protected static Supplier<AuthorEntity> getAuthorEntitysupplier() {
+        return authorEntitySupplier;
+    }
+
+    protected static Supplier<CustomerEntity> getCustomerEntitysupplier() {
+        return customerEntitySupplier;
+    }
+
     /**
      * @return The entity manager factory to use to communicate with the database.
      */
-    public static EntityManagerFactory getEntityManagerFactory() {
+    protected static EntityManagerFactory getEntityManagerFactory() {
         return entityManagerFactory;
     }
 }

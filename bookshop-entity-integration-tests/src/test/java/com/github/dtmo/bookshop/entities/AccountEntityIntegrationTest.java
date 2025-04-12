@@ -32,11 +32,11 @@ public class AccountEntityIntegrationTest extends AbstractIntegrationTest {
         entityTransaction.begin();
 
         // Given a customer exists
-        final CustomerEntity customer = new CustomerEntity("John Segundus");
+        final CustomerEntity customer = getCustomerEntitysupplier().get();
         entityManager.persist(customer);
 
         // And an account exists
-        final AccountEntity account = new AccountEntity("The Learned Society of York Magicians");
+        final AccountEntity account = getAccountEntitiysupplier().get();
         entityManager.persist(account);
 
         entityTransaction.commit();
@@ -66,11 +66,11 @@ public class AccountEntityIntegrationTest extends AbstractIntegrationTest {
         entityTransaction.begin();
 
         // Given a customer exists
-        final CustomerEntity customer = new CustomerEntity("John Segundus");
+        final CustomerEntity customer = getCustomerEntitysupplier().get();
         entityManager.persist(customer);
 
         // And an account exists
-        final AccountEntity account = new AccountEntity("The Learned Society of York Magicians");
+        final AccountEntity account = getAccountEntitiysupplier().get();
         entityManager.persist(account);
 
         // And the customer and account are linked
@@ -81,7 +81,7 @@ public class AccountEntityIntegrationTest extends AbstractIntegrationTest {
         // When the account is renamed
         entityTransaction.begin();
         // (Mr. Norrell made the statues in York Cathedral speak)
-        account.setName("The Learned Society of York Magicians (disbanded)");
+        account.setName(String.format("%s (updated)", account.getName()));
         entityTransaction.commit();
 
         // Then the customer accounts contains the renamed account

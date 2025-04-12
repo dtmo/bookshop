@@ -28,20 +28,16 @@ public class AuthorEntityIntegrationTest extends AbstractIntegrationTest {
 
     @Test
     public void testAuthor() {
-        final String authorName = "Earnest Scribbler";
+        final AuthorEntity authorEntity = getAuthorEntitysupplier().get();
 
         final TypedQuery<AuthorEntity> authorQuery = entityManager
                 .createQuery("FROM AuthorEntity a WHERE a.name = :name", AuthorEntity.class);
-        authorQuery.setParameter("name", authorName);
+        authorQuery.setParameter("name", authorEntity.getName());
 
         assertTrue(authorQuery.getResultList().isEmpty());
 
         final EntityTransaction entityTransaction = entityManager.getTransaction();
         entityTransaction.begin();
-
-        final AuthorEntity authorEntity = new AuthorEntity();
-        authorEntity.setName(authorName);
-
         entityManager.persist(authorEntity);
         entityTransaction.commit();
 

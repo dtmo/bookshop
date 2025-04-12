@@ -1,7 +1,6 @@
 package com.github.dtmo.bookshop.entities;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.Set;
@@ -42,8 +41,8 @@ public class AccountEntityIntegrationTest extends AbstractIntegrationTest {
         entityTransaction.commit();
 
         // And the customer and account are not linked
-        assertNull(customer.getAccounts());
-        assertNull(account.getCustomers());
+        assertTrue(customer.getAccounts().isEmpty());
+        assertTrue(account.getCustomers().isEmpty());
 
         // When the account is associated with the customer
         entityTransaction.begin();

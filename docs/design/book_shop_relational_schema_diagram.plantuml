@@ -5,12 +5,14 @@ left to right direction
 entity customer {
     * id : number <<generated>>
     --
+    * creation_time : timestamp
     * name : varchar
 }
 
 entity account {
     * id : number <<generated>>
     --
+    * creation_time : timestamp
     * name : varchar
 }
 
@@ -24,6 +26,7 @@ entity customer_accounts {
 entity product {
     * id : number <<generated>>
     --
+    * creation_time : timestamp
     * price : number
     * stock_keeping_unit : varchar
 }
@@ -38,6 +41,7 @@ entity shopping_basket_line_item {
 entity payment_card {
     * id : number <<generated>>
     --
+    * creation_time : timestamp
     * name : varchar
     * cardholder_name : varchar
     * card_number : varchar
@@ -65,6 +69,7 @@ entity order_line_item {
 entity author {
     * id : number <<generated>>
     --
+    * creation_time : timestamp
     * name : varchar
     alias : varchar
 }

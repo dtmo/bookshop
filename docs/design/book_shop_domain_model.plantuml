@@ -1,12 +1,14 @@
 @startuml
 
 abstract class Product {
+    Instant creationTimestamp
     String stockKeepingUnit
     long price
 }
 
 ' Based on Project Gutenberg agent
 class Author {
+    Instant creationTimestamp
     String name
     String alias
 }
@@ -47,6 +49,7 @@ class ShoppingBasket {
 ShoppingBasket "1" *--> "lineItems *" ShoppingBasketLineItem
 
 class PaymentCard {
+    Instant creationTimestamp
     String cardNumber
     LocalDate expiryDate
 }
@@ -83,12 +86,14 @@ Order "1" *--> "lineItems 1..*" OrderLineItem
 Order "*" --> "paymentCard 1" PaymentCard
 
 class Account {
+    Instant creationTimestamp
 }
 
 Account "1" --> "orders *" Order
 Account "1" *--> "paymentCard *" PaymentCard
 
 class Customer {
+    Instant creationTimestamp
     String name
 }
 Customer "1" *--> "account 1" Account

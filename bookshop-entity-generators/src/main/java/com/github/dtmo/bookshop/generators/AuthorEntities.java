@@ -12,9 +12,7 @@ public class AuthorEntities {
 
             @Override
             public AuthorEntity get() {
-                return AuthorEntity.builder()
-                        .name(String.format("Author #%s", counter.getAsLong()))
-                        .build();
+                return new AuthorEntity(String.format("Author #%s", counter.getAsLong()));
             }
         };
     }

@@ -12,9 +12,7 @@ public class AccountEntities {
 
             @Override
             public AccountEntity get() {
-                return AccountEntity.builder()
-                        .name(String.format("Account #%s", counter.getAsLong()))
-                        .build();
+                return new AccountEntity(String.format("Account #%s", counter.getAsLong()));
             }
         };
     }

@@ -20,6 +20,7 @@ import lombok.RequiredArgsConstructor;
 @Entity
 @Table(name = "order_line_item")
 @Data
+@RequiredArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PACKAGE)
 @AllArgsConstructor(access = AccessLevel.PACKAGE)
 @Builder

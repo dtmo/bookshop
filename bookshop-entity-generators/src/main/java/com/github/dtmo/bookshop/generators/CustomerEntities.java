@@ -12,9 +12,7 @@ public class CustomerEntities {
 
             @Override
             public CustomerEntity get() {
-                return CustomerEntity.builder()
-                        .name(String.format("Customer #%s", counter.getAsLong()))
-                        .build();
+                return new CustomerEntity(String.format("Customer #%s", counter.getAsLong()));
             }
         };
     }

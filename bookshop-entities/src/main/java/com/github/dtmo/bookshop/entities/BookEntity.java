@@ -1,5 +1,6 @@
 package com.github.dtmo.bookshop.entities;
 
+import java.util.HashSet;
 import java.util.Set;
 
 import jakarta.persistence.Column;
@@ -14,6 +15,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.NonNull;
+import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 import lombok.experimental.SuperBuilder;
@@ -21,6 +23,7 @@ import lombok.experimental.SuperBuilder;
 @Entity
 @Table(name = "book")
 @PrimaryKeyJoinColumn(name = "product_id")
+@RequiredArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PACKAGE)
 @AllArgsConstructor(access = AccessLevel.PACKAGE)
 @Getter
@@ -46,5 +49,6 @@ public class BookEntity extends ProductEntity {
 
     @ManyToMany(mappedBy = "books", fetch = FetchType.LAZY)
     @Builder.Default
-    private Set<AuthorEntity> authors = Set.of();
+    @ToString.Exclude
+    private Set<AuthorEntity> authors = new HashSet<>();
 }

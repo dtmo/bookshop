@@ -1,5 +1,6 @@
 package com.github.dtmo.bookshop.entities;
 
+import java.util.HashSet;
 import java.util.Set;
 
 import jakarta.persistence.Column;
@@ -19,10 +20,13 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.NonNull;
+import lombok.RequiredArgsConstructor;
+import lombok.ToString;
 
 @Entity
 @Table(name = "author")
 @Data
+@RequiredArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PACKAGE)
 @AllArgsConstructor(access = AccessLevel.PACKAGE)
 @Builder
@@ -46,5 +50,6 @@ public class AuthorEntity {
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(name = "author_books", joinColumns = @JoinColumn(name = "author_id"), inverseJoinColumns = @JoinColumn(name = "book_id"))
     @Builder.Default
-    private Set<BookEntity> books = Set.of();
+    @ToString.Exclude
+    private Set<BookEntity> books = new HashSet<>();
 }

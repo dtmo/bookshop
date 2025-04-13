@@ -12,9 +12,7 @@ public class BookEntities {
 
             @Override
             public BookEntity get() {
-                return BookEntity.builder()
-                        .title(String.format("Book #%s", counter.getAsLong()))
-                        .build();
+                return new BookEntity(String.format("Book #%s", counter.getAsLong()));
             }
         };
     }

@@ -1,6 +1,7 @@
 package com.github.dtmo.bookshop.entities;
 
 import java.time.Instant;
+import java.util.ArrayList;
 import java.util.List;
 
 import jakarta.persistence.Column;
@@ -22,10 +23,13 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.NonNull;
+import lombok.RequiredArgsConstructor;
+import lombok.ToString;
 
 @Entity
 @Table(name = "order")
 @Data
+@RequiredArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PACKAGE)
 @AllArgsConstructor(access = AccessLevel.PACKAGE)
 @Builder
@@ -65,5 +69,6 @@ public class OrderEntity {
 
     @OneToMany(mappedBy = "id.order", fetch = FetchType.LAZY)
     @Builder.Default
-    private List<OrderLineItemEntity> lineItems = List.of();
+    @ToString.Exclude
+    private List<OrderLineItemEntity> lineItems = new ArrayList<>();
 }

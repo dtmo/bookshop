@@ -1,9 +1,7 @@
-package com.github.dtmo.bookshop.generators;
+package com.github.dtmo.bookshop.entities;
 
 import java.util.function.LongSupplier;
 import java.util.function.Supplier;
-
-import com.github.dtmo.bookshop.entities.AuthorEntity;
 
 public class AuthorEntities {
     public static Supplier<AuthorEntity> createIncrementingAuthorNameSupplier() {

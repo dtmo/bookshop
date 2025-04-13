@@ -14,7 +14,7 @@
     <modules>
         <module>bookshop-db-schema</module>
         <module>bookshop-entities</module>
-        <module>bookshop-entity-generators</module>
+        <module>bookshop-entity-test-support</module>
         <module>bookshop-entity-integration-tests</module>
     </modules>
 

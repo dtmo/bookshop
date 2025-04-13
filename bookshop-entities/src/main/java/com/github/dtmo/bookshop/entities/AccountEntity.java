@@ -1,9 +1,7 @@
 package com.github.dtmo.bookshop.entities;
 
 import java.time.Instant;
-import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 import jakarta.persistence.Column;
@@ -47,8 +45,7 @@ public class AccountEntity {
 
     @Column(name = "creation_time")
     @Setter(AccessLevel.NONE)
-    @Builder.Default
-    private Instant creationTime = Instant.now();
+    private Instant creationTime;
 
     @Column(name = "name")
     @NonNull
@@ -67,5 +64,5 @@ public class AccountEntity {
     @OneToMany(mappedBy = "id.account", fetch = FetchType.LAZY)
     @Setter(AccessLevel.NONE)
     @ToString.Exclude
-    private final List<ShoppingBasketLineItemEntity> shopppingBasketLineItems = new ArrayList<>();
+    private final Set<ShoppingBasketLineItemEntity> shopppingBasketLineItems = new HashSet<>();
 }

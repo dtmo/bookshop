@@ -1,4 +1,4 @@
-package com.github.dtmo.bookshop.generators;
+package com.github.dtmo.bookshop.entities;
 
 import java.util.function.LongSupplier;
 

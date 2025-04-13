@@ -1,5 +1,6 @@
 package com.github.dtmo.bookshop.entities;
 
+import static org.junit.Assert.assertNotSame;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
@@ -9,6 +10,7 @@ import org.junit.jupiter.api.Test;
 
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityTransaction;
+import jakarta.persistence.TypedQuery;
 
 public class AccountEntityIntegrationTest extends AbstractIntegrationTest {
     private EntityManager entityManager;
@@ -21,6 +23,31 @@ public class AccountEntityIntegrationTest extends AbstractIntegrationTest {
     @AfterEach
     public void afterEach() {
         entityManager.close();
+    }
+
+    @Test
+    public void testCreateAccount() {
+        final AccountEntity expectedAccountEntity = getAccountEntitysupplier().get();
+
+        // Assert that the account does not exist in the database
+        final TypedQuery<AccountEntity> accountQuery = entityManager
+                .createQuery("FROM AccountEntity a WHERE a.name = :name", AccountEntity.class)
+                .setParameter("name", expectedAccountEntity.getName());
+        assertTrue(accountQuery.getResultList().isEmpty());
+
+        entityManager.getTransaction().begin();
+        entityManager.persist(expectedAccountEntity);
+        entityManager.getTransaction().commit();
+
+        // Clear the entity manager so we don't hit cached entities
+        entityManager.clear();
+
+        final AccountEntity actualAccountEntity = entityManager.find(AccountEntity.class,
+                expectedAccountEntity.getId());
+
+        assertNotSame(expectedAccountEntity, actualAccountEntity);
+
+        AccountEntities.verifyAccountEntity(expectedAccountEntity, actualAccountEntity);
     }
 
     @Test

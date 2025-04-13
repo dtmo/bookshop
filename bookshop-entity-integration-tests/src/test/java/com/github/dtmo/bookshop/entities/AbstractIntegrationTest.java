@@ -12,10 +12,6 @@ import org.testcontainers.containers.PostgreSQLContainer;
 import org.testcontainers.containers.startupcheck.OneShotStartupCheckStrategy;
 import org.testcontainers.utility.DockerImageName;
 
-import com.github.dtmo.bookshop.generators.AccountEntities;
-import com.github.dtmo.bookshop.generators.AuthorEntities;
-import com.github.dtmo.bookshop.generators.CustomerEntities;
-
 import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.Persistence;
 import jakarta.persistence.PersistenceConfiguration;

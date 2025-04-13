@@ -10,7 +10,7 @@
     </parent>
 
     <groupId>com.github.dtmo.bookshop</groupId>
-    <artifactId>bookshop-entity-generators</artifactId>
+    <artifactId>bookshop-entity-test-support</artifactId>
     <version>1.0.0-SNAPSHOT</version>
 
     <dependencies>
@@ -18,6 +18,10 @@
             <groupId>${project.groupId}</groupId>
             <artifactId>bookshop-entities</artifactId>
             <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter</artifactId>
         </dependency>
     </dependencies>
 

@@ -11,7 +11,6 @@ import jakarta.persistence.Inheritance;
 import jakarta.persistence.InheritanceType;
 import jakarta.persistence.Table;
 import lombok.AccessLevel;
-import lombok.Builder;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
@@ -35,8 +34,7 @@ public abstract class ProductEntity {
     private Long id;
 
     @Column(name = "creation_time")
-    @Builder.Default
-    private Instant creationTime = Instant.now();
+    private Instant creationTime;
 
     @Column(name = "price")
     @NonNull

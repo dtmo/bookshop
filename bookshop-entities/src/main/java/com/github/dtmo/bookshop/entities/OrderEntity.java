@@ -1,8 +1,8 @@
 package com.github.dtmo.bookshop.entities;
 
 import java.time.Instant;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -50,8 +50,7 @@ public class OrderEntity {
     private Long id;
 
     @Column(name = "creation_time")
-    @Builder.Default
-    private Instant creationTime = Instant.now();
+    private Instant creationTime;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "payment_card_id")
@@ -72,5 +71,5 @@ public class OrderEntity {
     @OneToMany(mappedBy = "id.order", fetch = FetchType.LAZY)
     @Setter(AccessLevel.NONE)
     @ToString.Exclude
-    private final List<OrderLineItemEntity> lineItems = new ArrayList<>();
+    private final Set<OrderLineItemEntity> lineItems = new HashSet<>();
 }

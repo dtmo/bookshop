@@ -58,9 +58,7 @@ public class CustomerEntityIntegrationTest extends AbstractIntegrationTest {
         // can be confident that we have the values from the database
         assertNotSame(expectedCustomerEntity, actualCustomerEntity);
 
-        assertEquals(expectedCustomerEntity, actualCustomerEntity);
-        assertEquals(expectedCustomerEntity.getName(), actualCustomerEntity.getName());
-        assertEquals(expectedCustomerEntity.getAccounts(), actualCustomerEntity.getAccounts());
+        CustomerEntities.verifyCustomerEntity(expectedCustomerEntity, actualCustomerEntity);
     }
 
     @Test
@@ -90,9 +88,7 @@ public class CustomerEntityIntegrationTest extends AbstractIntegrationTest {
         assertNotSame(expectedCustomerEntity, actualCustomerEntity);
 
         // Assert that the values are as expected
-        assertEquals(expectedCustomerEntity, actualCustomerEntity);
-        assertEquals(expectedCustomerEntity.getName(), actualCustomerEntity.getName());
-        assertEquals(expectedCustomerEntity.getAccounts(), actualCustomerEntity.getAccounts());
+        CustomerEntities.verifyCustomerEntity(expectedCustomerEntity, actualCustomerEntity);
     }
 
     @Test

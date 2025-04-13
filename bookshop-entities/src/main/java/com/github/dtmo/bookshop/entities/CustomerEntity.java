@@ -40,8 +40,7 @@ public class CustomerEntity {
     private Long id;
 
     @Column(name = "creation_time")
-    @Builder.Default
-    private Instant creationTime = Instant.now();
+    private Instant creationTime;
 
     @Column(name = "name")
     @NonNull

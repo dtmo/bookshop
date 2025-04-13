@@ -11,12 +11,12 @@ import jakarta.persistence.PrimaryKeyJoinColumn;
 import jakarta.persistence.Table;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
+import lombok.Singular;
 import lombok.ToString;
 import lombok.experimental.SuperBuilder;
 
@@ -48,7 +48,8 @@ public class BookEntity extends ProductEntity {
     private String subject;
 
     @ManyToMany(mappedBy = "books", fetch = FetchType.LAZY)
-    @Builder.Default
+    @Setter(AccessLevel.NONE)
+    @Singular
     @ToString.Exclude
-    private Set<AuthorEntity> authors = new HashSet<>();
+    private final Set<AuthorEntity> authors = new HashSet<>();
 }

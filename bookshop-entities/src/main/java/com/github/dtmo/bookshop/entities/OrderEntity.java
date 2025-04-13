@@ -24,6 +24,7 @@ import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
+import lombok.Setter;
 import lombok.ToString;
 
 @Entity
@@ -49,8 +50,8 @@ public class OrderEntity {
     private Long id;
 
     @Column(name = "creation_time")
-    @NonNull
-    private Instant creationTime;
+    @Builder.Default
+    private Instant creationTime = Instant.now();
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "payment_card_id")
@@ -60,7 +61,8 @@ public class OrderEntity {
     @Column(name = "order_state")
     @Enumerated(EnumType.STRING)
     @NonNull
-    private OrderState state;
+    @Builder.Default
+    private OrderState state = OrderState.WAITING;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "account_id")
@@ -68,7 +70,7 @@ public class OrderEntity {
     private AccountEntity account;
 
     @OneToMany(mappedBy = "id.order", fetch = FetchType.LAZY)
-    @Builder.Default
+    @Setter(AccessLevel.NONE)
     @ToString.Exclude
-    private List<OrderLineItemEntity> lineItems = new ArrayList<>();
+    private final List<OrderLineItemEntity> lineItems = new ArrayList<>();
 }

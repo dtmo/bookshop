@@ -10,6 +10,9 @@
             <column name="id" type="number">
                 <constraints primaryKey="true" primaryKeyName="pk_user" />
             </column>
+            <column name="creation_time" type="timestamp" defaultValueComputed="CURRENT_TIMESTAMP">
+                <constraints nullable="false" />
+            </column>
             <column name="name" type="varchar">
                 <constraints nullable="false" unique="true" />
             </column>
@@ -20,6 +23,9 @@
         <createTable tableName="account">
             <column name="id" type="number">
                 <constraints primaryKey="true" primaryKeyName="pk_account" />
+            </column>
+            <column name="creation_time" type="timestamp" defaultValueComputed="CURRENT_TIMESTAMP">
+                <constraints nullable="false" />
             </column>
             <column name="name" type="varchar">
                 <constraints nullable="false" unique="true" />
@@ -44,6 +50,9 @@
         <createTable tableName="product">
             <column name="id" type="number">
                 <constraints primaryKey="true" primaryKeyName="pk_product" />
+            </column>
+            <column name="creation_time" type="timestamp" defaultValueComputed="CURRENT_TIMESTAMP">
+                <constraints nullable="false" />
             </column>
             <column name="price" type="number">
                 <constraints nullable="false" />
@@ -75,6 +84,9 @@
             <column name="id" type="number">
                 <constraints primaryKey="true" primaryKeyName="pk_payment_card" />
             </column>
+            <column name="creation_time" type="timestamp" defaultValueComputed="CURRENT_TIMESTAMP">
+                <constraints nullable="false" />
+            </column>
             <column name="name" type="varchar">
                 <constraints nullable="false" />
             </column>
@@ -99,7 +111,7 @@
             <column name="id" type="number">
                 <constraints primaryKey="true" primaryKeyName="pk_order" />
             </column>
-            <column name="creation_time" type="timestamp">
+            <column name="creation_time" type="timestamp" defaultValueComputed="CURRENT_TIMESTAMP">
                 <constraints nullable="false" />
             </column>
             <column name="payment_card_id" type="number">
@@ -139,6 +151,9 @@
         <createTable tableName="author">
             <column name="id" type="number">
                 <constraints primaryKey="true" primaryKeyName="pk_author" />
+            </column>
+            <column name="creation_time" type="timestamp" defaultValueComputed="CURRENT_TIMESTAMP">
+                <constraints nullable="false" />
             </column>
             <column name="name" type="varchar">
                 <constraints nullable="false" />

@@ -1,5 +1,6 @@
 package com.github.dtmo.bookshop.entities;
 
+import java.time.Instant;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -21,6 +22,7 @@ import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
+import lombok.Setter;
 import lombok.ToString;
 
 @Entity
@@ -37,8 +39,14 @@ public class AuthorEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
+    @Setter(AccessLevel.NONE)
     @EqualsAndHashCode.Include
     private Long id;
+
+    @Column(name = "creation_time")
+    @Setter(AccessLevel.NONE)
+    @Builder.Default
+    private Instant creationTime = Instant.now();
 
     @Column(name = "name")
     @NonNull
@@ -49,7 +57,7 @@ public class AuthorEntity {
 
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(name = "author_books", joinColumns = @JoinColumn(name = "author_id"), inverseJoinColumns = @JoinColumn(name = "book_id"))
-    @Builder.Default
+    @Setter(AccessLevel.NONE)
     @ToString.Exclude
-    private Set<BookEntity> books = new HashSet<>();
+    private final Set<BookEntity> books = new HashSet<>();
 }

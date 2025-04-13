@@ -1,5 +1,7 @@
 package com.github.dtmo.bookshop.entities;
 
+import java.time.Instant;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -9,6 +11,7 @@ import jakarta.persistence.Inheritance;
 import jakarta.persistence.InheritanceType;
 import jakarta.persistence.Table;
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
@@ -30,6 +33,10 @@ public abstract class ProductEntity {
     @Column(name = "id")
     @EqualsAndHashCode.Include
     private Long id;
+
+    @Column(name = "creation_time")
+    @Builder.Default
+    private Instant creationTime = Instant.now();
 
     @Column(name = "price")
     @NonNull

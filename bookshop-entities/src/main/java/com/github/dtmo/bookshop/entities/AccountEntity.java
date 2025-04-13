@@ -1,5 +1,6 @@
 package com.github.dtmo.bookshop.entities;
 
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -22,6 +23,7 @@ import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
+import lombok.Setter;
 import lombok.ToString;
 
 @Entity
@@ -39,25 +41,31 @@ public class AccountEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
+    @Setter(AccessLevel.NONE)
     @EqualsAndHashCode.Include
     private Long id;
+
+    @Column(name = "creation_time")
+    @Setter(AccessLevel.NONE)
+    @Builder.Default
+    private Instant creationTime = Instant.now();
 
     @Column(name = "name")
     @NonNull
     private String name;
 
     @ManyToMany(mappedBy = "accounts", fetch = FetchType.LAZY)
-    @Builder.Default
+    @Setter(AccessLevel.NONE)
     @ToString.Exclude
-    private Set<CustomerEntity> customers = new HashSet<>();
+    private final Set<CustomerEntity> customers = new HashSet<>();
 
     @OneToMany(mappedBy = "account", fetch = FetchType.LAZY)
-    @Builder.Default
+    @Setter(AccessLevel.NONE)
     @ToString.Exclude
-    private Set<PaymentCardEntity> paymentCardEntities = new HashSet<>();
+    private final Set<PaymentCardEntity> paymentCardEntities = new HashSet<>();
 
     @OneToMany(mappedBy = "id.account", fetch = FetchType.LAZY)
-    @Builder.Default
+    @Setter(AccessLevel.NONE)
     @ToString.Exclude
-    private List<ShoppingBasketLineItemEntity> shopppingBasketLineItems = new ArrayList<>();
+    private final List<ShoppingBasketLineItemEntity> shopppingBasketLineItems = new ArrayList<>();
 }

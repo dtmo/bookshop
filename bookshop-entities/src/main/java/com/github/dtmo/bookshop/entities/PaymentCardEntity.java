@@ -1,5 +1,6 @@
 package com.github.dtmo.bookshop.entities;
 
+import java.time.Instant;
 import java.time.LocalDate;
 
 import jakarta.persistence.Column;
@@ -34,6 +35,10 @@ public class PaymentCardEntity {
     @Column(name = "id")
     @EqualsAndHashCode.Include
     private Long id;
+
+    @Column(name = "creation_time")
+    @Builder.Default
+    private Instant creationTime = Instant.now();
 
     @Column(name = "name")
     @NonNull

@@ -1,5 +1,6 @@
 package com.github.dtmo.bookshop.entities;
 
+import java.time.Instant;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -21,6 +22,7 @@ import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
+import lombok.Setter;
 
 @Entity
 @Table(name = "customer")
@@ -37,12 +39,16 @@ public class CustomerEntity {
     @EqualsAndHashCode.Include
     private Long id;
 
+    @Column(name = "creation_time")
+    @Builder.Default
+    private Instant creationTime = Instant.now();
+
     @Column(name = "name")
     @NonNull
     private String name;
 
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(name = "customer_accounts", joinColumns = @JoinColumn(name = "customer_id"), inverseJoinColumns = @JoinColumn(name = "account_id"))
-    @Builder.Default
-    private Set<AccountEntity> accounts = new HashSet<>();
+    @Setter(AccessLevel.NONE)
+    private final Set<AccountEntity> accounts = new HashSet<>();
 }

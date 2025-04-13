@@ -3,8 +3,6 @@ package com.github.dtmo.bookshop.entities;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import java.util.Set;
-
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -46,7 +44,7 @@ public class AccountEntityIntegrationTest extends AbstractIntegrationTest {
 
         // When the account is associated with the customer
         entityTransaction.begin();
-        customer.setAccounts(Set.of(account));
+        customer.getAccounts().add(account);
         entityTransaction.commit();
 
         // Then the customer accounts includes the account
@@ -73,7 +71,7 @@ public class AccountEntityIntegrationTest extends AbstractIntegrationTest {
         entityManager.persist(account);
 
         // And the customer and account are linked
-        customer.setAccounts(Set.of(account));
+        customer.getAccounts().add(account);
 
         entityTransaction.commit();
 

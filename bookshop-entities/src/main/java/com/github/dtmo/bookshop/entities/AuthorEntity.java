@@ -44,8 +44,8 @@ public class AuthorEntity {
     private Long id;
 
     @Column(name = "creation_time")
-    @Setter(AccessLevel.NONE)
-    private Instant creationTime;
+    @Builder.Default
+    private Instant creationTime = Instant.now();
 
     @Column(name = "name")
     @NonNull

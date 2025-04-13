@@ -10,6 +10,8 @@ import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
@@ -44,14 +46,15 @@ public class AccountEntity {
     private Long id;
 
     @Column(name = "creation_time")
-    @Setter(AccessLevel.NONE)
-    private Instant creationTime;
+    @Builder.Default
+    private Instant creationTime = Instant.now();
 
     @Column(name = "name")
     @NonNull
     private String name;
 
-    @ManyToMany(mappedBy = "accounts", fetch = FetchType.LAZY)
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(name = "account_customers", joinColumns = @JoinColumn(name = "account_id"), inverseJoinColumns = @JoinColumn(name = "customer_id"))
     @Setter(AccessLevel.NONE)
     @ToString.Exclude
     private final Set<CustomerEntity> customers = new HashSet<>();

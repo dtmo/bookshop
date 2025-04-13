@@ -10,7 +10,10 @@
             <column name="id" type="number">
                 <constraints primaryKey="true" primaryKeyName="pk_user" />
             </column>
-            <column name="creation_time" type="timestamp" defaultValueComputed="CURRENT_TIMESTAMP" />
+            <column name="creation_time" type="timestamp"
+                defaultValueComputed="CURRENT_TIMESTAMP">
+                <constraints nullable="false" />
+            </column>
             <column name="name" type="varchar">
                 <constraints nullable="false" unique="true" />
             </column>
@@ -22,7 +25,8 @@
             <column name="id" type="number">
                 <constraints primaryKey="true" primaryKeyName="pk_account" />
             </column>
-            <column name="creation_time" type="timestamp" defaultValueComputed="CURRENT_TIMESTAMP" />
+            <column name="creation_time" type="timestamp" defaultOnNull="true"
+                defaultValueComputed="CURRENT_TIMESTAMP" />
             <column name="name" type="varchar">
                 <constraints nullable="false" unique="true" />
             </column>
@@ -30,16 +34,16 @@
 
         <addAutoIncrement tableName="account" columnName="id" />
 
-        <createTable tableName="customer_accounts">
+        <createTable tableName="account_customers">
             <column name="customer_id" type="number">
-                <constraints primaryKey="true" primaryKeyName="pk_customer_accounts"
+                <constraints primaryKey="true" primaryKeyName="pk_account_customers"
                     referencedTableName="customer"
-                    referencedColumnNames="id" foreignKeyName="fk_customer_accounts_customer_id" />
+                    referencedColumnNames="id" foreignKeyName="fk_account_customers_customer_id" />
             </column>
             <column name="account_id" type="number">
-                <constraints primaryKey="true" primaryKeyName="pk_customer_accounts"
+                <constraints primaryKey="true" primaryKeyName="pk_account_customers"
                     referencedTableName="account"
-                    referencedColumnNames="id" foreignKeyName="fk_customer_accounts_account_id" />
+                    referencedColumnNames="id" foreignKeyName="fk_account_customers_account_id" />
             </column>
         </createTable>
 
@@ -47,7 +51,8 @@
             <column name="id" type="number">
                 <constraints primaryKey="true" primaryKeyName="pk_product" />
             </column>
-            <column name="creation_time" type="timestamp" defaultValueComputed="CURRENT_TIMESTAMP" />
+            <column name="creation_time" type="timestamp" defaultOnNull="true"
+                defaultValueComputed="CURRENT_TIMESTAMP" />
             <column name="price" type="number">
                 <constraints nullable="false" />
             </column>
@@ -78,7 +83,8 @@
             <column name="id" type="number">
                 <constraints primaryKey="true" primaryKeyName="pk_payment_card" />
             </column>
-            <column name="creation_time" type="timestamp" defaultValueComputed="CURRENT_TIMESTAMP" />
+            <column name="creation_time" type="timestamp" defaultOnNull="true"
+                defaultValueComputed="CURRENT_TIMESTAMP" />
             <column name="name" type="varchar">
                 <constraints nullable="false" />
             </column>
@@ -103,7 +109,8 @@
             <column name="id" type="number">
                 <constraints primaryKey="true" primaryKeyName="pk_order" />
             </column>
-            <column name="creation_time" type="timestamp" defaultValueComputed="CURRENT_TIMESTAMP" />
+            <column name="creation_time" type="timestamp" defaultOnNull="true"
+                defaultValueComputed="CURRENT_TIMESTAMP" />
             <column name="payment_card_id" type="number">
                 <constraints nullable="false" unique="true" referencedTableName="payment_card"
                     referencedColumnNames="id" foreignKeyName="fk_order_payment_card_id" />
@@ -142,7 +149,8 @@
             <column name="id" type="number">
                 <constraints primaryKey="true" primaryKeyName="pk_author" />
             </column>
-            <column name="creation_time" type="timestamp" defaultValueComputed="CURRENT_TIMESTAMP" />
+            <column name="creation_time" type="timestamp" defaultOnNull="true"
+                defaultValueComputed="CURRENT_TIMESTAMP" />
             <column name="name" type="varchar">
                 <constraints nullable="false" />
             </column>

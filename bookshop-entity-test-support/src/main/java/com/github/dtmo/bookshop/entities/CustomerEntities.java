@@ -2,6 +2,7 @@ package com.github.dtmo.bookshop.entities;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+import java.time.temporal.ChronoUnit;
 import java.util.function.LongSupplier;
 import java.util.function.Supplier;
 
@@ -30,7 +31,10 @@ public class CustomerEntities {
     public static void verifyCustomerEntity(final CustomerEntity expectedCustomerEntity,
             final CustomerEntity actualCustomerEntity) {
         assertEquals(expectedCustomerEntity.getId(), actualCustomerEntity.getId());
-        assertEquals(expectedCustomerEntity.getCreationTime(), actualCustomerEntity.getCreationTime());
+        // The database can't store the full precision of an Instant, se we truncate
+        // them for comparisons
+        assertEquals(expectedCustomerEntity.getCreationTime().truncatedTo(ChronoUnit.MILLIS),
+                actualCustomerEntity.getCreationTime().truncatedTo(ChronoUnit.MILLIS));
         assertEquals(expectedCustomerEntity.getName(), actualCustomerEntity.getName());
     }
 }

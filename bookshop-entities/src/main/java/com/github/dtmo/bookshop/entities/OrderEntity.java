@@ -51,7 +51,8 @@ public class OrderEntity {
     private Long id;
 
     @Column(name = "creation_time")
-    private Instant creationTime;
+    @Builder.Default
+    private Instant creationTime = Instant.now();
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "payment_card_id")

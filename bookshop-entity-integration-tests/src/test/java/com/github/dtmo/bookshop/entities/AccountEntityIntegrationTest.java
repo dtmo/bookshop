@@ -2,7 +2,12 @@ package com.github.dtmo.bookshop.entities;
 
 import static org.junit.Assert.assertNotSame;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+
+import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -46,42 +51,82 @@ public class AccountEntityIntegrationTest extends AbstractIntegrationTest {
                 expectedAccountEntity.getId());
 
         assertNotSame(expectedAccountEntity, actualAccountEntity);
-
         AccountEntities.verifyAccountEntity(expectedAccountEntity, actualAccountEntity);
     }
 
     @Test
-    public void testSettingCustomerAccounts() {
-        final EntityTransaction entityTransaction = entityManager.getTransaction();
-        entityTransaction.begin();
+    public void testAddingCustomersToAccounts() {
+        final AccountEntity accountEntity = getAccountEntitysupplier().get();
 
-        // Given a customer exists
-        final CustomerEntity customer = getCustomerEntitySupplier().get();
-        entityManager.persist(customer);
+        final List<CustomerEntity> customerEntities = Stream.generate(getCustomerEntitySupplier())
+                .limit(2)
+                .collect(Collectors.toList());
 
-        // And an account exists
-        final AccountEntity account = getAccountEntitysupplier().get();
-        entityManager.persist(account);
+        entityManager.getTransaction().begin();
+        entityManager.persist(accountEntity);
+        customerEntities.forEach(entityManager::persist);
+        entityManager.getTransaction().commit();
 
-        entityTransaction.commit();
+        entityManager.refresh(accountEntity);
+        assertTrue(accountEntity.getCustomers().isEmpty());
 
-        // And the customer and account are not linked
-        assertTrue(customer.getAccounts().isEmpty());
-        assertTrue(account.getCustomers().isEmpty());
+        entityManager.getTransaction().begin();
+        accountEntity.getCustomers().addAll(customerEntities);
+        entityManager.getTransaction().commit();
 
-        // When the account is associated with the customer
-        entityTransaction.begin();
-        customer.getAccounts().add(account);
-        entityTransaction.commit();
+        entityManager.refresh(accountEntity);
 
-        // Then the customer accounts includes the account
-        assertEquals(1, customer.getAccounts().size());
-        assertTrue(customer.getAccounts().contains(account));
+        assertEquals(customerEntities.size(), accountEntity.getCustomers().size());
+        customerEntities.forEach(customerEntity -> accountEntity.getCustomers().contains(customerEntity));
+    }
 
-        // And the account customers includes the customer
-        entityManager.refresh(account);
-        assertEquals(1, account.getCustomers().size());
-        assertTrue(account.getCustomers().contains(customer));
+    @Test
+    public void testRemovingCustomersFromAccounts() {
+        // Create an account and two customers
+        final AccountEntity expectedAccountEntity = getAccountEntitysupplier().get();
+        final CustomerEntity expectedCustomerToRemove = getCustomerEntitySupplier().get();
+        final CustomerEntity expectedCustomerToRetain = getCustomerEntitySupplier().get();
+
+        entityManager.getTransaction().begin();
+        entityManager.persist(expectedAccountEntity);
+        entityManager.persist(expectedCustomerToRemove);
+        entityManager.persist(expectedCustomerToRetain);
+        entityManager.getTransaction().commit();
+
+        // Add the account to both customers
+        entityManager.getTransaction().begin();
+        expectedAccountEntity.getCustomers().add(expectedCustomerToRemove);
+        expectedAccountEntity.getCustomers().add(expectedCustomerToRetain);
+        entityManager.getTransaction().commit();
+
+        // Clear the entity manager so the tests are based on persisted data
+        entityManager.clear();
+
+        // Find the customers with their associated accounts
+        final TypedQuery<CustomerEntity> customerQuery = entityManager
+                .createQuery("FROM CustomerEntity c JOIN FETCH c.accounts WHERE c = :customer", CustomerEntity.class);
+        final CustomerEntity actualCustomerToRemove = customerQuery
+                .setParameter("customer", expectedCustomerToRemove).getSingleResult();
+        final CustomerEntity actualCustomerToRetain = customerQuery
+                .setParameter("customer", expectedCustomerToRetain).getSingleResult();
+
+        // Assert that the customers have the expected accounts
+        assertTrue(actualCustomerToRemove.getAccounts().contains(expectedAccountEntity));
+        assertTrue(actualCustomerToRetain.getAccounts().contains(expectedAccountEntity));
+
+        // AccountEntity 'owns' the relationship so customers must be removed from
+        // accounts. Removing accounts from a customer does not result in changes to
+        // the database.
+        final AccountEntity actualAccount = entityManager
+                .createQuery("FROM AccountEntity a JOIN FETCH a.customers WHERE a = :account", AccountEntity.class)
+                .setParameter("account", expectedAccountEntity).getSingleResult();
+        entityManager.getTransaction().begin();
+        actualAccount.getCustomers().remove(actualCustomerToRemove);
+        entityManager.getTransaction().commit();
+
+        assertEquals(1, actualAccount.getCustomers().size());
+        assertFalse(actualAccount.getCustomers().contains(actualCustomerToRemove));
+        assertTrue(actualAccount.getCustomers().contains(expectedCustomerToRetain));
     }
 
     @Test
@@ -97,23 +142,21 @@ public class AccountEntityIntegrationTest extends AbstractIntegrationTest {
         final AccountEntity account = getAccountEntitysupplier().get();
         entityManager.persist(account);
 
-        // And the customer and account are linked
-        customer.getAccounts().add(account);
-
+        // And the customer is added to the account
+        account.getCustomers().add(customer);
         entityTransaction.commit();
 
         // When the account is renamed
         entityTransaction.begin();
-        // (Mr. Norrell made the statues in York Cathedral speak)
         account.setName(String.format("%s (updated)", account.getName()));
         entityTransaction.commit();
 
         // Then the customer accounts contains the renamed account
+        entityManager.refresh(customer);
         assertEquals(1, customer.getAccounts().size());
         assertTrue(customer.getAccounts().contains(account));
 
         // And the renamed account customers contains the customer
-        entityManager.refresh(account);
         assertEquals(1, account.getCustomers().size());
         assertTrue(account.getCustomers().contains(customer));
     }

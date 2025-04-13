@@ -39,7 +39,8 @@ public class PaymentCardEntity {
     private Long id;
 
     @Column(name = "creation_time")
-    private Instant creationTime;
+    @Builder.Default
+    private Instant creationTime = Instant.now();
 
     @Column(name = "name")
     @NonNull

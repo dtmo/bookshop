@@ -1,7 +1,6 @@
 package com.github.dtmo.bookshop.entities;
 
 import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNotSame;
 import static org.junit.Assert.assertNull;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -102,8 +101,7 @@ public class CustomerEntityIntegrationTest extends AbstractIntegrationTest {
         entityManager.persist(accountEntity);
 
         // Add the customer to the account
-        // We need do this after persistence or JPA will not update the join table
-        customerEntity.getAccounts().add(accountEntity);
+        accountEntity.getCustomers().add(customerEntity);
         entityManager.getTransaction().commit();
 
         // Forget all the cached entity instances so everything that follows is
@@ -113,26 +111,24 @@ public class CustomerEntityIntegrationTest extends AbstractIntegrationTest {
         // Read the customer and account entities and assert that the customer
         // accounts contains the account, and that the account customers contains
         // the customer
-        final CustomerEntity persistedCustomerEntity = entityManager.find(CustomerEntity.class, customerEntity.getId());
-        assertNotNull(persistedCustomerEntity);
+        final List<AccountEntity> actualCustomerAccounts = entityManager
+                .createQuery("FROM AccountEntity a JOIN FETCH a.customers c WHERE c = :customer",
+                        AccountEntity.class)
+                .setParameter("customer", customerEntity)
+                .getResultList();
+        assertFalse(actualCustomerAccounts.isEmpty());
 
-        final AccountEntity persistedAccountEntity = entityManager.find(AccountEntity.class, accountEntity.getId());
-        assertNotNull(persistedAccountEntity);
-
-        assertTrue(persistedCustomerEntity.getAccounts().contains(persistedAccountEntity));
-        assertTrue(persistedAccountEntity.getCustomers().contains(persistedCustomerEntity));
+        final CustomerEntity actualCustomerEntity = entityManager.find(CustomerEntity.class, customerEntity.getId());
 
         // Delete the customer
         entityManager.getTransaction().begin();
-        entityManager.remove(persistedCustomerEntity);
+        // As AccountEntity owns the Account / Customer relationship, we need to first
+        // remove the customer from all accounts before we can delete the customer
+        actualCustomerAccounts.forEach(customerAccount -> customerAccount.getCustomers().remove(customerEntity));
+        entityManager.remove(actualCustomerEntity);
         entityManager.getTransaction().commit();
 
-        // Update the account and assert that its customers no longer contains
-        // the deleted customer
-        entityManager.refresh(persistedAccountEntity);
-        assertFalse(persistedAccountEntity.getCustomers().contains(persistedCustomerEntity));
-
         // Assert that we can no longer find the customer in the database
-        assertNull(entityManager.find(CustomerEntity.class, persistedCustomerEntity.getId()));
+        assertNull(entityManager.find(CustomerEntity.class, customerEntity.getId()));
     }
 }

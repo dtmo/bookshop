@@ -9,7 +9,7 @@ import java.util.function.Supplier;
 public class CustomerEntities {
     public static Supplier<CustomerEntity> createIncrementingNameSupplier() {
         return new Supplier<CustomerEntity>() {
-            private LongSupplier counter = Sequences.createIncrementingLongSupplier();
+            private LongSupplier counter = Suppliers.createIncrementingLongSupplier();
 
             @Override
             public CustomerEntity get() {

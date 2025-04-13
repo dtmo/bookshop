@@ -6,7 +6,7 @@ import java.util.function.Supplier;
 public class BookEntities {
     public static Supplier<BookEntity> createIncrementingTitleNameSupplier() {
         return new Supplier<BookEntity>() {
-            private LongSupplier counter = Sequences.createIncrementingLongSupplier();
+            private LongSupplier counter = Suppliers.createIncrementingLongSupplier();
 
             @Override
             public BookEntity get() {

@@ -60,5 +60,6 @@ public class PaymentCardEntity {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "account_id")
+    @NonNull
     private AccountEntity account;
 }

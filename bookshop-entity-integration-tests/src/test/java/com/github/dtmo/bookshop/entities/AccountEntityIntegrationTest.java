@@ -55,7 +55,7 @@ public class AccountEntityIntegrationTest extends AbstractIntegrationTest {
     }
 
     @Test
-    public void testAddingCustomersToAccounts() {
+    public void testAddCustomers() {
         final AccountEntity accountEntity = getAccountEntitysupplier().get();
 
         final List<CustomerEntity> customerEntities = Stream.generate(getCustomerEntitySupplier())
@@ -81,7 +81,7 @@ public class AccountEntityIntegrationTest extends AbstractIntegrationTest {
     }
 
     @Test
-    public void testRemovingCustomersFromAccounts() {
+    public void testRemoveCustomers() {
         // Create an account and two customers
         final AccountEntity expectedAccountEntity = getAccountEntitysupplier().get();
         final CustomerEntity expectedCustomerToRemove = getCustomerEntitySupplier().get();
@@ -130,7 +130,7 @@ public class AccountEntityIntegrationTest extends AbstractIntegrationTest {
     }
 
     @Test
-    public void testRenamingAnAccount() {
+    public void testRenameAccount() {
         final EntityTransaction entityTransaction = entityManager.getTransaction();
         entityTransaction.begin();
 
@@ -159,5 +159,21 @@ public class AccountEntityIntegrationTest extends AbstractIntegrationTest {
         // And the renamed account customers contains the customer
         assertEquals(1, account.getCustomers().size());
         assertTrue(account.getCustomers().contains(customer));
+    }
+
+    @Test
+    public void testAddPaymentCard() {
+        final AccountEntity accountEntity = getAccountEntitysupplier().get();
+        final PaymentCardEntity paymentCardEntity = getPaymentCardEntitySupplier(accountEntity).get();
+
+        entityManager.getTransaction().begin();
+        entityManager.persist(accountEntity);
+        entityManager.persist(paymentCardEntity);
+        accountEntity.getPaymentCardEntities().add(paymentCardEntity);
+        entityManager.getTransaction().commit();
+
+        entityManager.refresh(paymentCardEntity);
+
+        assertEquals(accountEntity, paymentCardEntity.getAccount());
     }
 }

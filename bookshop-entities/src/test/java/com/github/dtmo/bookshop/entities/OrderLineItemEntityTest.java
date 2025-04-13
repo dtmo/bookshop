@@ -25,6 +25,7 @@ public class OrderLineItemEntityTest {
                 .cardholderName("Test Cardholder")
                 .cardNumber("1234567812345678")
                 .expiry(LocalDate.of(2525, Month.JANUARY, 2))
+                .account(accountEntity)
                 .build();
         final OrderEntity redOrderEntity = OrderEntity.builder()
                 .id(1L)

@@ -24,10 +24,14 @@ import jakarta.persistence.PersistenceConfiguration;
 public abstract class AbstractIntegrationTest {
     private static final Supplier<AccountEntity> accountEntitySupplier = AccountEntities
             .createIncrementingNameSupplier();
+
     private static final Supplier<AuthorEntity> authorEntitySupplier = AuthorEntities
             .createIncrementingAuthorNameSupplier();
+
     private static final Supplier<CustomerEntity> customerEntitySupplier = CustomerEntities
             .createIncrementingNameSupplier();
+
+    private static final Map<AccountEntity, Supplier<PaymentCardEntity>> accountPaymentCardSuppliers = new HashMap<>();
 
     private static EntityManagerFactory entityManagerFactory;
 
@@ -112,6 +116,11 @@ public abstract class AbstractIntegrationTest {
 
     protected static Supplier<CustomerEntity> getCustomerEntitySupplier() {
         return customerEntitySupplier;
+    }
+
+    protected static Supplier<PaymentCardEntity> getPaymentCardEntitySupplier(final AccountEntity accountEntity) {
+        return accountPaymentCardSuppliers.computeIfAbsent(accountEntity,
+                PaymentCardEntities::createInrcementingPaymentCardSupplier);
     }
 
     /**

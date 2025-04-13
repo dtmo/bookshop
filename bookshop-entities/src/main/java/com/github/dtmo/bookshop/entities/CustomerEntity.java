@@ -36,6 +36,7 @@ public class CustomerEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
+    @Setter(AccessLevel.NONE)
     @EqualsAndHashCode.Include
     private Long id;
 

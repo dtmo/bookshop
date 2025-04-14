@@ -28,6 +28,8 @@ public abstract class AbstractIntegrationTest {
     private static final Supplier<AuthorEntity> authorEntitySupplier = AuthorEntities
             .createIncrementingAuthorNameSupplier();
 
+    private static final Supplier<BookEntity> bookEntitySupplier = BookEntities.createIncrementingBookSupplier();
+
     private static final Supplier<CustomerEntity> customerEntitySupplier = CustomerEntities
             .createIncrementingNameSupplier();
 
@@ -114,13 +116,17 @@ public abstract class AbstractIntegrationTest {
         return authorEntitySupplier;
     }
 
+    protected static Supplier<BookEntity> getBookEntitySupplier() {
+        return bookEntitySupplier;
+    }
+
     protected static Supplier<CustomerEntity> getCustomerEntitySupplier() {
         return customerEntitySupplier;
     }
 
     protected static Supplier<PaymentCardEntity> getPaymentCardEntitySupplier(final AccountEntity accountEntity) {
         return accountPaymentCardSuppliers.computeIfAbsent(accountEntity,
-                PaymentCardEntities::createInrcementingPaymentCardSupplier);
+                PaymentCardEntities::createIncrementingPaymentCardSupplier);
     }
 
     /**

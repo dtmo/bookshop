@@ -218,4 +218,43 @@ public class AccountEntityIntegrationTest extends AbstractIntegrationTest {
         assertTrue(persistedAccountEntity.getPaymentCards().contains(paymentCardToRetain));
         assertFalse(persistedAccountEntity.getPaymentCards().contains(paymentCardToRemove));
     }
+
+    @Test
+    public void testAddShoppingBasketLineItem() {
+        // Create an account, a product (book) and an account
+        final AuthorEntity authorEntity = getAuthorEntitysupplier().get();
+        final BookEntity bookEntity = getBookEntitySupplier().get();
+        final AccountEntity accountEntity = getAccountEntitysupplier().get();
+
+        entityManager.getTransaction().begin();
+        entityManager.persist(authorEntity);
+        entityManager.persist(bookEntity);
+        bookEntity.getAuthors().add(authorEntity);
+        entityManager.persist(accountEntity);
+        entityManager.getTransaction().commit();
+
+        // Create a shopping basket line item for one book
+        final ShoppingBasketLineItemEntity expectedShoppingBasketLineItem = new ShoppingBasketLineItemEntity(
+                accountEntity, bookEntity, 1);
+        entityManager.getTransaction().begin();
+        entityManager.persist(expectedShoppingBasketLineItem);
+        entityManager.getTransaction().commit();
+
+        entityManager.refresh(accountEntity);
+
+        // Verify that the line item is associated with the account
+        assertEquals(1, accountEntity.getShopppingBasketLineItems().size());
+        assertTrue(accountEntity.getShopppingBasketLineItems().contains(expectedShoppingBasketLineItem));
+
+        entityManager.clear();
+
+        // Read the details of the shopping basket line item from the database
+        final ShoppingBasketLineItemEntity actualShoppingBasketLineItem = entityManager
+                .find(ShoppingBasketLineItemEntity.class, expectedShoppingBasketLineItem.getId());
+
+        // Verify the fields
+        assertNotSame(expectedShoppingBasketLineItem, actualShoppingBasketLineItem);
+        ShoppingBasketLineItemEntities.verifyShoppingBasketLineItemEntity(expectedShoppingBasketLineItem,
+                actualShoppingBasketLineItem);
+    }
 }

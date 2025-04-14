@@ -174,16 +174,16 @@
             <column name="subject" type="text" />
         </createTable>
 
-        <createTable tableName="author_books">
+        <createTable tableName="book_authors">
             <column name="author_id" type="number">
-                <constraints primaryKey="true" primaryKeyName="pk_author_books"
+                <constraints primaryKey="true" primaryKeyName="pk_book_authors"
                     referencedTableName="author"
-                    referencedColumnNames="id" foreignKeyName="fk_author_books_author_id" />
+                    referencedColumnNames="id" foreignKeyName="fk_book_authors_author_id" />
             </column>
             <column name="book_id" type="number">
-                <constraints primaryKey="true" primaryKeyName="pk_author_books"
+                <constraints primaryKey="true" primaryKeyName="pk_book_authors"
                     referencedTableName="book"
-                    referencedColumnNames="product_id" foreignKeyName="fk_author_books_book_id" />
+                    referencedColumnNames="product_id" foreignKeyName="fk_book_authors_book_id" />
             </column>
         </createTable>
     </changeSet>

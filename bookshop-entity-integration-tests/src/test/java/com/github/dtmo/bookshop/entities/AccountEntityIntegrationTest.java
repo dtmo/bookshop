@@ -1,6 +1,8 @@
 package com.github.dtmo.bookshop.entities;
 
+import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNotSame;
+import static org.junit.Assert.assertNull;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -304,5 +306,52 @@ public class AccountEntityIntegrationTest extends AbstractIntegrationTest {
         assertEquals(1, actualAccount.getShoppingBasketLineItems().size());
         assertTrue(actualAccount.getShoppingBasketLineItems().contains(shoppingBasketLineItemToRetain));
         assertFalse(actualAccount.getShoppingBasketLineItems().contains(shoppingBasketLineItemToRemove));
+    }
+
+    @Test
+    public void testDeleteAccount() {
+        // Create a fully populated account
+        final AuthorEntity authorEntity = getAuthorEntitysupplier().get();
+        final BookEntity bookEntity = getBookEntitySupplier().get();
+        final CustomerEntity customerEntity = getCustomerEntitySupplier().get();
+        final AccountEntity accountEntity = getAccountEntitysupplier().get();
+        final PaymentCardEntity paymentCardEntity = getPaymentCardEntitySupplier(accountEntity).get();
+        final ShoppingBasketLineItemEntity shoppingBasketLineItemEntity = new ShoppingBasketLineItemEntity(
+                accountEntity, bookEntity, 1);
+
+        entityManager.getTransaction().begin();
+        entityManager.persist(authorEntity);
+        entityManager.persist(bookEntity);
+        bookEntity.getAuthors().add(authorEntity);
+        authorEntity.getBooks().add(bookEntity);
+        entityManager.persist(customerEntity);
+        entityManager.persist(accountEntity);
+        accountEntity.getCustomers().add(customerEntity);
+        customerEntity.getAccounts().add(accountEntity);
+        entityManager.persist(paymentCardEntity);
+        entityManager.persist(shoppingBasketLineItemEntity);
+        entityManager.getTransaction().commit();
+
+        entityManager.clear();
+
+        final AccountEntity persistedAccount = entityManager.find(AccountEntity.class, accountEntity.getId());
+
+        entityManager.getTransaction().begin();
+        entityManager.remove(persistedAccount);
+        entityManager.getTransaction().commit();
+
+        // The deletion of the account should cascade to its payment cards and shopping
+        // basket line items.
+        assertNull(entityManager.find(AccountEntity.class, accountEntity.getId()));
+        assertNull(entityManager.find(PaymentCardEntity.class, paymentCardEntity.getId()));
+        assertNull(entityManager.find(ShoppingBasketLineItemEntity.class, shoppingBasketLineItemEntity.getId()));
+        // The associated products and customers should still exist
+        assertNotNull(entityManager.find(BookEntity.class, bookEntity.getId()));
+        final CustomerEntity persistedCustomerEntity = entityManager
+                .createQuery("FROM CustomerEntity c LEFT JOIN FETCH c.accounts WHERE c = :customer",
+                        CustomerEntity.class)
+                .setParameter("customer", customerEntity)
+                .getSingleResult();
+        assertFalse(persistedCustomerEntity.getAccounts().contains(persistedAccount));
     }
 }

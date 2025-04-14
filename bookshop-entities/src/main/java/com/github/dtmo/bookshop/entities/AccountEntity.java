@@ -4,6 +4,7 @@ import java.time.Instant;
 import java.util.HashSet;
 import java.util.Set;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -59,12 +60,12 @@ public class AccountEntity {
     @ToString.Exclude
     private final Set<CustomerEntity> customers = new HashSet<>();
 
-    @OneToMany(mappedBy = "account", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "account", cascade = CascadeType.REMOVE, fetch = FetchType.LAZY)
     @Setter(AccessLevel.NONE)
     @ToString.Exclude
     private final Set<PaymentCardEntity> paymentCards = new HashSet<>();
 
-    @OneToMany(mappedBy = "id.account", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "id.account", cascade = CascadeType.REMOVE, fetch = FetchType.LAZY)
     @Setter(AccessLevel.NONE)
     @ToString.Exclude
     private final Set<ShoppingBasketLineItemEntity> shoppingBasketLineItems = new HashSet<>();

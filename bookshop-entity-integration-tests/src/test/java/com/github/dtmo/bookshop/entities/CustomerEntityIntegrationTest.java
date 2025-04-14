@@ -79,7 +79,7 @@ public class CustomerEntityIntegrationTest extends AbstractIntegrationTest {
         entityManager.clear();
 
         // Find the entity with the matching ID
-        final CustomerEntity actualCustomerEntity = entityManager.find(CustomerEntity.class,
+        final CustomerEntity actualCustomerEntity = entityManager.getReference(CustomerEntity.class,
                 expectedCustomerEntity.getId());
 
         // Assert that the original and loaded entities are not the same, so we
@@ -118,7 +118,8 @@ public class CustomerEntityIntegrationTest extends AbstractIntegrationTest {
                 .getResultList();
         assertFalse(actualCustomerAccounts.isEmpty());
 
-        final CustomerEntity actualCustomerEntity = entityManager.find(CustomerEntity.class, customerEntity.getId());
+        final CustomerEntity actualCustomerEntity = entityManager.getReference(CustomerEntity.class,
+                customerEntity.getId());
 
         // Delete the customer
         entityManager.getTransaction().begin();

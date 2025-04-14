@@ -1,5 +1,6 @@
 package com.github.dtmo.bookshop.entities;
 
+import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNotSame;
 import static org.junit.Assert.assertNull;
@@ -16,7 +17,6 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import jakarta.persistence.EntityManager;
-import jakarta.persistence.EntityTransaction;
 import jakarta.persistence.TypedQuery;
 
 public class AccountEntityIntegrationTest extends AbstractIntegrationTest {
@@ -49,7 +49,7 @@ public class AccountEntityIntegrationTest extends AbstractIntegrationTest {
         // Clear the entity manager so we don't hit cached entities
         entityManager.clear();
 
-        final AccountEntity actualAccountEntity = entityManager.find(AccountEntity.class,
+        final AccountEntity actualAccountEntity = entityManager.getReference(AccountEntity.class,
                 expectedAccountEntity.getId());
 
         assertNotSame(expectedAccountEntity, actualAccountEntity);
@@ -137,8 +137,7 @@ public class AccountEntityIntegrationTest extends AbstractIntegrationTest {
 
     @Test
     public void testRenameAccount() {
-        final EntityTransaction entityTransaction = entityManager.getTransaction();
-        entityTransaction.begin();
+        entityManager.getTransaction().begin();
 
         // Given a customer exists
         final CustomerEntity customer = getCustomerEntitySupplier().get();
@@ -150,15 +149,23 @@ public class AccountEntityIntegrationTest extends AbstractIntegrationTest {
 
         // And the customer is added to the account
         account.getCustomers().add(customer);
-        entityTransaction.commit();
+        entityManager.getTransaction().commit();
+        entityManager.refresh(customer);
 
         // When the account is renamed
-        entityTransaction.begin();
-        account.setName(String.format("%s (updated)", account.getName()));
-        entityTransaction.commit();
+        final String expectedName = String.format("%s (updated)", account.getName());
+        entityManager.getTransaction().begin();
+        entityManager.createQuery("UPDATE AccountEntity a SET a.name = :name WHERE a = :account")
+                .setParameter("account", account)
+                .setParameter("name", expectedName)
+                .executeUpdate();
+        entityManager.getTransaction().commit();
+
+        assertNotEquals(expectedName, account.getName());
+        entityManager.refresh(account);
+        assertEquals(expectedName, account.getName());
 
         // Then the customer accounts contains the renamed account
-        entityManager.refresh(customer);
         assertEquals(1, customer.getAccounts().size());
         assertTrue(customer.getAccounts().contains(account));
 
@@ -181,7 +188,7 @@ public class AccountEntityIntegrationTest extends AbstractIntegrationTest {
 
         entityManager.clear();
 
-        final PaymentCardEntity actualPaymentCardEntity = entityManager.find(PaymentCardEntity.class,
+        final PaymentCardEntity actualPaymentCardEntity = entityManager.getReference(PaymentCardEntity.class,
                 expectedPaymentCardEntity.getId());
 
         PaymentCardEntities.verifyPaymentCardEntity(expectedPaymentCardEntity, actualPaymentCardEntity);
@@ -203,7 +210,7 @@ public class AccountEntityIntegrationTest extends AbstractIntegrationTest {
 
         entityManager.clear();
 
-        final PaymentCardEntity actualPaymentCardToRemove = entityManager.find(PaymentCardEntity.class,
+        final PaymentCardEntity actualPaymentCardToRemove = entityManager.getReference(PaymentCardEntity.class,
                 paymentCardToRemove.getId());
 
         entityManager.getTransaction().begin();
@@ -334,7 +341,7 @@ public class AccountEntityIntegrationTest extends AbstractIntegrationTest {
 
         entityManager.clear();
 
-        final AccountEntity persistedAccount = entityManager.find(AccountEntity.class, accountEntity.getId());
+        final AccountEntity persistedAccount = entityManager.getReference(AccountEntity.class, accountEntity.getId());
 
         entityManager.getTransaction().begin();
         entityManager.remove(persistedAccount);

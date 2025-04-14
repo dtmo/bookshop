@@ -3,8 +3,9 @@ package com.github.dtmo.bookshop.entities;
 import org.junit.jupiter.api.Test;
 
 import nl.jqno.equalsverifier.EqualsVerifier;
+import nl.jqno.equalsverifier.Warning;
 
-public class ShoppingBasketLineItemIdTest {
+public class ShoppingBasketItemEntityTest {
     @Test
     void testEqualsHashCode() {
         final AccountEntity redAccountEntity = AccountEntity.builder()
@@ -15,7 +16,8 @@ public class ShoppingBasketLineItemIdTest {
                 .id(2L)
                 .name("Blue Account")
                 .build();
-        EqualsVerifier.forClass(ShoppingBasketLineItemEntity.ShoppingBasketLineItemId.class)
+        EqualsVerifier.forClass(ShoppingBasketItemEntity.class)
+                .suppress(Warning.SURROGATE_KEY)
                 .withPrefabValues(AccountEntity.class, redAccountEntity, blueAccountEntity)
                 .verify();
     }

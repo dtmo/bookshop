@@ -229,7 +229,7 @@ public class AccountEntityIntegrationTest extends AbstractIntegrationTest {
     }
 
     @Test
-    public void testAddShoppingBasketLineItem() {
+    public void testAddShoppingBasketItem() {
         // Create an account, a product (book) and an account
         final AuthorEntity authorEntity = getAuthorEntitysupplier().get();
         final BookEntity bookEntity = getBookEntitySupplier().get();
@@ -243,41 +243,41 @@ public class AccountEntityIntegrationTest extends AbstractIntegrationTest {
         entityManager.getTransaction().commit();
 
         // Create a shopping basket line item for one book
-        final ShoppingBasketLineItemEntity expectedShoppingBasketLineItem = new ShoppingBasketLineItemEntity(
+        final ShoppingBasketItemEntity expectedShoppingBasketItem = new ShoppingBasketItemEntity(
                 accountEntity, bookEntity, 1);
         entityManager.getTransaction().begin();
-        entityManager.persist(expectedShoppingBasketLineItem);
+        entityManager.persist(expectedShoppingBasketItem);
         entityManager.getTransaction().commit();
 
         entityManager.refresh(accountEntity);
 
         // Verify that the line item is associated with the account
-        assertEquals(1, accountEntity.getShoppingBasketLineItems().size());
-        assertTrue(accountEntity.getShoppingBasketLineItems().contains(expectedShoppingBasketLineItem));
+        assertEquals(1, accountEntity.getShoppingBasketItems().size());
+        assertTrue(accountEntity.getShoppingBasketItems().contains(expectedShoppingBasketItem));
 
         entityManager.clear();
 
         // Read the details of the shopping basket line item from the database
-        final ShoppingBasketLineItemEntity actualShoppingBasketLineItem = entityManager
-                .find(ShoppingBasketLineItemEntity.class, expectedShoppingBasketLineItem.getId());
+        final ShoppingBasketItemEntity actualShoppingBasketItem = entityManager
+                .find(ShoppingBasketItemEntity.class, expectedShoppingBasketItem.getId());
 
         // Verify the fields
-        assertNotSame(expectedShoppingBasketLineItem, actualShoppingBasketLineItem);
-        ShoppingBasketLineItemEntities.verifyShoppingBasketLineItemEntity(expectedShoppingBasketLineItem,
-                actualShoppingBasketLineItem);
+        assertNotSame(expectedShoppingBasketItem, actualShoppingBasketItem);
+        ShoppingBasketItemEntities.verifyShoppingBasketItemEntity(expectedShoppingBasketItem,
+                actualShoppingBasketItem);
     }
 
     @Test
-    public void testRemoveShoppingBasketLineItem() {
+    public void testRemoveShoppingBasketItem() {
         // Create an account, some products (books), an account and some shopping basket
         // line items
         final AuthorEntity authorEntity = getAuthorEntitysupplier().get();
         final BookEntity bookToRetain = getBookEntitySupplier().get();
         final BookEntity bookToRemove = getBookEntitySupplier().get();
         final AccountEntity accountEntity = getAccountEntitysupplier().get();
-        final ShoppingBasketLineItemEntity shoppingBasketLineItemToRetain = new ShoppingBasketLineItemEntity(
+        final ShoppingBasketItemEntity shoppingBasketItemToRetain = new ShoppingBasketItemEntity(
                 accountEntity, bookToRetain, 1);
-        final ShoppingBasketLineItemEntity shoppingBasketLineItemToRemove = new ShoppingBasketLineItemEntity(
+        final ShoppingBasketItemEntity shoppingBasketItemToRemove = new ShoppingBasketItemEntity(
                 accountEntity, bookToRemove, 1);
 
         entityManager.getTransaction().begin();
@@ -287,32 +287,32 @@ public class AccountEntityIntegrationTest extends AbstractIntegrationTest {
         entityManager.persist(bookToRemove);
         bookToRemove.getAuthors().add(authorEntity);
         entityManager.persist(accountEntity);
-        entityManager.persist(shoppingBasketLineItemToRetain);
-        entityManager.persist(shoppingBasketLineItemToRemove);
+        entityManager.persist(shoppingBasketItemToRetain);
+        entityManager.persist(shoppingBasketItemToRemove);
         entityManager.getTransaction().commit();
 
         entityManager.clear();
 
         // Find the account and fetch its shopping basket line items
         final AccountEntity actualAccount = entityManager
-                .createQuery("FROM AccountEntity a LEFT JOIN FETCH a.shoppingBasketLineItems WHERE a = :account",
+                .createQuery("FROM AccountEntity a LEFT JOIN FETCH a.shoppingBasketItems WHERE a = :account",
                         AccountEntity.class)
                 .setParameter("account", accountEntity)
                 .getSingleResult();
 
         // Read the details of the shopping basket line item from the database
-        final ShoppingBasketLineItemEntity actualShoppingBasketLineItemToRemove = entityManager
-                .find(ShoppingBasketLineItemEntity.class, shoppingBasketLineItemToRemove.getId());
+        final ShoppingBasketItemEntity actualShoppingBasketItemToRemove = entityManager
+                .find(ShoppingBasketItemEntity.class, shoppingBasketItemToRemove.getId());
 
         // Remove the line item
         entityManager.getTransaction().begin();
-        actualAccount.getShoppingBasketLineItems().remove(actualShoppingBasketLineItemToRemove);
+        actualAccount.getShoppingBasketItems().remove(actualShoppingBasketItemToRemove);
         entityManager.getTransaction().commit();
 
         // Assert that only the expected line items remain
-        assertEquals(1, actualAccount.getShoppingBasketLineItems().size());
-        assertTrue(actualAccount.getShoppingBasketLineItems().contains(shoppingBasketLineItemToRetain));
-        assertFalse(actualAccount.getShoppingBasketLineItems().contains(shoppingBasketLineItemToRemove));
+        assertEquals(1, actualAccount.getShoppingBasketItems().size());
+        assertTrue(actualAccount.getShoppingBasketItems().contains(shoppingBasketItemToRetain));
+        assertFalse(actualAccount.getShoppingBasketItems().contains(shoppingBasketItemToRemove));
     }
 
     @Test
@@ -323,7 +323,7 @@ public class AccountEntityIntegrationTest extends AbstractIntegrationTest {
         final CustomerEntity customerEntity = getCustomerEntitySupplier().get();
         final AccountEntity accountEntity = getAccountEntitysupplier().get();
         final PaymentCardEntity paymentCardEntity = getPaymentCardEntitySupplier(accountEntity).get();
-        final ShoppingBasketLineItemEntity shoppingBasketLineItemEntity = new ShoppingBasketLineItemEntity(
+        final ShoppingBasketItemEntity shoppingBasketItemEntity = new ShoppingBasketItemEntity(
                 accountEntity, bookEntity, 1);
 
         entityManager.getTransaction().begin();
@@ -336,7 +336,7 @@ public class AccountEntityIntegrationTest extends AbstractIntegrationTest {
         accountEntity.getCustomers().add(customerEntity);
         customerEntity.getAccounts().add(accountEntity);
         entityManager.persist(paymentCardEntity);
-        entityManager.persist(shoppingBasketLineItemEntity);
+        entityManager.persist(shoppingBasketItemEntity);
         entityManager.getTransaction().commit();
 
         entityManager.clear();
@@ -351,7 +351,7 @@ public class AccountEntityIntegrationTest extends AbstractIntegrationTest {
         // basket line items.
         assertNull(entityManager.find(AccountEntity.class, accountEntity.getId()));
         assertNull(entityManager.find(PaymentCardEntity.class, paymentCardEntity.getId()));
-        assertNull(entityManager.find(ShoppingBasketLineItemEntity.class, shoppingBasketLineItemEntity.getId()));
+        assertNull(entityManager.find(ShoppingBasketItemEntity.class, shoppingBasketItemEntity.getId()));
         // The associated products and customers should still exist
         assertNotNull(entityManager.find(BookEntity.class, bookEntity.getId()));
         final CustomerEntity persistedCustomerEntity = entityManager

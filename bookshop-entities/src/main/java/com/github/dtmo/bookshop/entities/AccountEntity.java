@@ -68,5 +68,5 @@ public class AccountEntity {
     @OneToMany(mappedBy = "id.account", cascade = CascadeType.REMOVE, fetch = FetchType.LAZY)
     @Setter(AccessLevel.NONE)
     @ToString.Exclude
-    private final Set<ShoppingBasketLineItemEntity> shoppingBasketLineItems = new HashSet<>();
+    private final Set<ShoppingBasketItemEntity> shoppingBasketItems = new HashSet<>();
 }

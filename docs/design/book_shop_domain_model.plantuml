@@ -26,28 +26,6 @@ class Book {
 Product <|-- Book
 Book "*" --> "authors 1..*" Author
 
-class ShoppingBasketLineItem {
-    int quantity
-}
-
-ShoppingBasketLineItem "*" --> "product 1" Product
-
-note as N1
-    ShoppingBasketLineItem does not include
-    the product unit price which means the
-    product price may change until the order
-    is created.
-endnote
-N1 ... ShoppingBasketLineItem
-
-class ShoppingBasket {
-    addItem(Product product)
-    removeItem(OrderLineItem orderLineItem)
-    updateItemQuantity(OrderLineItem orderLineItem, int quantity)
-}
-
-ShoppingBasket "1" *--> "lineItems *" ShoppingBasketLineItem
-
 class PaymentCard {
     Instant creationTimestamp
     String cardNumber
@@ -85,12 +63,29 @@ Order *--> "orderState 1" OrderState
 Order "1" *--> "lineItems 1..*" OrderLineItem
 Order "*" --> "paymentCard 1" PaymentCard
 
+class ShoppingBasketItem {
+    int quantity
+}
+
+ShoppingBasketItem "*" --> "product 1" Product
+
+note as N1
+    ShoppingBasketItem does not include
+    the product unit price which means the
+    product price may change until the order
+    is created.
+endnote
+N1 ... ShoppingBasketItem
 class Account {
     Instant creationTimestamp
+    addShoppingBasketItem(Product product, long Quantity)
+    removeShoppingBasketItem(Product product)
+    updateShoppingBasketItem(Product product, int quantity)
 }
 
 Account "1" --> "orders *" Order
 Account "1" *--> "paymentCard *" PaymentCard
+Account "1" *--> "shoppingBasketItems *" ShoppingBasketItem
 
 class Customer {
     Instant creationTimestamp

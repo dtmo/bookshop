@@ -64,16 +64,16 @@
 
         <addAutoIncrement tableName="product" columnName="id" />
 
-        <createTable tableName="shopping_basket_line_item">
+        <createTable tableName="shopping_basket_item">
             <column name="account_id" type="number">
-                <constraints primaryKey="true" primaryKeyName="pk_shopping_basket_line_item"
+                <constraints primaryKey="true" primaryKeyName="pk_shopping_basket_item"
                     referencedTableName="account" referencedColumnNames="id"
-                    foreignKeyName="fk_shopping_basket_line_item_account_id" />
+                    foreignKeyName="fk_shopping_basket_item_account_id" />
             </column>
             <column name="product_id" type="number">
-                <constraints primaryKey="true" primaryKeyName="pk_shopping_basket_line_item"
+                <constraints primaryKey="true" primaryKeyName="pk_shopping_basket_item"
                     referencedTableName="product" referencedColumnNames="id"
-                    foreignKeyName="fk_shopping_basket_line_item_product_id" />
+                    foreignKeyName="fk_shopping_basket_item_product_id" />
             </column>
             <column name="quantity" type="number">
                 <constraints nullable="false" />

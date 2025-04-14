@@ -5,7 +5,7 @@ import java.time.Month;
 
 import org.junit.jupiter.api.Test;
 
-import com.github.dtmo.bookshop.entities.ShoppingBasketLineItemEntity.ShoppingBasketLineItemId;
+import com.github.dtmo.bookshop.entities.ShoppingBasketItemEntity.ShoppingBasketItemId;
 
 import nl.jqno.equalsverifier.EqualsVerifier;
 import nl.jqno.equalsverifier.Warning;
@@ -60,11 +60,11 @@ public class AccountEntityTest {
                 .build();
         redAccountEntity.getPaymentCards().add(redPaymentCardEntity);
 
-        final ShoppingBasketLineItemEntity redShoppingBasketLineItemEntity = ShoppingBasketLineItemEntity.builder()
-                .id(new ShoppingBasketLineItemId(redAccountEntity, redBookEntity))
+        final ShoppingBasketItemEntity redShoppingBasketItemEntity = ShoppingBasketItemEntity.builder()
+                .id(new ShoppingBasketItemId(redAccountEntity, redBookEntity))
                 .quantity(1L)
                 .build();
-        redAccountEntity.getShoppingBasketLineItems().add(redShoppingBasketLineItemEntity);
+        redAccountEntity.getShoppingBasketItems().add(redShoppingBasketItemEntity);
 
         final CustomerEntity blueCustomerEntity = CustomerEntity.builder()
                 .id(2L)
@@ -88,18 +88,18 @@ public class AccountEntityTest {
                 .build();
         blueAccountEntity.getPaymentCards().add(bluePaymentCardEntity);
 
-        final ShoppingBasketLineItemEntity blueShoppingBasketLineItemEntity = ShoppingBasketLineItemEntity.builder()
-                .id(new ShoppingBasketLineItemId(blueAccountEntity, blueBookEntity))
+        final ShoppingBasketItemEntity blueShoppingBasketItemEntity = ShoppingBasketItemEntity.builder()
+                .id(new ShoppingBasketItemId(blueAccountEntity, blueBookEntity))
                 .quantity(1L)
                 .build();
-        blueAccountEntity.getShoppingBasketLineItems().add(blueShoppingBasketLineItemEntity);
+        blueAccountEntity.getShoppingBasketItems().add(blueShoppingBasketItemEntity);
 
         EqualsVerifier.forClass(AccountEntity.class)
                 .suppress(Warning.SURROGATE_KEY)
                 .withPrefabValues(CustomerEntity.class, redCustomerEntity, blueCustomerEntity)
                 .withPrefabValues(PaymentCardEntity.class, redPaymentCardEntity, bluePaymentCardEntity)
-                .withPrefabValues(ShoppingBasketLineItemEntity.class, redShoppingBasketLineItemEntity,
-                        blueShoppingBasketLineItemEntity)
+                .withPrefabValues(ShoppingBasketItemEntity.class, redShoppingBasketItemEntity,
+                        blueShoppingBasketItemEntity)
                 .verify();
     }
 }

@@ -68,8 +68,8 @@ public class OrderEntityTest {
                 .account(blueAccountEntity)
                 .build();
 
-        redAccountEntity.getPaymentCardEntities().add(redPaymentCardEntity);
-        blueAccountEntity.getPaymentCardEntities().add(bluePaymentCardEntity);
+        redAccountEntity.getPaymentCards().add(redPaymentCardEntity);
+        blueAccountEntity.getPaymentCards().add(bluePaymentCardEntity);
 
         final OrderEntity redOrderEntity = OrderEntity.builder()
                 .id(1L)

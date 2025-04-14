@@ -98,7 +98,7 @@
                 <constraints nullable="false" />
             </column>
             <column name="account_id" type="number">
-                <constraints nullable="false" unique="true" referencedTableName="account"
+                <constraints nullable="false" referencedTableName="account"
                     referencedColumnNames="id" foreignKeyName="fk_payment_card_account_id" />
             </column>
         </createTable>

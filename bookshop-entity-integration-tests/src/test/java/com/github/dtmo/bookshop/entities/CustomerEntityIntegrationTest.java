@@ -112,7 +112,7 @@ public class CustomerEntityIntegrationTest extends AbstractIntegrationTest {
         // accounts contains the account, and that the account customers contains
         // the customer
         final List<AccountEntity> actualCustomerAccounts = entityManager
-                .createQuery("FROM AccountEntity a JOIN FETCH a.customers c WHERE c = :customer",
+                .createQuery("FROM AccountEntity a LEFT JOIN FETCH a.customers c WHERE c = :customer",
                         AccountEntity.class)
                 .setParameter("customer", customerEntity)
                 .getResultList();

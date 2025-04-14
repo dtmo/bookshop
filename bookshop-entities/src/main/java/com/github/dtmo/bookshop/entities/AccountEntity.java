@@ -62,7 +62,7 @@ public class AccountEntity {
     @OneToMany(mappedBy = "account", fetch = FetchType.LAZY)
     @Setter(AccessLevel.NONE)
     @ToString.Exclude
-    private final Set<PaymentCardEntity> paymentCardEntities = new HashSet<>();
+    private final Set<PaymentCardEntity> paymentCards = new HashSet<>();
 
     @OneToMany(mappedBy = "id.account", fetch = FetchType.LAZY)
     @Setter(AccessLevel.NONE)

@@ -104,11 +104,14 @@ public class AccountEntityIntegrationTest extends AbstractIntegrationTest {
 
         // Find the customers with their associated accounts
         final TypedQuery<CustomerEntity> customerQuery = entityManager
-                .createQuery("FROM CustomerEntity c JOIN FETCH c.accounts WHERE c = :customer", CustomerEntity.class);
+                .createQuery("FROM CustomerEntity c LEFT JOIN FETCH c.accounts WHERE c = :customer",
+                        CustomerEntity.class);
         final CustomerEntity actualCustomerToRemove = customerQuery
-                .setParameter("customer", expectedCustomerToRemove).getSingleResult();
+                .setParameter("customer", expectedCustomerToRemove)
+                .getSingleResult();
         final CustomerEntity actualCustomerToRetain = customerQuery
-                .setParameter("customer", expectedCustomerToRetain).getSingleResult();
+                .setParameter("customer", expectedCustomerToRetain)
+                .getSingleResult();
 
         // Assert that the customers have the expected accounts
         assertTrue(actualCustomerToRemove.getAccounts().contains(expectedAccountEntity));
@@ -118,8 +121,9 @@ public class AccountEntityIntegrationTest extends AbstractIntegrationTest {
         // accounts. Removing accounts from a customer does not result in changes to
         // the database.
         final AccountEntity actualAccount = entityManager
-                .createQuery("FROM AccountEntity a JOIN FETCH a.customers WHERE a = :account", AccountEntity.class)
-                .setParameter("account", expectedAccountEntity).getSingleResult();
+                .createQuery("FROM AccountEntity a LEFT JOIN FETCH a.customers WHERE a = :account", AccountEntity.class)
+                .setParameter("account", expectedAccountEntity)
+                .getSingleResult();
         entityManager.getTransaction().begin();
         actualAccount.getCustomers().remove(actualCustomerToRemove);
         entityManager.getTransaction().commit();
@@ -164,16 +168,54 @@ public class AccountEntityIntegrationTest extends AbstractIntegrationTest {
     @Test
     public void testAddPaymentCard() {
         final AccountEntity accountEntity = getAccountEntitysupplier().get();
-        final PaymentCardEntity paymentCardEntity = getPaymentCardEntitySupplier(accountEntity).get();
+        final PaymentCardEntity expectedPaymentCardEntity = getPaymentCardEntitySupplier(accountEntity).get();
 
         entityManager.getTransaction().begin();
         entityManager.persist(accountEntity);
-        entityManager.persist(paymentCardEntity);
-        accountEntity.getPaymentCardEntities().add(paymentCardEntity);
+        entityManager.persist(expectedPaymentCardEntity);
+        expectedPaymentCardEntity.setAccount(accountEntity);
+        accountEntity.getPaymentCards().add(expectedPaymentCardEntity);
         entityManager.getTransaction().commit();
 
-        entityManager.refresh(paymentCardEntity);
+        entityManager.clear();
 
-        assertEquals(accountEntity, paymentCardEntity.getAccount());
+        final PaymentCardEntity actualPaymentCardEntity = entityManager.find(PaymentCardEntity.class,
+                expectedPaymentCardEntity.getId());
+
+        PaymentCardEntities.verifyPaymentCardEntity(expectedPaymentCardEntity, actualPaymentCardEntity);
+    }
+
+    @Test
+    public void testRemovePaymentCard() {
+        final AccountEntity accountEntity = getAccountEntitysupplier().get();
+        final PaymentCardEntity paymentCardToRetain = getPaymentCardEntitySupplier(accountEntity).get();
+        final PaymentCardEntity paymentCardToRemove = getPaymentCardEntitySupplier(accountEntity).get();
+
+        entityManager.getTransaction().begin();
+        entityManager.persist(accountEntity);
+        entityManager.persist(paymentCardToRetain);
+        entityManager.persist(paymentCardToRemove);
+        accountEntity.getPaymentCards().add(paymentCardToRetain);
+        accountEntity.getPaymentCards().add(paymentCardToRemove);
+        entityManager.getTransaction().commit();
+
+        entityManager.clear();
+
+        final PaymentCardEntity actualPaymentCardToRemove = entityManager.find(PaymentCardEntity.class,
+                paymentCardToRemove.getId());
+
+        entityManager.getTransaction().begin();
+        entityManager.remove(actualPaymentCardToRemove);
+        entityManager.getTransaction().commit();
+
+        final AccountEntity persistedAccountEntity = entityManager
+                .createQuery("FROM AccountEntity a LEFT JOIN FETCH a.paymentCards WHERE a = :account",
+                        AccountEntity.class)
+                .setParameter("account", accountEntity)
+                .getSingleResult();
+
+        assertEquals(1, persistedAccountEntity.getPaymentCards().size());
+        assertTrue(persistedAccountEntity.getPaymentCards().contains(paymentCardToRetain));
+        assertFalse(persistedAccountEntity.getPaymentCards().contains(paymentCardToRemove));
     }
 }

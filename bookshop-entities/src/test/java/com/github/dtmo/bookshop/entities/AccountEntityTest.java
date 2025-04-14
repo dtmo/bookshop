@@ -58,7 +58,7 @@ public class AccountEntityTest {
                 .expiry(LocalDate.of(2525, Month.JANUARY, 2))
                 .account(redAccountEntity)
                 .build();
-        redAccountEntity.getPaymentCardEntities().add(redPaymentCardEntity);
+        redAccountEntity.getPaymentCards().add(redPaymentCardEntity);
 
         final ShoppingBasketLineItemEntity redShoppingBasketLineItemEntity = ShoppingBasketLineItemEntity.builder()
                 .id(new ShoppingBasketLineItemId(redAccountEntity, redBookEntity))
@@ -86,7 +86,7 @@ public class AccountEntityTest {
                 .expiry(LocalDate.of(2525, Month.JANUARY, 2))
                 .account(blueAccountEntity)
                 .build();
-        blueAccountEntity.getPaymentCardEntities().add(bluePaymentCardEntity);
+        blueAccountEntity.getPaymentCards().add(bluePaymentCardEntity);
 
         final ShoppingBasketLineItemEntity blueShoppingBasketLineItemEntity = ShoppingBasketLineItemEntity.builder()
                 .id(new ShoppingBasketLineItemId(blueAccountEntity, blueBookEntity))

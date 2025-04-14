@@ -28,7 +28,7 @@ public class AuthorEntities {
      *                 values.
      * @param actual   The AuthorEntity instance that is to be verified.
      */
-    public static void verifyAuhorEntity(final AuthorEntity expected, final AuthorEntity actual) {
+    public static void verifyAuthorEntity(final AuthorEntity expected, final AuthorEntity actual) {
         assertEquals(expected.getId(), actual.getId());
         // The database can't store the full precision of an Instant, se we truncate
         // them for comparisons

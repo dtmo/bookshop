@@ -33,7 +33,7 @@ public class AccountEntityIntegrationTest extends AbstractIntegrationTest {
     }
 
     @Test
-    public void testCreateAccount() {
+    public void testPersistAccount() {
         final AccountEntity expectedAccountEntity = getAccountEntitysupplier().get();
 
         // Assert that the account does not exist in the database

@@ -1,16 +1,15 @@
 package com.github.dtmo.bookshop.entities;
 
+import static org.junit.Assert.assertNotEquals;
+import static org.junit.Assert.assertNotSame;
 import static org.junit.Assert.assertTrue;
 import static org.junit.jupiter.api.Assertions.assertEquals;
-
-import java.util.List;
 
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import jakarta.persistence.EntityManager;
-import jakarta.persistence.EntityTransaction;
 import jakarta.persistence.TypedQuery;
 
 public class AuthorEntityIntegrationTest extends AbstractIntegrationTest {
@@ -27,27 +26,53 @@ public class AuthorEntityIntegrationTest extends AbstractIntegrationTest {
     }
 
     @Test
-    public void testAuthor() {
-        final AuthorEntity authorEntity = getAuthorEntitysupplier().get();
+    public void testPersistAuthor() {
+        final AuthorEntity expectedAuthor = getAuthorEntitysupplier().get();
 
         final TypedQuery<AuthorEntity> authorQuery = entityManager
                 .createQuery("FROM AuthorEntity a WHERE a.name = :name", AuthorEntity.class);
-        authorQuery.setParameter("name", authorEntity.getName());
+        authorQuery.setParameter("name", expectedAuthor.getName());
 
         assertTrue(authorQuery.getResultList().isEmpty());
 
-        final EntityTransaction entityTransaction = entityManager.getTransaction();
-        entityTransaction.begin();
+        entityManager.getTransaction().begin();
+        entityManager.persist(expectedAuthor);
+        entityManager.getTransaction().commit();
+
+        entityManager.clear();
+
+        final AuthorEntity actualAuthor = authorQuery.getSingleResult();
+
+        assertNotSame(expectedAuthor, actualAuthor);
+        AuthorEntities.verifyAuthorEntity(expectedAuthor, actualAuthor);
+    }
+
+    @Test
+    public void testRenameAuthor() {
+        final AuthorEntity authorEntity = getAuthorEntitysupplier().get();
+        final BookEntity bookEntity = getBookEntitySupplier().get();
+
+        entityManager.getTransaction().begin();
         entityManager.persist(authorEntity);
-        entityTransaction.commit();
+        entityManager.persist(bookEntity);
+        bookEntity.getAuthors().add(authorEntity);
+        entityManager.getTransaction().commit();
 
-        final List<AuthorEntity> authors = authorQuery.getResultList();
-        assertEquals(1, authors.size());
+        final String expectedAuthorName = String.format("%s (updated)", authorEntity.getName());
 
-        final AuthorEntity actualAuthor = authors.get(0);
+        // Update the author name directly in the database
+        entityManager.getTransaction().begin();
+        entityManager.createQuery("UPDATE AuthorEntity a SET a.name = :name WHERE a = :author")
+                .setParameter("author", authorEntity)
+                .setParameter("name", expectedAuthorName)
+                .executeUpdate();
+        entityManager.getTransaction().commit();
 
-        assertEquals(authorEntity.getId(), actualAuthor.getId());
-        assertEquals(authorEntity.getName(), actualAuthor.getName());
-        assertEquals(authorEntity.getAlias(), actualAuthor.getAlias());
+        // Verify that the detached entity has not been updated
+        assertNotEquals(authorEntity.getName(), expectedAuthorName);
+
+        // Update the author details and verify that it now has the expected name
+        entityManager.refresh(authorEntity);
+        assertEquals(expectedAuthorName, authorEntity.getName());
     }
 }

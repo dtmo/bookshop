@@ -64,7 +64,7 @@ public class AccountEntityTest {
                 .id(new ShoppingBasketLineItemId(redAccountEntity, redBookEntity))
                 .quantity(1L)
                 .build();
-        redAccountEntity.getShopppingBasketLineItems().add(redShoppingBasketLineItemEntity);
+        redAccountEntity.getShoppingBasketLineItems().add(redShoppingBasketLineItemEntity);
 
         final CustomerEntity blueCustomerEntity = CustomerEntity.builder()
                 .id(2L)
@@ -92,7 +92,7 @@ public class AccountEntityTest {
                 .id(new ShoppingBasketLineItemId(blueAccountEntity, blueBookEntity))
                 .quantity(1L)
                 .build();
-        blueAccountEntity.getShopppingBasketLineItems().add(blueShoppingBasketLineItemEntity);
+        blueAccountEntity.getShoppingBasketLineItems().add(blueShoppingBasketLineItemEntity);
 
         EqualsVerifier.forClass(AccountEntity.class)
                 .suppress(Warning.SURROGATE_KEY)

@@ -243,8 +243,8 @@ public class AccountEntityIntegrationTest extends AbstractIntegrationTest {
         entityManager.refresh(accountEntity);
 
         // Verify that the line item is associated with the account
-        assertEquals(1, accountEntity.getShopppingBasketLineItems().size());
-        assertTrue(accountEntity.getShopppingBasketLineItems().contains(expectedShoppingBasketLineItem));
+        assertEquals(1, accountEntity.getShoppingBasketLineItems().size());
+        assertTrue(accountEntity.getShoppingBasketLineItems().contains(expectedShoppingBasketLineItem));
 
         entityManager.clear();
 
@@ -256,5 +256,53 @@ public class AccountEntityIntegrationTest extends AbstractIntegrationTest {
         assertNotSame(expectedShoppingBasketLineItem, actualShoppingBasketLineItem);
         ShoppingBasketLineItemEntities.verifyShoppingBasketLineItemEntity(expectedShoppingBasketLineItem,
                 actualShoppingBasketLineItem);
+    }
+
+    @Test
+    public void testRemoveShoppingBasketLineItem() {
+        // Create an account, some products (books), an account and some shopping basket
+        // line items
+        final AuthorEntity authorEntity = getAuthorEntitysupplier().get();
+        final BookEntity bookToRetain = getBookEntitySupplier().get();
+        final BookEntity bookToRemove = getBookEntitySupplier().get();
+        final AccountEntity accountEntity = getAccountEntitysupplier().get();
+        final ShoppingBasketLineItemEntity shoppingBasketLineItemToRetain = new ShoppingBasketLineItemEntity(
+                accountEntity, bookToRetain, 1);
+        final ShoppingBasketLineItemEntity shoppingBasketLineItemToRemove = new ShoppingBasketLineItemEntity(
+                accountEntity, bookToRemove, 1);
+
+        entityManager.getTransaction().begin();
+        entityManager.persist(authorEntity);
+        entityManager.persist(bookToRetain);
+        bookToRetain.getAuthors().add(authorEntity);
+        entityManager.persist(bookToRemove);
+        bookToRemove.getAuthors().add(authorEntity);
+        entityManager.persist(accountEntity);
+        entityManager.persist(shoppingBasketLineItemToRetain);
+        entityManager.persist(shoppingBasketLineItemToRemove);
+        entityManager.getTransaction().commit();
+
+        entityManager.clear();
+
+        // Find the account and fetch its shopping basket line items
+        final AccountEntity actualAccount = entityManager
+                .createQuery("FROM AccountEntity a LEFT JOIN FETCH a.shoppingBasketLineItems WHERE a = :account",
+                        AccountEntity.class)
+                .setParameter("account", accountEntity)
+                .getSingleResult();
+
+        // Read the details of the shopping basket line item from the database
+        final ShoppingBasketLineItemEntity actualShoppingBasketLineItemToRemove = entityManager
+                .find(ShoppingBasketLineItemEntity.class, shoppingBasketLineItemToRemove.getId());
+
+        // Remove the line item
+        entityManager.getTransaction().begin();
+        actualAccount.getShoppingBasketLineItems().remove(actualShoppingBasketLineItemToRemove);
+        entityManager.getTransaction().commit();
+
+        // Assert that only the expected line items remain
+        assertEquals(1, actualAccount.getShoppingBasketLineItems().size());
+        assertTrue(actualAccount.getShoppingBasketLineItems().contains(shoppingBasketLineItemToRetain));
+        assertFalse(actualAccount.getShoppingBasketLineItems().contains(shoppingBasketLineItemToRemove));
     }
 }

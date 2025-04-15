@@ -29,7 +29,7 @@ public class CustomerEntities {
      */
     public static void verifyCustomerEntity(final CustomerEntity expected, final CustomerEntity actual) {
         assertEquals(expected.getId(), actual.getId());
-        // The database can't store the full precision of an Instant, se we truncate
+        // The database can't store the full precision of an Instant, so we truncate
         // them for comparisons
         assertEquals(expected.getCreationTime().truncatedTo(ChronoUnit.MILLIS),
                 actual.getCreationTime().truncatedTo(ChronoUnit.MILLIS));

@@ -19,7 +19,7 @@ import jakarta.persistence.PersistenceConfiguration;
 /**
  * AbstractIntegrationTest provides reusable environment setup code so that any
  * tests wanting to use the Testcontainers PostgreSQL bookshop database schema
- * will not have to wait for the container to reoeatedly stop and start.
+ * will not have to wait for the container to repeatedly stop and start.
  */
 public abstract class AbstractIntegrationTest {
     private static final Supplier<AccountEntity> accountEntitySupplier = AccountEntities

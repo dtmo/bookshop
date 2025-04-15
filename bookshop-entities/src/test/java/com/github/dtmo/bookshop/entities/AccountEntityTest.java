@@ -5,6 +5,8 @@ import java.time.Month;
 
 import org.junit.jupiter.api.Test;
 
+import com.github.dtmo.bookshop.entities.InProgressOrderEntity.InProgressOrderState;
+import com.github.dtmo.bookshop.entities.InProgressOrderLineItemEntity.InProgressOrderLineItemId;
 import com.github.dtmo.bookshop.entities.ShoppingBasketItemEntity.ShoppingBasketItemId;
 
 import nl.jqno.equalsverifier.EqualsVerifier;
@@ -66,6 +68,19 @@ public class AccountEntityTest {
                 .build();
         redAccountEntity.getShoppingBasketItems().add(redShoppingBasketItemEntity);
 
+        final InProgressOrderEntity redInProgressOrderEntity = InProgressOrderEntity.builder()
+                .id(1L)
+                .paymentCard(redPaymentCardEntity)
+                .account(redAccountEntity)
+                .state(InProgressOrderState.WAITING)
+                .build();
+        redInProgressOrderEntity.getLineItems()
+                .add(InProgressOrderLineItemEntity.builder()
+                        .id(new InProgressOrderLineItemId(redInProgressOrderEntity, redBookEntity))
+                        .unitPrice(redBookEntity.getPrice())
+                        .quantity(1)
+                        .build());
+
         final CustomerEntity blueCustomerEntity = CustomerEntity.builder()
                 .id(2L)
                 .name("Blue Customer")
@@ -94,12 +109,26 @@ public class AccountEntityTest {
                 .build();
         blueAccountEntity.getShoppingBasketItems().add(blueShoppingBasketItemEntity);
 
+        final InProgressOrderEntity blueInProgressOrderEntity = InProgressOrderEntity.builder()
+                .id(2L)
+                .paymentCard(bluePaymentCardEntity)
+                .account(blueAccountEntity)
+                .state(InProgressOrderState.WAITING)
+                .build();
+        blueInProgressOrderEntity.getLineItems()
+                .add(InProgressOrderLineItemEntity.builder()
+                        .id(new InProgressOrderLineItemId(blueInProgressOrderEntity, blueBookEntity))
+                        .unitPrice(blueBookEntity.getPrice())
+                        .quantity(1)
+                        .build());
+
         EqualsVerifier.forClass(AccountEntity.class)
                 .suppress(Warning.SURROGATE_KEY)
                 .withPrefabValues(CustomerEntity.class, redCustomerEntity, blueCustomerEntity)
                 .withPrefabValues(PaymentCardEntity.class, redPaymentCardEntity, bluePaymentCardEntity)
                 .withPrefabValues(ShoppingBasketItemEntity.class, redShoppingBasketItemEntity,
                         blueShoppingBasketItemEntity)
+                .withPrefabValues(InProgressOrderEntity.class, redInProgressOrderEntity, blueInProgressOrderEntity)
                 .verify();
     }
 }

@@ -4,6 +4,7 @@ import java.time.Instant;
 import java.util.HashSet;
 import java.util.Set;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -28,15 +29,15 @@ import lombok.Setter;
 import lombok.ToString;
 
 @Entity
-@Table(name = "order")
+@Table(name = "in_progress_order")
 @Data
 @RequiredArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PACKAGE)
 @AllArgsConstructor(access = AccessLevel.PACKAGE)
 @Builder
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
-public class OrderEntity {
-    public static enum OrderState {
+public class InProgressOrderEntity {
+    public static enum InProgressOrderState {
         WAITING,
         PROCESSING,
         DISPATCHED,
@@ -63,15 +64,15 @@ public class OrderEntity {
     @Enumerated(EnumType.STRING)
     @NonNull
     @Builder.Default
-    private OrderState state = OrderState.WAITING;
+    private InProgressOrderState state = InProgressOrderState.WAITING;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "account_id")
     @NonNull
     private AccountEntity account;
 
-    @OneToMany(mappedBy = "id.order", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "id.inProgressOrder", cascade = CascadeType.REMOVE, fetch = FetchType.LAZY)
     @Setter(AccessLevel.NONE)
     @ToString.Exclude
-    private final Set<OrderLineItemEntity> lineItems = new HashSet<>();
+    private final Set<InProgressOrderLineItemEntity> lineItems = new HashSet<>();
 }

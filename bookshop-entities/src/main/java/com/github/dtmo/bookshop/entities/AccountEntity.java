@@ -69,4 +69,9 @@ public class AccountEntity {
     @Setter(AccessLevel.NONE)
     @ToString.Exclude
     private final Set<ShoppingBasketItemEntity> shoppingBasketItems = new HashSet<>();
+
+    @OneToMany(mappedBy = "account", fetch = FetchType.LAZY)
+    @Setter(AccessLevel.NONE)
+    @ToString.Exclude
+    private final Set<InProgressOrderEntity> inProgressOrders = new HashSet<>();
 }

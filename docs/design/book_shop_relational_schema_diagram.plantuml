@@ -49,7 +49,7 @@ entity payment_card {
     * account_id : number
 }
 
-entity order {
+entity in_progress_order {
     * id : number <<generated>>
     --
     * creation_time : timestamp
@@ -58,8 +58,8 @@ entity order {
     * account_id : number
 }
 
-entity order_line_item {
-    * order_id : number
+entity in_progress_order_line_item {
+    * in_progress_order_id : number
     * product_id : number
     --
     * quantity : number
@@ -95,10 +95,10 @@ account_customers::account_id }|--|| account::id
 account::id ||--o{ shopping_basket_item::account_id
 shopping_basket_item::product_id }o--|| product::id
 account::id ||--o{ payment_card::account_id
-account::id ||--o{ order::account_id
-order::id ||--|{ order_line_item::order_id
-order::payment_card_id }o--|| payment_card::id
-order_line_item::product_id }o--|| product::id
+account::id ||--o{ in_progress_order::account_id
+in_progress_order::id ||--|{ in_progress_order_line_item::in_progress_order_id
+in_progress_order::payment_card_id }o--|| payment_card::id
+in_progress_order_line_item::product_id }o--|| product::id
 product::id ||--o| book::product_id
 book::product_id ||--|{ book_authors::book_id
 book_authors::author_id }|--|| author::id

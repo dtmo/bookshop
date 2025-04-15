@@ -107,38 +107,38 @@
 
         <addAutoIncrement tableName="payment_card" columnName="id" />
 
-        <createTable tableName="order">
+        <createTable tableName="in_progress_order">
             <column name="id" type="number">
-                <constraints primaryKey="true" primaryKeyName="pk_order" />
+                <constraints primaryKey="true" primaryKeyName="pk_in_progress_order" />
             </column>
             <column name="creation_time" type="timestamp" defaultValueComputed="CURRENT_TIMESTAMP">
                 <constraints nullable="false" />
             </column>
             <column name="payment_card_id" type="number">
-                <constraints nullable="false" unique="true" referencedTableName="payment_card"
-                    referencedColumnNames="id" foreignKeyName="fk_order_payment_card_id" />
+                <constraints nullable="false" referencedTableName="payment_card"
+                    referencedColumnNames="id" foreignKeyName="fk_in_progress_order_payment_card_id" />
             </column>
             <column name="order_state" type="varchar">
                 <constraints nullable="false" />
             </column>
             <column name="account_id" type="number">
-                <constraints nullable="false" unique="true" referencedTableName="account"
+                <constraints nullable="false" referencedTableName="account"
                     referencedColumnNames="id" foreignKeyName="fk_payment_card_account_id" />
             </column>
         </createTable>
 
-        <addAutoIncrement tableName="order" columnName="id" />
+        <addAutoIncrement tableName="in_progress_order" columnName="id" />
 
-        <createTable tableName="order_line_item">
-            <column name="order_id" type="number">
-                <constraints primaryKey="true" primaryKeyName="pk_order_line_item"
-                    referencedTableName="order" referencedColumnNames="id"
-                    foreignKeyName="fk_order_line_item_order_id" />
+        <createTable tableName="in_progress_order_line_item">
+            <column name="in_progress_order_id" type="number">
+                <constraints primaryKey="true" primaryKeyName="pk_in_progress_order_line_item"
+                    referencedTableName="in_progress_order" referencedColumnNames="id"
+                    foreignKeyName="fk_in_progress_order_line_item_in_progress_order_id" />
             </column>
             <column name="product_id" type="number">
-                <constraints primaryKey="true" primaryKeyName="pk_order_line_item"
+                <constraints primaryKey="true" primaryKeyName="pk_in_progress_order_line_item"
                     referencedTableName="product" referencedColumnNames="id"
-                    foreignKeyName="fk_order_line_item_product_id" />
+                    foreignKeyName="fk_in_progress_order_line_item_product_id" />
             </column>
             <column name="quantity" type="number">
                 <constraints nullable="false" />

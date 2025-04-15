@@ -7,12 +7,11 @@ import java.time.Month;
 
 import org.junit.jupiter.api.Test;
 
-import com.github.dtmo.bookshop.entities.OrderEntity.OrderState;
+import com.github.dtmo.bookshop.entities.InProgressOrderEntity.InProgressOrderState;
 
 import nl.jqno.equalsverifier.EqualsVerifier;
-import nl.jqno.equalsverifier.Warning;
 
-public class OrderLineItemEntityTest {
+public class InProgressOrderLineItemIdTest {
     @Test
     void testEqualsHashCode() {
         final AccountEntity accountEntity = AccountEntity.builder()
@@ -27,23 +26,22 @@ public class OrderLineItemEntityTest {
                 .expiry(LocalDate.of(2525, Month.JANUARY, 2))
                 .account(accountEntity)
                 .build();
-        final OrderEntity redOrderEntity = OrderEntity.builder()
+        final InProgressOrderEntity redInProgressOrderEntity = InProgressOrderEntity.builder()
                 .id(1L)
                 .creationTime(Instant.now())
                 .paymentCard(paymentCardEntity)
-                .state(OrderState.DISPATCHED)
+                .state(InProgressOrderState.DISPATCHED)
                 .account(accountEntity)
                 .build();
-        final OrderEntity blueOrderEntity = OrderEntity.builder()
+        final InProgressOrderEntity blueInProgressOrderEntity = InProgressOrderEntity.builder()
                 .id(2L)
                 .creationTime(Instant.now().plus(Duration.ofSeconds(2)))
                 .paymentCard(paymentCardEntity)
-                .state(OrderState.WAITING)
+                .state(InProgressOrderState.WAITING)
                 .account(accountEntity)
                 .build();
-        EqualsVerifier.forClass(OrderLineItemEntity.class)
-                .suppress(Warning.SURROGATE_KEY)
-                .withPrefabValues(OrderEntity.class, redOrderEntity, blueOrderEntity)
+        EqualsVerifier.forClass(InProgressOrderLineItemEntity.InProgressOrderLineItemId.class)
+                .withPrefabValues(InProgressOrderEntity.class, redInProgressOrderEntity, blueInProgressOrderEntity)
                 .verify();
     }
 }

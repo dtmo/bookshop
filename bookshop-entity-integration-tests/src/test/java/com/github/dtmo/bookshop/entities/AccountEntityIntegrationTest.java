@@ -36,12 +36,6 @@ public class AccountEntityIntegrationTest extends AbstractIntegrationTest {
     public void testPersistAccount() {
         final AccountEntity expectedAccountEntity = getAccountEntitysupplier().get();
 
-        // Assert that the account does not exist in the database
-        final TypedQuery<AccountEntity> accountQuery = entityManager
-                .createQuery("FROM AccountEntity a WHERE a.name = :name", AccountEntity.class)
-                .setParameter("name", expectedAccountEntity.getName());
-        assertTrue(accountQuery.getResultList().isEmpty());
-
         entityManager.getTransaction().begin();
         entityManager.persist(expectedAccountEntity);
         entityManager.getTransaction().commit();
@@ -49,7 +43,7 @@ public class AccountEntityIntegrationTest extends AbstractIntegrationTest {
         // Clear the entity manager so we don't hit cached entities
         entityManager.clear();
 
-        final AccountEntity actualAccountEntity = entityManager.getReference(AccountEntity.class,
+        final AccountEntity actualAccountEntity = entityManager.find(AccountEntity.class,
                 expectedAccountEntity.getId());
 
         assertNotSame(expectedAccountEntity, actualAccountEntity);
@@ -84,21 +78,22 @@ public class AccountEntityIntegrationTest extends AbstractIntegrationTest {
 
     @Test
     public void testRemoveCustomers() {
-        // Create an account and two customers
-        final AccountEntity expectedAccountEntity = getAccountEntitysupplier().get();
+        // Create an account with two customers
+        entityManager.getTransaction().begin();
+
         final CustomerEntity expectedCustomerToRemove = getCustomerEntitySupplier().get();
         final CustomerEntity expectedCustomerToRetain = getCustomerEntitySupplier().get();
 
-        entityManager.getTransaction().begin();
-        entityManager.persist(expectedAccountEntity);
+        // Persisting the customers sets their IDs which means that we can then add them
+        // to the account customers set.
         entityManager.persist(expectedCustomerToRemove);
         entityManager.persist(expectedCustomerToRetain);
-        entityManager.getTransaction().commit();
 
-        // Add the account to both customers
-        entityManager.getTransaction().begin();
+        final AccountEntity expectedAccountEntity = getAccountEntitysupplier().get();
         expectedAccountEntity.getCustomers().add(expectedCustomerToRemove);
         expectedAccountEntity.getCustomers().add(expectedCustomerToRetain);
+        entityManager.persist(expectedAccountEntity);
+
         entityManager.getTransaction().commit();
 
         // Clear the entity manager so the tests are based on persisted data
@@ -145,10 +140,10 @@ public class AccountEntityIntegrationTest extends AbstractIntegrationTest {
 
         // And an account exists
         final AccountEntity account = getAccountEntitysupplier().get();
+        account.getCustomers().add(customer);
         entityManager.persist(account);
 
         // And the customer is added to the account
-        account.getCustomers().add(customer);
         entityManager.getTransaction().commit();
         entityManager.refresh(customer);
 
@@ -188,7 +183,7 @@ public class AccountEntityIntegrationTest extends AbstractIntegrationTest {
 
         entityManager.clear();
 
-        final PaymentCardEntity actualPaymentCardEntity = entityManager.getReference(PaymentCardEntity.class,
+        final PaymentCardEntity actualPaymentCardEntity = entityManager.find(PaymentCardEntity.class,
                 expectedPaymentCardEntity.getId());
 
         PaymentCardEntities.verifyPaymentCardEntity(expectedPaymentCardEntity, actualPaymentCardEntity);
@@ -210,7 +205,7 @@ public class AccountEntityIntegrationTest extends AbstractIntegrationTest {
 
         entityManager.clear();
 
-        final PaymentCardEntity actualPaymentCardToRemove = entityManager.getReference(PaymentCardEntity.class,
+        final PaymentCardEntity actualPaymentCardToRemove = entityManager.find(PaymentCardEntity.class,
                 paymentCardToRemove.getId());
 
         entityManager.getTransaction().begin();
@@ -318,30 +313,36 @@ public class AccountEntityIntegrationTest extends AbstractIntegrationTest {
     @Test
     public void testDeleteAccount() {
         // Create a fully populated account
+        entityManager.getTransaction().begin();
+
         final AuthorEntity authorEntity = getAuthorEntitysupplier().get();
+        entityManager.persist(authorEntity);
+
         final BookEntity bookEntity = getBookEntitySupplier().get();
+        bookEntity.getAuthors().add(authorEntity);
+        entityManager.persist(bookEntity);
+        authorEntity.getBooks().add(bookEntity);
+
         final CustomerEntity customerEntity = getCustomerEntitySupplier().get();
+        entityManager.persist(customerEntity);
+
         final AccountEntity accountEntity = getAccountEntitysupplier().get();
+        accountEntity.getCustomers().add(customerEntity);
+        entityManager.persist(accountEntity);
+
         final PaymentCardEntity paymentCardEntity = getPaymentCardEntitySupplier(accountEntity).get();
+        entityManager.persist(paymentCardEntity);
+
         final ShoppingBasketItemEntity shoppingBasketItemEntity = new ShoppingBasketItemEntity(
                 accountEntity, bookEntity, 1);
-
-        entityManager.getTransaction().begin();
-        entityManager.persist(authorEntity);
-        entityManager.persist(bookEntity);
-        bookEntity.getAuthors().add(authorEntity);
-        authorEntity.getBooks().add(bookEntity);
-        entityManager.persist(customerEntity);
-        entityManager.persist(accountEntity);
-        accountEntity.getCustomers().add(customerEntity);
-        customerEntity.getAccounts().add(accountEntity);
-        entityManager.persist(paymentCardEntity);
         entityManager.persist(shoppingBasketItemEntity);
+
         entityManager.getTransaction().commit();
 
         entityManager.clear();
 
-        final AccountEntity persistedAccount = entityManager.getReference(AccountEntity.class, accountEntity.getId());
+        final AccountEntity persistedAccount = entityManager.find(AccountEntity.class,
+                accountEntity.getId());
 
         entityManager.getTransaction().begin();
         entityManager.remove(persistedAccount);

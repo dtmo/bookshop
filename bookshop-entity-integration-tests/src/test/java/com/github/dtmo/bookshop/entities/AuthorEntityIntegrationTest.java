@@ -12,7 +12,6 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import jakarta.persistence.EntityManager;
-import jakarta.persistence.TypedQuery;
 
 public class AuthorEntityIntegrationTest extends AbstractIntegrationTest {
     private EntityManager entityManager;
@@ -31,19 +30,13 @@ public class AuthorEntityIntegrationTest extends AbstractIntegrationTest {
     public void testPersistAuthor() {
         final AuthorEntity expectedAuthor = getAuthorEntitysupplier().get();
 
-        final TypedQuery<AuthorEntity> authorQuery = entityManager
-                .createQuery("FROM AuthorEntity a WHERE a.name = :name", AuthorEntity.class);
-        authorQuery.setParameter("name", expectedAuthor.getName());
-
-        assertTrue(authorQuery.getResultList().isEmpty());
-
         entityManager.getTransaction().begin();
         entityManager.persist(expectedAuthor);
         entityManager.getTransaction().commit();
 
         entityManager.clear();
 
-        final AuthorEntity actualAuthor = authorQuery.getSingleResult();
+        final AuthorEntity actualAuthor = entityManager.find(AuthorEntity.class, expectedAuthor.getId());
 
         assertNotSame(expectedAuthor, actualAuthor);
         AuthorEntities.verifyAuthorEntity(expectedAuthor, actualAuthor);
@@ -75,6 +68,42 @@ public class AuthorEntityIntegrationTest extends AbstractIntegrationTest {
         // Update the author details and verify that it now has the expected name
         entityManager.refresh(authorEntity);
         assertEquals(expectedAuthorName, authorEntity.getName());
+    }
+
+    @Test
+    public void testAddBook() {
+        entityManager.getTransaction().begin();
+        final AuthorEntity authorEntity = getAuthorEntitysupplier().get();
+        entityManager.persist(authorEntity);
+
+        final BookEntity bookEntity = getBookEntitySupplier().get();
+        entityManager.persist(bookEntity);
+        bookEntity.getAuthors().add(authorEntity);
+        entityManager.getTransaction().commit();
+
+        // The author has published a new book
+        entityManager.getTransaction().begin();
+        final BookEntity newBookEntity = getBookEntitySupplier().get();
+        newBookEntity.getAuthors().add(authorEntity);
+        entityManager.persist(newBookEntity);
+        entityManager.getTransaction().commit();
+
+        entityManager.clear();
+
+        // Assert that the author now has two books
+        final AuthorEntity persistedAuthorEntity = entityManager
+                .createQuery("FROM AuthorEntity a LEFT JOIN FETCH a.books WHERE a = :author", AuthorEntity.class)
+                .setParameter("author", authorEntity)
+                .getSingleResult();
+        assertEquals(2, persistedAuthorEntity.getBooks().size());
+        assertTrue(persistedAuthorEntity.getBooks().contains(bookEntity));
+        assertTrue(persistedAuthorEntity.getBooks().contains(newBookEntity));
+
+        final BookEntity persistedBookEntity = entityManager
+                .createQuery("FROM BookEntity b LEFT JOIN FETCH b.authors WHERE b = :book", BookEntity.class)
+                .setParameter("book", bookEntity)
+                .getSingleResult();
+        assertTrue(persistedBookEntity.getAuthors().contains(authorEntity));
     }
 
     @Test

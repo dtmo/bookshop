@@ -13,9 +13,9 @@
 
     <modules>
         <module>bookshop-db-schema</module>
-        <module>bookshop-entities</module>
-        <module>bookshop-entity-test-support</module>
-        <module>bookshop-entity-integration-tests</module>
+        <module>bookshop-jpa</module>
+        <module>bookshop-jpa-test-support</module>
+        <module>bookshop-jpa-integration-tests</module>
     </modules>
 
     <scm>

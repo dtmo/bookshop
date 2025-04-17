@@ -1,36 +1,59 @@
 package com.github.dtmo.bookshop.entities;
 
+import java.time.Instant;
 import java.util.HashSet;
 import java.util.Set;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
-import jakarta.persistence.PrimaryKeyJoinColumn;
 import jakarta.persistence.Table;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
-import lombok.Getter;
+import lombok.Builder;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.NonNull;
+import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import lombok.Singular;
 import lombok.ToString;
-import lombok.experimental.SuperBuilder;
 
 @Entity
 @Table(name = "book")
-@PrimaryKeyJoinColumn(name = "product_id")
+@Data
+@RequiredArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PACKAGE)
 @AllArgsConstructor(access = AccessLevel.PACKAGE)
-@Getter
-@Setter
-@ToString
-@SuperBuilder
-public class BookEntity extends ProductEntity {
+@Builder
+@EqualsAndHashCode(onlyExplicitlyIncluded = true)
+public class BookEntity {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
+    @Setter(AccessLevel.NONE)
+    @EqualsAndHashCode.Include
+    private Long id;
+
+    @Column(name = "creation_time")
+    @Builder.Default
+    private Instant creationTime = Instant.now();
+
+    @Column(name = "price")
+    @NonNull
+    private Long price;
+
+    @Column(name = "stock_keeping_unit")
+    @NonNull
+    private String stockKeepingUnit;
+
     @Column(name = "title")
     @NonNull
     private String title;
@@ -53,10 +76,4 @@ public class BookEntity extends ProductEntity {
     @Singular
     @ToString.Exclude
     private final Set<AuthorEntity> authors = new HashSet<>();
-
-    public BookEntity(final Long price, final String stockKeepingUnit, final String title) {
-        super(price, stockKeepingUnit);
-
-        this.title = title;
-    }
 }

@@ -35,9 +35,9 @@ public class InProgressOrderLineItemEntity {
         private InProgressOrderEntity inProgressOrder;
 
         @ManyToOne(fetch = FetchType.LAZY)
-        @JoinColumn(name = "product_id")
+        @JoinColumn(name = "book_id")
         @NonNull
-        private ProductEntity product;
+        private BookEntity book;
     }
 
     @EmbeddedId
@@ -58,7 +58,7 @@ public class InProgressOrderLineItemEntity {
         this.quantity = quantity;
     }
 
-    public InProgressOrderLineItemEntity(final InProgressOrderEntity inProgressOrder, final ProductEntity product,
+    public InProgressOrderLineItemEntity(final InProgressOrderEntity inProgressOrder, final BookEntity product,
             final long unitPrice, final long quantity) {
         this(new InProgressOrderLineItemId(inProgressOrder, product), unitPrice, quantity);
     }
@@ -67,7 +67,7 @@ public class InProgressOrderLineItemEntity {
         return this.id.getInProgressOrder();
     }
 
-    public ProductEntity getProduct() {
-        return this.id.getProduct();
+    public BookEntity getBook() {
+        return this.id.getBook();
     }
 }

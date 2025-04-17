@@ -37,10 +37,10 @@ public class ShoppingBasketItemEntity {
         private AccountEntity account;
 
         @ManyToOne(fetch = FetchType.LAZY)
-        @JoinColumn(name = "product_id")
+        @JoinColumn(name = "book_id")
         @Setter(AccessLevel.NONE)
         @NonNull
-        private ProductEntity product;
+        private BookEntity book;
     }
 
     @EmbeddedId
@@ -57,15 +57,15 @@ public class ShoppingBasketItemEntity {
         this.quantity = quantity;
     }
 
-    public ShoppingBasketItemEntity(final AccountEntity account, final ProductEntity product, final long quantity) {
-        this(new ShoppingBasketItemId(account, product), quantity);
+    public ShoppingBasketItemEntity(final AccountEntity account, final BookEntity book, final long quantity) {
+        this(new ShoppingBasketItemId(account, book), quantity);
     }
 
     public AccountEntity getAccount() {
         return this.id.getAccount();
     }
 
-    public ProductEntity getProduct() {
-        return this.id.getProduct();
+    public BookEntity getBook() {
+        return this.id.getBook();
     }
 }

@@ -23,17 +23,9 @@ entity account_customers {
     * customer_id : number
 }
 
-entity product {
-    * id : number <<generated>>
-    --
-    * creation_time : timestamp
-    * price : number
-    * stock_keeping_unit : varchar
-}
-
 entity shopping_basket_item {
     * account_id : number
-    * product_id : number
+    * book_id : number
     --
     * quantity : number
 }
@@ -60,7 +52,7 @@ entity in_progress_order {
 
 entity in_progress_order_line_item {
     * in_progress_order_id : number
-    * product_id : number
+    * book_id : number
     --
     * quantity : number
     * unit_price : number
@@ -75,8 +67,11 @@ entity author {
 }
 
 entity book {
-    * product_id : number
+    * id : number <<generated>>
     --
+    * creation_time : timestamp
+    * price : number
+    * stock_keeping_unit : varchar
     * title : varchar
     production_credits : varchar
     summary : varchar
@@ -93,14 +88,13 @@ entity book_authors {
 customer::id ||--|{ account_customers::customer_id
 account_customers::account_id }|--|| account::id
 account::id ||--o{ shopping_basket_item::account_id
-shopping_basket_item::product_id }o--|| product::id
+shopping_basket_item::book_id }o--|| book::id
 account::id ||--o{ payment_card::account_id
 account::id ||--o{ in_progress_order::account_id
 in_progress_order::id ||--|{ in_progress_order_line_item::in_progress_order_id
 in_progress_order::payment_card_id }o--|| payment_card::id
-in_progress_order_line_item::product_id }o--|| product::id
-product::id ||--o| book::product_id
-book::product_id ||--|{ book_authors::book_id
+in_progress_order_line_item::book_id }o--|| book::id
+book::id ||--|{ book_authors::book_id
 book_authors::author_id }|--|| author::id
 
 @enduml

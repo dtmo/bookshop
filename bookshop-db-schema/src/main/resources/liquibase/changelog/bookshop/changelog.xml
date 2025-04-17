@@ -47,9 +47,9 @@
             </column>
         </createTable>
 
-        <createTable tableName="product">
+        <createTable tableName="book">
             <column name="id" type="number">
-                <constraints primaryKey="true" primaryKeyName="pk_product" />
+                <constraints primaryKey="true" primaryKeyName="pk_book" />
             </column>
             <column name="creation_time" type="timestamp" defaultValueComputed="CURRENT_TIMESTAMP">
                 <constraints nullable="false" />
@@ -60,9 +60,16 @@
             <column name="stock_keeping_unit" type="varchar">
                 <constraints nullable="false" unique="true" />
             </column>
+            <column name="title" type="varchar">
+                <constraints nullable="false" />
+            </column>
+            <column name="production_credits" type="varchar" />
+            <column name="summary" type="text" />
+            <column name="language" type="text" />
+            <column name="subject" type="text" />
         </createTable>
 
-        <addAutoIncrement tableName="product" columnName="id" />
+        <addAutoIncrement tableName="book" columnName="id" />
 
         <createTable tableName="shopping_basket_item">
             <column name="account_id" type="number">
@@ -70,10 +77,10 @@
                     referencedTableName="account" referencedColumnNames="id"
                     foreignKeyName="fk_shopping_basket_item_account_id" />
             </column>
-            <column name="product_id" type="number">
+            <column name="book_id" type="number">
                 <constraints primaryKey="true" primaryKeyName="pk_shopping_basket_item"
-                    referencedTableName="product" referencedColumnNames="id"
-                    foreignKeyName="fk_shopping_basket_item_product_id" />
+                    referencedTableName="book" referencedColumnNames="id"
+                    foreignKeyName="fk_shopping_basket_item_book_id" />
             </column>
             <column name="quantity" type="number">
                 <constraints nullable="false" />
@@ -135,10 +142,10 @@
                     referencedTableName="in_progress_order" referencedColumnNames="id"
                     foreignKeyName="fk_in_progress_order_line_item_in_progress_order_id" />
             </column>
-            <column name="product_id" type="number">
+            <column name="book_id" type="number">
                 <constraints primaryKey="true" primaryKeyName="pk_in_progress_order_line_item"
-                    referencedTableName="product" referencedColumnNames="id"
-                    foreignKeyName="fk_in_progress_order_line_item_product_id" />
+                    referencedTableName="book" referencedColumnNames="id"
+                    foreignKeyName="fk_in_progress_order_line_item_book_id" />
             </column>
             <column name="quantity" type="number">
                 <constraints nullable="false" />
@@ -163,21 +170,6 @@
 
         <addAutoIncrement tableName="author" columnName="id" />
 
-        <createTable tableName="book">
-            <column name="product_id" type="number">
-                <constraints primaryKey="true" primaryKeyName="pk_book"
-                    referencedTableName="product" referencedColumnNames="id"
-                    foreignKeyName="fk_book_product_id" />
-            </column>
-            <column name="title" type="varchar">
-                <constraints nullable="false" />
-            </column>
-            <column name="production_credits" type="varchar" />
-            <column name="summary" type="text" />
-            <column name="language" type="text" />
-            <column name="subject" type="text" />
-        </createTable>
-
         <createTable tableName="book_authors">
             <column name="author_id" type="number">
                 <constraints primaryKey="true" primaryKeyName="pk_book_authors"
@@ -186,7 +178,7 @@
             </column>
             <column name="book_id" type="number">
                 <constraints primaryKey="true" primaryKeyName="pk_book_authors"
-                    referencedTableName="book" referencedColumnNames="product_id"
+                    referencedTableName="book" referencedColumnNames="id"
                     foreignKeyName="fk_book_authors_book_id" />
             </column>
         </createTable>

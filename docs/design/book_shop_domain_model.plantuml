@@ -1,11 +1,5 @@
 @startuml
 
-abstract class Product {
-    Instant creationTimestamp
-    String stockKeepingUnit
-    long price
-}
-
 ' Based on Project Gutenberg agent
 class Author {
     Instant creationTimestamp
@@ -14,6 +8,9 @@ class Author {
 }
 
 class Book {
+    Instant creationTimestamp
+    String stockKeepingUnit
+    long price
     String title
     ' https://www.loc.gov/marc/bibliographic/bd508.html
     String productionCredits
@@ -23,7 +20,6 @@ class Book {
     String subject
 }
 
-Product <|-- Book
 Book "*" --> "authors 1..*" Author
 
 class PaymentCard {
@@ -37,12 +33,12 @@ class OrderLineItem {
     long unitPrice
 }
 
-OrderLineItem "*" --> "product 1" Product
+OrderLineItem "*" --> "book 1" Book
 
 note as N2
-    OrderLineItem unitPrice records the product
+    OrderLineItem unitPrice records the book
     price at the point where the order was made
-    so changes to the product price during order
+    so changes to the book price during order
     processing will not result in unexpected
     payments.
 endnote
@@ -67,12 +63,12 @@ class ShoppingBasketItem {
     int quantity
 }
 
-ShoppingBasketItem "*" --> "product 1" Product
+ShoppingBasketItem "*" --> "book 1" Book
 
 note as N1
     ShoppingBasketItem does not include
-    the product unit price which means the
-    product price may change until the order
+    the book unit price which means the
+    book price may change until the order
     is created.
 endnote
 N1 ... ShoppingBasketItem

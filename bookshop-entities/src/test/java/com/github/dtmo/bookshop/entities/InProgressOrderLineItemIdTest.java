@@ -14,10 +14,37 @@ import nl.jqno.equalsverifier.EqualsVerifier;
 public class InProgressOrderLineItemIdTest {
     @Test
     void testEqualsHashCode() {
+        final AuthorEntity authorEntity = AuthorEntity.builder()
+                .id(1L)
+                .name("Test Author")
+                .build();
+
+        final BookEntity redBookEntity = BookEntity.builder()
+                .id(1L)
+                .stockKeepingUnit("book1")
+                .price(1000L)
+                .title("Red Book")
+                .language("en")
+                .build();
+
+        final BookEntity blueBookEntity = BookEntity.builder()
+                .id(2L)
+                .stockKeepingUnit("book2")
+                .price(1000L)
+                .title("Blue Book")
+                .language("en")
+                .build();
+        blueBookEntity.getAuthors().add(authorEntity);
+        authorEntity.getBooks().add(blueBookEntity);
+
+        redBookEntity.getAuthors().add(authorEntity);
+        authorEntity.getBooks().add(redBookEntity);
+
         final AccountEntity accountEntity = AccountEntity.builder()
                 .id(1L)
                 .name("Test Account")
                 .build();
+
         final PaymentCardEntity paymentCardEntity = PaymentCardEntity.builder()
                 .id(1L)
                 .name("test card")
@@ -26,6 +53,7 @@ public class InProgressOrderLineItemIdTest {
                 .expiry(LocalDate.of(2525, Month.JANUARY, 2))
                 .account(accountEntity)
                 .build();
+
         final InProgressOrderEntity redInProgressOrderEntity = InProgressOrderEntity.builder()
                 .id(1L)
                 .creationTime(Instant.now())
@@ -33,6 +61,7 @@ public class InProgressOrderLineItemIdTest {
                 .state(InProgressOrderState.DISPATCHED)
                 .account(accountEntity)
                 .build();
+
         final InProgressOrderEntity blueInProgressOrderEntity = InProgressOrderEntity.builder()
                 .id(2L)
                 .creationTime(Instant.now().plus(Duration.ofSeconds(2)))
@@ -40,7 +69,9 @@ public class InProgressOrderLineItemIdTest {
                 .state(InProgressOrderState.WAITING)
                 .account(accountEntity)
                 .build();
+
         EqualsVerifier.forClass(InProgressOrderLineItemEntity.InProgressOrderLineItemId.class)
+                .withPrefabValues(BookEntity.class, redBookEntity, blueBookEntity)
                 .withPrefabValues(InProgressOrderEntity.class, redInProgressOrderEntity, blueInProgressOrderEntity)
                 .verify();
     }

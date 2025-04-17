@@ -11,10 +11,21 @@ that should be used consistently throughout documentation of the Book Shop app.
 
 ![Book Shop Domain Model](out/book_shop_domain_model/book_shop_domain_model.svg)
 
-##  Book
+## Book
 
-In a book shop, one of the things that needs to be present is a book. In our
-case the book model is starting out heavily influenced by the structure of the
+Athough book shops will often branch out into other literary adjacent items such as
+[tiny mugs](https://www.theliterarygiftcompany.com/products/go-away-im-reading-bone-china-mug),
+[inspiring bags](https://www.bookishly.co.uk/collections/literary-bookish-tote-bags),
+or [snacks](https://www.amazon.com/review/RZFIYJTPVUZ94), in order to keep things
+simple to begin with the only type of product to be sold will be a _Book_.
+
+Each _Book_ has a
+[_stockKeepingUnit_ or SKU](https://en.wikipedia.org/wiki/Stock_keeping_unit)
+value, which is the unique product code. It also has a _price_ which, at least
+to begin with, is simply represented as a value in pennies.
+
+The rest of the _Book_ fields represent information about the book itself and in
+our case are heavily influenced by the structure of the
 [Project Gutenberg Offline Catalog](https://www.gutenberg.org/ebooks/offline_catalogs.html)
 as this representative of actual books, an serves as a useful test dataset of
 over 75,000 books and authors.
@@ -31,26 +42,11 @@ The optional _alias_ field allows for an alternative representation of the
 author's name.
 The optional _birthdate_ field may be used to store the author's date of birth.
 
-## Product
-
-Book shops will often branch out into other literary adjacent items such as
-[tiny mugs](https://www.theliterarygiftcompany.com/products/go-away-im-reading-bone-china-mug),
-[inspiring bags](https://www.bookishly.co.uk/collections/literary-bookish-tote-bags),
-or [snacks](https://www.amazon.com/review/RZFIYJTPVUZ94).
-
-As such, a book is considered to be a type of _Product_ for the purposes of
-making purchases. This leaves room for non-book products to be added at a
-future date.
-
-Each _Product_ has a
-[_stockKeepingUnit_ or SKU](https://en.wikipedia.org/wiki/Stock_keeping_unit)
-value, which is the unique product code. It also has a _price_ which, at least
-to begin with, is simply represented as a value in pennies.
-
-## Shopping Basket
+## Shopping Basket Item
 
 In order for a potential customer to make a purchase, they must first add items
-to their _Shopping Basket_.
+to their _Shopping Basket_. Each account has a single conceptual shopping basket
+so _ShoppingBasketItem_ values are simply associated directly with the _Account_.
 
 ## Order Line Item
 

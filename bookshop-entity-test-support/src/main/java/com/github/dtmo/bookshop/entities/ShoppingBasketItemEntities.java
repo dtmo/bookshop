@@ -20,6 +20,6 @@ public class ShoppingBasketItemEntities {
         // We assertEquals here rather than calling the verifiers so that we only
         // compare the IDs
         assertEquals(expected.getAccount(), actual.getAccount());
-        assertEquals(expected.getProduct(), actual.getProduct());
+        assertEquals(expected.getBook(), actual.getBook());
     }
 }

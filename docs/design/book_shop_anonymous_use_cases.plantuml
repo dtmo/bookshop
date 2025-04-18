@@ -1,0 +1,23 @@
+@startuml
+
+left to right direction
+
+rectangle "Book Shop Service" {
+    usecase "Log in" as LogIn
+    usecase "Sign up" as SignUp
+    usecase "View book details" as ViewBooksDetails
+    usecase "Search books" as SearchBooks
+    usecase "Add book to shopping basket" as AddBookToShoppingBasket
+    usecase "View shopping basket" as ViewShoppingBasket
+    usecase "Edit shopping basket items" as EditShoppingBasketItems
+}
+
+:Anonymous: --> SignUp
+:Anonymous: --> LogIn
+:Anonymous: --> SearchBooks
+:Anonymous: --> ViewBooksDetails
+:Anonymous: --> AddBookToShoppingBasket
+:Anonymous: --> ViewShoppingBasket
+:Anonymous: --> EditShoppingBasketItems
+
+@enduml

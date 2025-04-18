@@ -23,6 +23,10 @@ import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
+/**
+ * AuthorEntity is the JPA representation of an author. An author is associated
+ * with one or more books.
+ */
 @Entity
 @Table(name = "author")
 @Data
@@ -32,26 +36,37 @@ import lombok.ToString;
 @Builder
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
 public class AuthorEntity {
-    // Different authors can share the same name (e.g. David Mitchell) and so
-    // equality can only really be determined based on the "id" field.
+    /**
+     * The database generated unique ID of the author. This field is
+     * <code>null</code> until the entity is persisted.
+     */
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     @Setter(AccessLevel.NONE)
+    // Different authors can share the same name (e.g. David Mitchell) and so
+    // equality can only really be determined based on the "id" field.
     @EqualsAndHashCode.Include
     private Long id;
 
+    /** The time at which the author entity was created. */
     @Column(name = "creation_time")
     @Builder.Default
     private Instant creationTime = Instant.now();
 
+    /**
+     * The author name. There is no expectation that an author's name will be
+     * unique, so references to author's should always be made by the author ID.
+     */
     @Column(name = "name")
     @NonNull
     private String name;
 
-    @Column(name = "alias")
-    private String alias;
-
+    /**
+     * The set of books associated with the author. The book is the 'owning' entity
+     * in the book / author many-to-many relationship, so changes to the set of
+     * books should be made by adding the author to the appropriate book entity.
+     */
     @ManyToMany(mappedBy = "authors", fetch = FetchType.LAZY)
     @Setter(AccessLevel.NONE)
     @ToString.Exclude

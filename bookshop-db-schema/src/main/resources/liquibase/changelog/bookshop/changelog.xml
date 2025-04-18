@@ -165,7 +165,6 @@
             <column name="name" type="varchar">
                 <constraints nullable="false" />
             </column>
-            <column name="alias" type="varchar" />
         </createTable>
 
         <addAutoIncrement tableName="author" columnName="id" />

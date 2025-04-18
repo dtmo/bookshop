@@ -3,6 +3,7 @@ package com.github.dtmo.bookshop.jpa;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.time.temporal.ChronoUnit;
+import java.util.Locale;
 import java.util.function.LongSupplier;
 import java.util.function.Supplier;
 
@@ -20,7 +21,10 @@ public class BookEntities {
 
             @Override
             public BookEntity get() {
-                return new BookEntity(priceSupplier.getAsLong(), stockKeepingUnitSupplier.get(), titleSupplier.get());
+                final BookEntity bookEntity = new BookEntity(priceSupplier.getAsLong(), stockKeepingUnitSupplier.get(),
+                        titleSupplier.get());
+                bookEntity.setLanguage(Locale.ENGLISH.getLanguage());
+                return bookEntity;
             }
         };
     }

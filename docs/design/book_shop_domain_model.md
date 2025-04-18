@@ -38,9 +38,6 @@ The _language_ field is actually an international language code such as `en`.
 
 _Author_ has a mandatory _name_ field, which will contain the author's full
 name.
-The optional _alias_ field allows for an alternative representation of the
-author's name.
-The optional _birthdate_ field may be used to store the author's date of birth.
 
 ## Shopping Basket Item
 

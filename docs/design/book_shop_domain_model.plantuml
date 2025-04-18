@@ -4,7 +4,6 @@
 class Author {
     Instant creationTimestamp
     String name
-    String alias
 }
 
 class Book {

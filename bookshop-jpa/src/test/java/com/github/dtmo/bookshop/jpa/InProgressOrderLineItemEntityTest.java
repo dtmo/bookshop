@@ -4,6 +4,7 @@ import java.time.Duration;
 import java.time.Instant;
 import java.time.LocalDate;
 import java.time.Month;
+import java.util.Locale;
 
 import org.junit.jupiter.api.Test;
 
@@ -25,7 +26,7 @@ public class InProgressOrderLineItemEntityTest {
                 .stockKeepingUnit("book1")
                 .price(1000L)
                 .title("Red Book")
-                .language("en")
+                .language(Locale.ENGLISH.getLanguage())
                 .build();
 
         final BookEntity blueBookEntity = BookEntity.builder()
@@ -33,7 +34,7 @@ public class InProgressOrderLineItemEntityTest {
                 .stockKeepingUnit("book2")
                 .price(1000L)
                 .title("Blue Book")
-                .language("en")
+                .language(Locale.ENGLISH.getLanguage())
                 .build();
         blueBookEntity.getAuthors().add(authorEntity);
         authorEntity.getBooks().add(blueBookEntity);
@@ -59,7 +60,7 @@ public class InProgressOrderLineItemEntityTest {
                 .id(1L)
                 .creationTime(Instant.now())
                 .paymentCard(paymentCardEntity)
-                .state(InProgressOrderState.DISPATCHED)
+                .state(InProgressOrderState.PROCESSING)
                 .account(accountEntity)
                 .build();
 

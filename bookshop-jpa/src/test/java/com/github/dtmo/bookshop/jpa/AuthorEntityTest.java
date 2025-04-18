@@ -1,5 +1,7 @@
 package com.github.dtmo.bookshop.jpa;
 
+import java.util.Locale;
+
 import org.junit.jupiter.api.Test;
 
 import nl.jqno.equalsverifier.EqualsVerifier;
@@ -18,7 +20,7 @@ public class AuthorEntityTest {
                 .stockKeepingUnit("book1")
                 .price(1000L)
                 .title("Red Book")
-                .language("en")
+                .language(Locale.ENGLISH.getLanguage())
                 .build();
         redBookEntity.getAuthors().add(authorEntity);
         authorEntity.getBooks().add(redBookEntity);
@@ -28,7 +30,7 @@ public class AuthorEntityTest {
                 .stockKeepingUnit("book2")
                 .price(1000L)
                 .title("Blue Book")
-                .language("en")
+                .language(Locale.ENGLISH.getLanguage())
                 .build();
         blueBookEntity.getAuthors().add(authorEntity);
         authorEntity.getBooks().add(blueBookEntity);

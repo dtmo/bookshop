@@ -28,6 +28,12 @@ import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
+/**
+ * InProgressOrderEntity is the JPA representation of an in-progress order. An
+ * in-progress order represents a set of quantities of products that have been
+ * requested to purchased, and are in the process of being paid for and
+ * dispatched.
+ */
 @Entity
 @Table(name = "in_progress_order")
 @Data
@@ -37,13 +43,21 @@ import lombok.ToString;
 @Builder
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
 public class InProgressOrderEntity {
+    /**
+     * InProgressOrderState represents the state of a in progress order.
+     */
     public static enum InProgressOrderState {
+        /** The order has been received and is not yet being processed. */
         WAITING,
-        PROCESSING,
-        DISPATCHED,
-        CANCELLED
+
+        /** The order is currently being processed but has not yet been dispatched. */
+        PROCESSING
     }
 
+    /**
+     * The database generated unique ID of the in-progress order. This field is
+     * <code>null</code> until the entity is persisted.
+     */
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
@@ -51,26 +65,34 @@ public class InProgressOrderEntity {
     @EqualsAndHashCode.Include
     private Long id;
 
+    /** The time at which the in-progress order entity was created. */
     @Column(name = "creation_time")
     @Builder.Default
     private Instant creationTime = Instant.now();
 
+    /** The payment card to use for payment of the in-progress order. */
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "payment_card_id")
     @NonNull
     private PaymentCardEntity paymentCard;
 
+    /** The processing state of the in-progress order. */
     @Column(name = "order_state")
     @Enumerated(EnumType.STRING)
     @NonNull
     @Builder.Default
     private InProgressOrderState state = InProgressOrderState.WAITING;
 
+    /** The account that places the in-process order. */
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "account_id")
     @NonNull
     private AccountEntity account;
 
+    /**
+     * The set of line items that represent the quantities and prices of ordered
+     * books.
+     */
     @OneToMany(mappedBy = "id.inProgressOrder", cascade = CascadeType.REMOVE, fetch = FetchType.LAZY)
     @Setter(AccessLevel.NONE)
     @ToString.Exclude

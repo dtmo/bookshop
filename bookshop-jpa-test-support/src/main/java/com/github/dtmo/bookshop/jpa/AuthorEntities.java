@@ -35,6 +35,5 @@ public class AuthorEntities {
         assertEquals(expected.getCreationTime().truncatedTo(ChronoUnit.MILLIS),
                 actual.getCreationTime().truncatedTo(ChronoUnit.MILLIS));
         assertEquals(expected.getName(), actual.getName());
-        assertEquals(expected.getAlias(), actual.getAlias());
     }
 }

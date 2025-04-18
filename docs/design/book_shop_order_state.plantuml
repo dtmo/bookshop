@@ -1,0 +1,17 @@
+@startuml
+
+state Cancellable {
+[*] --> Waiting
+
+Waiting --> Processing : order processing started
+}
+
+Processing --> Dispatched : payment processed
+
+Dispatched --> [*]
+
+Cancellable --> Cancelled : cancel requested
+
+Cancelled --> [*]
+
+@enduml

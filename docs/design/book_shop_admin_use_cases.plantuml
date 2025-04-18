@@ -1,0 +1,27 @@
+@startuml
+
+left to right direction
+
+rectangle "Book Shop Service" {
+    usecase "Search accounts" as SearchAccounts
+    usecase "View account details" as ViewAccountDetails
+    usecase "Create book" as CreateBook
+    usecase "View book details" as ViewBooksDetails
+    usecase "Edit book details" as EditBookDetails
+    usecase "Delete book" as DeleteBook
+    usecase "Search books" as SearchBooks
+    usecase "View order details" as ViewOrderDetails
+    usecase "Cancel order" as CancelOrder
+}
+
+:Admin: --> CreateBook
+:Admin: --> ViewBooksDetails
+:Admin: --> EditBookDetails
+:Admin: --> DeleteBook
+:Admin: --> SearchBooks
+:Admin: --> SearchAccounts
+:Admin: --> ViewAccountDetails
+:Admin: --> ViewOrderDetails
+:Admin: --> CancelOrder
+
+@enduml

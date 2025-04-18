@@ -1,0 +1,27 @@
+@startuml
+
+left to right direction
+
+rectangle "Book Shop Service" {
+    usecase "View account details" as ViewAccountDetails
+    usecase "View book details" as ViewBooksDetails
+    usecase "Search books" as SearchBooks
+    usecase "Add book to shopping basket" as AddBookToShoppingBasket
+    usecase "View shopping basket" as ViewShoppingBasket
+    usecase "Edit shopping basket items" as EditShoppingBasketItems
+    usecase "Order shopping basket items" as OrderShoppingBasketItems
+    usecase "View order details" as ViewOrderDetails
+    usecase "Cancel order" as CancelOrder
+}
+
+:Customer: --> SearchBooks
+:Customer: --> ViewBooksDetails
+:Customer: --> AddBookToShoppingBasket
+:Customer: --> ViewShoppingBasket
+:Customer: --> EditShoppingBasketItems
+:Customer: --> OrderShoppingBasketItems
+:Customer: --> ViewAccountDetails
+:Customer: --> ViewOrderDetails
+:Customer: --> CancelOrder
+
+@enduml

@@ -1,0 +1,27 @@
+{
+  "properties": {
+    "id": { "type": "keyword" },
+    "price": { "type": "long" },
+    "stock_keeping_unit": { "type": "keyword" },
+    "title": {
+      "type": "text",
+      "fields": {
+        "raw": { "type": "keyword" }
+      }
+    },
+    "production_credits": { "type": "text" },
+    "summary": { "type": "text" },
+    "language": { "type": "keyword" },
+    "subject": { "type": "keyword" },
+    "authors": {
+      "properties": {
+        "name": {
+          "type": "text",
+          "fields": {
+            "raw": { "type": "keyword" }
+          }
+        }
+      }
+    }
+  }
+}

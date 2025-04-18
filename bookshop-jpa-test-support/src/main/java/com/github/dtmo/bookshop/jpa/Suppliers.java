@@ -28,4 +28,12 @@ public class Suppliers {
     public static Supplier<Character> createRandomDigitSupplier() {
         return () -> Character.valueOf((char) ('0' + (Math.random() * 10)));
     }
+
+    public static <T> Supplier<T> createRandomArrayValueSupplier(final T[] array) {
+        return () -> array[(int) (Math.random() * array.length)];
+    }
+
+    public static <T> Supplier<T> createIntermittentSupplier(final double factor, final Supplier<T> supplier) {
+        return () -> Math.random() > factor ? null : supplier.get();
+    }
 }

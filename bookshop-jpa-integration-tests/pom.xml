@@ -22,7 +22,7 @@
         </dependency>
         <dependency>
             <groupId>${project.groupId}</groupId>
-            <artifactId>bookshop-jpa-test-support</artifactId>
+            <artifactId>bookshop-test-support</artifactId>
             <version>${project.version}</version>
             <scope>test</scope>
         </dependency>

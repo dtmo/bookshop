@@ -1,7 +1,6 @@
-package com.github.dtmo.bookshop.es;
+package com.github.dtmo.bookshop.opensearch;
 
 import java.io.IOException;
-import java.io.StringReader;
 
 import org.apache.http.HttpHost;
 import org.apache.http.auth.AuthScope;
@@ -17,36 +16,6 @@ import org.testcontainers.containers.Network;
 import org.testcontainers.utility.DockerImageName;
 
 public abstract class AbstractIntegrationTest {
-    private static final String booksMapping = """
-            {
-                "properties": {
-                    "id": { "type": "keyword" },
-                    "price": { "type": "long" },
-                    "stock_keeping_unit": { "type": "keyword" },
-                    "title": {
-                        "type": "text",
-                        "fields": {
-                            "raw": { "type": "keyword" }
-                        }
-                    },
-                    "production_credits": { "type": "text" },
-                    "summary": { "type": "text" },
-                    "language": { "type": "keyword" },
-                    "subject": { "type": "keyword" },
-                    "authors": {
-                        "properties": {
-                            "name": {
-                                "type": "text",
-                                "fields": {
-                                    "raw": { "type": "keyword" }
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-            """;
-
     private static final OpenSearchClient openSearchClient;
 
     // The use of this static initializer to create the containers and entity
@@ -79,7 +48,8 @@ public abstract class AbstractIntegrationTest {
         try {
             openSearchClient.indices().create(
                     indexBuilder -> indexBuilder.index("books")
-                            .mappings(mappingBuilder -> mappingBuilder.withJson(new StringReader(booksMapping))));
+                            .mappings(mappingBuilder -> mappingBuilder
+                                    .withJson(BookDocument.class.getResourceAsStream("books.json"))));
         } catch (IOException e) {
             throw new RuntimeException("Could not initialize Elasticsearch", e);
         }

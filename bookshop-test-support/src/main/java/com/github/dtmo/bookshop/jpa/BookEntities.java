@@ -49,6 +49,5 @@ public class BookEntities {
         assertEquals(expected.getProductionCredits(), actual.getProductionCredits());
         assertEquals(expected.getSummary(), actual.getSummary());
         assertEquals(expected.getLanguage(), actual.getLanguage());
-        assertEquals(expected.getSubject(), actual.getSubject());
     }
 }

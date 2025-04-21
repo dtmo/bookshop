@@ -14,13 +14,9 @@
     "language": { "type": "keyword" },
     "subject": { "type": "keyword" },
     "authors": {
-      "properties": {
-        "name": {
-          "type": "text",
-          "fields": {
-            "raw": { "type": "keyword" }
-          }
-        }
+      "type": "text",
+      "fields": {
+        "raw": { "type": "keyword" }
       }
     }
   }

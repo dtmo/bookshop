@@ -84,10 +84,6 @@ public class BookEntity {
     @Column(name = "language")
     private String language;
 
-    /** Optional subject description. This may be <code>null</code>. */
-    @Column(name = "subject")
-    private String subject;
-
     /**
      * The book's authors. The book is the 'owning' entity
      * in the book / author many-to-many relationship, so adding an author to the

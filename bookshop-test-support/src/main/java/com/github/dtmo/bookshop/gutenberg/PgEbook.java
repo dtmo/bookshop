@@ -34,10 +34,10 @@ public class PgEbook {
         try {
             final URI resourceUri = new URI(ebookResource.getURI());
             final Path resourceUriPath = Path.of(resourceUri.getPath());
-            final long ebookId = Long
+            final long ebookNumber = Long
                     .parseLong(resourceUriPath.getName(resourceUriPath.getNameCount() - 1).toString());
 
-            return ebookId;
+            return ebookNumber;
         } catch (final URISyntaxException e) {
             throw new IllegalStateException("Could not parse ebook resource URI: " + ebookResource.getURI(), e);
         }
@@ -89,13 +89,13 @@ public class PgEbook {
                 .collect(Collectors.toSet());
     }
 
-    public Set<String> getAuthors() {
+    public Set<PgAuthor> getAuthors() {
         return StreamSupport
                 .stream(Spliterators.spliteratorUnknownSize(ebookResource.listProperties(DCTerms.creator),
                         Spliterator.ORDERED), false)
                 .map(Statement::getObject)
                 .map(RDFNode::asResource)
-                .map(propertyResource -> propertyResource.getProperty(PGTerms.name).getString())
+                .map(PgAuthor::new)
                 .collect(Collectors.toSet());
     }
 
@@ -112,5 +112,28 @@ public class PgEbook {
         } else {
             throw new NoSuchElementException("Could not find suitable resource for PgEbook");
         }
+    }
+
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        final long ebookNumber = getEbookNumber();
+        result = prime * result + (int) (ebookNumber ^ (ebookNumber >>> 32));
+        return result;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        PgEbook other = (PgEbook) obj;
+        if (getEbookNumber() != other.getEbookNumber())
+            return false;
+        return true;
     }
 }

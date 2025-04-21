@@ -13,11 +13,12 @@
     "summary": { "type": "text" },
     "language": { "type": "keyword" },
     "subject": { "type": "keyword" },
-    "authors": {
+    "author_names": {
       "type": "text",
       "fields": {
         "raw": { "type": "keyword" }
       }
-    }
+    },
+    "author_ids": { "type": "keyword" }
   }
 }

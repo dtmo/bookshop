@@ -3,11 +3,13 @@ package com.github.dtmo.bookshop.opensearch;
 import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.time.Duration;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
 import java.util.Set;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import org.junit.Test;
@@ -15,13 +17,15 @@ import org.opensearch.client.opensearch.core.BulkRequest;
 import org.opensearch.client.opensearch.core.SearchResponse;
 import org.opensearch.client.opensearch.core.bulk.BulkOperation;
 
+import com.github.dtmo.bookshop.gutenberg.PgAuthor;
 import com.github.dtmo.bookshop.gutenberg.PgEbook;
 
 public class BookDocumentIntegrationTest extends AbstractIntegrationTest {
     @Test
     public void testIndexBookDocument() throws Exception {
         final BookDocument bookDocument = new BookDocument(1, 1000, "SKUBOOK#1", "Book #1", "Produced by Tess Terr",
-                "A test book", Locale.ENGLISH.getLanguage(), null, Set.of("Test Author 1", "Test Author 2"));
+                "A test book", Locale.ENGLISH.getLanguage(), null, Set.of("Test Author 1", "Test Author 2"),
+                Set.of(1L, 2L));
 
         getOpenSearchClient().index(indexBuilder -> indexBuilder.index("books")
                 .id(String.valueOf(bookDocument.getId()))
@@ -33,7 +37,7 @@ public class BookDocumentIntegrationTest extends AbstractIntegrationTest {
         // Index the Project Gutenberg metadata
         final int bulkOperationBatchSize = 1000;
         final List<BulkOperation> bulkOperations = new ArrayList<>(bulkOperationBatchSize);
-        try (final Stream<Path> pathStream = Files.walk(Path.of(System.getenv("HOME"), "rdf-files/cache/epub"))) {
+        try (final Stream<Path> pathStream = Files.walk(Path.of(System.getenv("HOME"), "rdf-files/top/epub"))) {
             final Iterator<Path> rdfFileIterator = pathStream.filter(path -> !Files.isDirectory(path)).iterator();
             long indexCounter = 0;
             while (rdfFileIterator.hasNext()) {
@@ -54,7 +58,10 @@ public class BookDocumentIntegrationTest extends AbstractIntegrationTest {
                                 .summary(pgEbook.getSummary().orElse(null))
                                 .language(pgEbook.getLanguage())
                                 .subjects(pgEbook.getSubjects())
-                                .authors(pgEbook.getAuthors())
+                                .authorNames(pgEbook.getAuthors().stream().map(PgAuthor::getName)
+                                        .collect(Collectors.toSet()))
+                                .authorIds(pgEbook.getAuthors().stream().map(PgAuthor::getAuthorNumber)
+                                        .collect(Collectors.toSet()))
                                 .build();
 
                         bulkOperations.add(new BulkOperation.Builder()
@@ -85,6 +92,9 @@ public class BookDocumentIntegrationTest extends AbstractIntegrationTest {
             }
         }
 
+        // Wait a little bit for the books to be indexed
+        Thread.sleep(Duration.ofSeconds(10));
+
         // Search for some books
         final SearchResponse<BookDocument> searchResponse = getOpenSearchClient()
                 .search(searchRequestBuilder -> searchRequestBuilder
@@ -94,6 +104,8 @@ public class BookDocumentIntegrationTest extends AbstractIntegrationTest {
                                         .query(fieldValueBuilder -> fieldValueBuilder
                                                 .stringValue("Moby Dick")))),
                         BookDocument.class);
+
+        System.out.println(String.format("Search hits: %s", searchResponse.hits().hits().size()));
         for (int i = 0; i < searchResponse.hits().hits().size(); i++) {
             System.out.println(searchResponse.hits().hits().get(i).source());
         }

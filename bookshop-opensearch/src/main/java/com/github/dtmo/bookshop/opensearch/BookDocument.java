@@ -36,6 +36,9 @@ public final class BookDocument {
     @JsonProperty("subjects")
     private final Set<String> subjects;
 
-    @JsonProperty("authors")
-    private final Set<String> authors;
+    @JsonProperty("author_names")
+    private final Set<String> authorNames;
+
+    @JsonProperty("author_ids")
+    private final Set<Long> authorIds;
 }

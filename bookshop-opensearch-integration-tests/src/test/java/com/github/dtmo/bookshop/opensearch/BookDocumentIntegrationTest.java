@@ -1,26 +1,27 @@
 package com.github.dtmo.bookshop.opensearch;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
 import java.io.InputStream;
-import java.nio.file.Files;
-import java.nio.file.Path;
 import java.time.Duration;
-import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
 import java.util.Set;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 import org.junit.Test;
+import org.opensearch.client.opensearch.OpenSearchClient;
 import org.opensearch.client.opensearch.core.BulkRequest;
 import org.opensearch.client.opensearch.core.SearchResponse;
 import org.opensearch.client.opensearch.core.bulk.BulkOperation;
+import org.opensearch.client.opensearch.core.search.Hit;
 
-import com.github.dtmo.bookshop.gutenberg.PgAuthor;
-import com.github.dtmo.bookshop.gutenberg.PgEbook;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 public class BookDocumentIntegrationTest extends AbstractIntegrationTest {
+    private static final ObjectMapper objectMapper = new ObjectMapper();
+
     @Test
     public void testIndexBookDocument() throws Exception {
         final BookDocument bookDocument = new BookDocument(1, 1000, "SKUBOOK#1", "Book #1", "Produced by Tess Terr",
@@ -32,71 +33,44 @@ public class BookDocumentIntegrationTest extends AbstractIntegrationTest {
                 .document(bookDocument));
     }
 
+    /**
+     * @throws Exception
+     */
     @Test
     public void testBulkIndexBookDocuments() throws Exception {
-        // Index the Project Gutenberg metadata
-        final int bulkOperationBatchSize = 1000;
-        final List<BulkOperation> bulkOperations = new ArrayList<>(bulkOperationBatchSize);
-        try (final Stream<Path> pathStream = Files.walk(Path.of(System.getenv("HOME"), "rdf-files/top/epub"))) {
-            final Iterator<Path> rdfFileIterator = pathStream.filter(path -> !Files.isDirectory(path)).iterator();
-            long indexCounter = 0;
-            while (rdfFileIterator.hasNext()) {
-                final Path rdfFilePath = rdfFileIterator.next();
-                try (final InputStream rdfInputStream = Files.newInputStream(rdfFilePath)) {
-                    // It seems that a small number of Project Gutenberg's RDF files aren't valid.
-                    // It doesn't really matter for our purposes, so we'll just skip over any that
-                    // we can't process and index the rest.
-                    try {
-                        final PgEbook pgEbook = PgEbook.from(rdfInputStream);
+        final OpenSearchClient openSearchClient = getOpenSearchClient();
 
-                        final BookDocument bookDocument = BookDocument.builder()
-                                .id(pgEbook.getEbookNumber())
-                                .price(0)
-                                .stockKeepingUnit(String.format("PGEBOOK%s", pgEbook.getEbookNumber()))
-                                .title(pgEbook.getTitle())
-                                .productionCredits(pgEbook.getProductionCredits().orElse(null))
-                                .summary(pgEbook.getSummary().orElse(null))
-                                .language(pgEbook.getLanguage())
-                                .subjects(pgEbook.getSubjects())
-                                .authorNames(pgEbook.getAuthors().stream().map(PgAuthor::getName)
-                                        .collect(Collectors.toSet()))
-                                .authorIds(pgEbook.getAuthors().stream().map(PgAuthor::getAuthorNumber)
-                                        .collect(Collectors.toSet()))
-                                .build();
-
-                        bulkOperations.add(new BulkOperation.Builder()
-                                .index(indexBuilder -> indexBuilder.document(bookDocument))
-                                .build());
-                        indexCounter++;
-
-                        if (bulkOperations.size() == bulkOperationBatchSize) {
-                            getOpenSearchClient().bulk(new BulkRequest.Builder()
-                                    .index("books")
-                                    .operations(bulkOperations)
-                                    .build());
-                            System.out.println(String.format("Indexed books: %s", indexCounter));
-                            bulkOperations.clear();
-                        }
-                    } catch (final Exception e) {
-                        System.out.println(String.format("Could not process file %s: %s", rdfFilePath, e.getMessage()));
-                    }
-                }
-            }
-
-            if (!bulkOperations.isEmpty()) {
-                getOpenSearchClient().bulk(new BulkRequest.Builder()
-                        .index("books")
-                        .operations(bulkOperations)
-                        .build());
-                System.out.println(String.format("Indexed books: %s", indexCounter));
-            }
+        // Load the prepared dataset of 100 BookDocument objects
+        final List<BookDocument> bookDocuments;
+        try (final InputStream inputStream = BookDocumentIntegrationTest.class
+                .getResourceAsStream("gutenberg_top_100_book_documents.json")) {
+            bookDocuments = objectMapper.readValue(inputStream,
+                    objectMapper.getTypeFactory().constructCollectionType(List.class, BookDocument.class));
         }
 
-        // Wait a little bit for the books to be indexed
-        Thread.sleep(Duration.ofSeconds(10));
+        // Index the BookDocuments in a batch operation
+        openSearchClient.bulk(new BulkRequest.Builder()
+                .index(BOOKS_INDEX_NAME)
+                .operations(bookDocuments.stream()
+                        .map(bookDocument -> new BulkOperation.Builder()
+                                .index(indexBuilder -> indexBuilder.document(bookDocument))
+                                .build())
+                        .collect(Collectors.toList()))
+                .build());
+
+        // Wait for the books to be indexed
+        while (openSearchClient.indices()
+                .stats(indicesStatsRequestBuilder -> indicesStatsRequestBuilder.index(BOOKS_INDEX_NAME))
+                .indices()
+                .get(BOOKS_INDEX_NAME)
+                .primaries()
+                .docs()
+                .count() < bookDocuments.size()) {
+            Thread.sleep(Duration.ofMillis(500));
+        }
 
         // Search for some books
-        final SearchResponse<BookDocument> searchResponse = getOpenSearchClient()
+        final SearchResponse<BookDocument> searchResponse = openSearchClient
                 .search(searchRequestBuilder -> searchRequestBuilder
                         .query(queryBuilder -> queryBuilder
                                 .match(matchQueryBuilder -> matchQueryBuilder
@@ -105,9 +79,21 @@ public class BookDocumentIntegrationTest extends AbstractIntegrationTest {
                                                 .stringValue("Moby Dick")))),
                         BookDocument.class);
 
-        System.out.println(String.format("Search hits: %s", searchResponse.hits().hits().size()));
-        for (int i = 0; i < searchResponse.hits().hits().size(); i++) {
-            System.out.println(searchResponse.hits().hits().get(i).source());
-        }
+        // Three books contain the word "Moby":
+        // "Moby Dick; Or, The Whale",
+        // "Moby Word Lists", and
+        // "Moby Multiple Language Lists of Common Words"
+
+        final List<Hit<BookDocument>> hits = searchResponse.hits().hits();
+        assertEquals(3, hits.size());
+
+        final List<BookDocument> bookDocumentHits = hits.stream().map(Hit::source).collect(Collectors.toList());
+        assertTrue(bookDocumentHits.stream()
+                .anyMatch(bookDocument -> "Moby Dick; Or, The Whale".equals(bookDocument.getTitle())));
+        assertTrue(bookDocumentHits.stream()
+                .anyMatch(bookDocument -> "Moby Word Lists".equals(bookDocument.getTitle())));
+        assertTrue(bookDocumentHits.stream()
+                .anyMatch(bookDocument -> "Moby Multiple Language Lists of Common Words"
+                        .equals(bookDocument.getTitle())));
     }
 }

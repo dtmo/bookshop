@@ -18,6 +18,8 @@ import org.testcontainers.utility.DockerImageName;
 public abstract class AbstractIntegrationTest {
     private static final OpenSearchClient openSearchClient;
 
+    public static final String BOOKS_INDEX_NAME = "books";
+
     // The use of this static initializer to create the containers and entity
     // manager factory is based on the "Testcontainers container lifecycle
     // management using JUnit 5" guide section on using singleton containers.
@@ -47,7 +49,7 @@ public abstract class AbstractIntegrationTest {
 
         try {
             openSearchClient.indices().create(
-                    indexBuilder -> indexBuilder.index("books")
+                    indexBuilder -> indexBuilder.index(BOOKS_INDEX_NAME)
                             .mappings(mappingBuilder -> mappingBuilder
                                     .withJson(BookDocument.class.getResourceAsStream("books.json"))));
         } catch (IOException e) {

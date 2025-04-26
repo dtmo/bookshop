@@ -21,6 +21,7 @@ import org.opensearch.client.opensearch._types.query_dsl.BoolQuery;
 import org.opensearch.client.opensearch._types.query_dsl.ExistsQuery;
 import org.opensearch.client.opensearch._types.query_dsl.MatchQuery;
 import org.opensearch.client.opensearch._types.query_dsl.Query;
+import org.opensearch.client.opensearch._types.query_dsl.TermQuery;
 import org.opensearch.client.opensearch.core.BulkRequest;
 import org.opensearch.client.opensearch.core.SearchRequest;
 import org.opensearch.client.opensearch.core.SearchResponse;
@@ -165,9 +166,9 @@ public class BookDocumentIntegrationTest extends AbstractIntegrationTest {
                                                 .build())
                                         .mustNot(
                                                 new Query.Builder()
-                                                        .match(new MatchQuery.Builder()
+                                                        .term(new TermQuery.Builder()
                                                                 .field(BookDocument.LANGUAGE_FIELD)
-                                                                .query(new FieldValue.Builder()
+                                                                .value(new FieldValue.Builder()
                                                                         .stringValue(Locale.ENGLISH.getLanguage())
                                                                         .build())
                                                                 .build())
@@ -219,5 +220,39 @@ public class BookDocumentIntegrationTest extends AbstractIntegrationTest {
         // - A Modest Proposal
         final List<Hit<BookDocument>> hits = searchResponse.hits().hits();
         assertEquals(6, hits.size());
+    }
+
+    @Test
+    public void testQueryByAuthorId() throws Exception {
+        final OpenSearchClient openSearchClient = getOpenSearchClient();
+
+        // Search for books with an author_id of 68 (Jane Austen)
+        final SearchResponse<BookDocument> searchResponse = openSearchClient.search(
+                new SearchRequest.Builder()
+                        .index(gutenberg_top_100_books_index)
+                        .size(100)
+                        .query(new Query.Builder()
+                                .term(new TermQuery.Builder()
+                                        .field(BookDocument.AUTHOR_IDS_FIELD)
+                                        .value(new FieldValue.Builder()
+                                                .longValue(68)
+                                                .build())
+                                        .build())
+                                .build())
+                        .build(),
+                BookDocument.class);
+
+        // Jane Austen authored two books in the Project Gutenberg top 100:
+        // - Pride and Prejudice
+        // - Emma
+        final List<Hit<BookDocument>> hits = searchResponse.hits().hits();
+        assertEquals(2, hits.size());
+
+        final Iterator<Hit<BookDocument>> hitIterator = hits.iterator();
+        while (hitIterator.hasNext()) {
+            final BookDocument janeAustenBook = hitIterator.next().source();
+
+            assertTrue(janeAustenBook.getAuthorIds().contains(Long.valueOf(68)));
+        }
     }
 }

@@ -104,13 +104,14 @@ public class BookDocumentIntegrationTest extends AbstractIntegrationTest {
                                 .match(matchQueryBuilder -> matchQueryBuilder
                                         .field(BookDocument.TITLE_FIELD)
                                         .query(fieldValueBuilder -> fieldValueBuilder
-                                                .stringValue("Moby Dick")))),
+                                                .stringValue("Moby Dick"))
+                                        .fuzziness("AUTO"))),
                         BookDocument.class);
 
         // Three books contain the word "Moby":
-        // "Moby Dick; Or, The Whale",
-        // "Moby Word Lists", and
-        // "Moby Multiple Language Lists of Common Words"
+        // - "Moby Dick; Or, The Whale",
+        // - "Moby Word Lists", and
+        // - "Moby Multiple Language Lists of Common Words"
         final List<Hit<BookDocument>> hits = searchResponse.hits().hits();
         assertEquals(3, hits.size());
 
@@ -186,5 +187,37 @@ public class BookDocumentIntegrationTest extends AbstractIntegrationTest {
 
             assertNotEquals(Locale.ENGLISH.getLanguage(), nonEnglishBook);
         }
+    }
+
+    @Test
+    public void testQueryBySubject() throws Exception {
+        final OpenSearchClient openSearchClient = getOpenSearchClient();
+
+        // Search for books with a language other than English
+        final SearchResponse<BookDocument> searchResponse = openSearchClient.search(
+                new SearchRequest.Builder()
+                        .index(gutenberg_top_100_books_index)
+                        .size(100)
+                        .query(new Query.Builder()
+                                .match(new MatchQuery.Builder()
+                                        .field(BookDocument.SUBJECTS_FIELD)
+                                        .query(new FieldValue.Builder()
+                                                .stringValue("humour")
+                                                .build())
+                                        .fuzziness("AUTO")
+                                        .build())
+                                .build())
+                        .build(),
+                BookDocument.class);
+
+        // Six books include references to humour in their subjects:
+        // - Emma
+        // - The Adventures of Tom Sawyer, Complete
+        // - Adventures of Huckleberry Finn
+        // - A Room with a View
+        // - History of Tom Jones, a Foundling
+        // - A Modest Proposal
+        final List<Hit<BookDocument>> hits = searchResponse.hits().hits();
+        assertEquals(6, hits.size());
     }
 }

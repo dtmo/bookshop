@@ -5,16 +5,27 @@
     "stock_keeping_unit": { "type": "keyword" },
     "title": {
       "type": "text",
+      "analyzer": "english",
       "fields": {
         "raw": { "type": "keyword" }
       }
     },
-    "production_credits": { "type": "text" },
-    "summary": { "type": "text" },
+    "production_credits": {
+      "type": "text",
+      "analyzer": "english"
+    },
+    "summary": {
+      "type": "text",
+      "analyzer": "english"
+    },
     "language": { "type": "keyword" },
-    "subject": { "type": "keyword" },
+    "subjects": {
+      "type": "text",
+      "analyzer": "english"
+    },
     "author_names": {
       "type": "text",
+      "analyzer": "english",
       "fields": {
         "raw": { "type": "keyword" }
       }

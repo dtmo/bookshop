@@ -5,12 +5,13 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.io.InputStream;
 import java.time.Duration;
+import java.time.Instant;
 import java.util.List;
-import java.util.Locale;
-import java.util.Set;
 import java.util.stream.Collectors;
 
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
+import org.opensearch.client.json.JsonData;
 import org.opensearch.client.opensearch.OpenSearchClient;
 import org.opensearch.client.opensearch.core.BulkRequest;
 import org.opensearch.client.opensearch.core.SearchResponse;
@@ -20,25 +21,18 @@ import org.opensearch.client.opensearch.core.search.Hit;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 public class BookDocumentIntegrationTest extends AbstractIntegrationTest {
+    private static final String gutenberg_top_100_books_index = "gutenberg_top_100_books";
     private static final ObjectMapper objectMapper = new ObjectMapper();
 
-    @Test
-    public void testIndexBookDocument() throws Exception {
-        final BookDocument bookDocument = new BookDocument(1, 1000, "SKUBOOK#1", "Book #1", "Produced by Tess Terr",
-                "A test book", Locale.ENGLISH.getLanguage(), null, Set.of("Test Author 1", "Test Author 2"),
-                Set.of(1L, 2L));
-
-        getOpenSearchClient().index(indexBuilder -> indexBuilder.index("books")
-                .id(String.valueOf(bookDocument.getId()))
-                .document(bookDocument));
-    }
-
-    /**
-     * @throws Exception
-     */
-    @Test
-    public void testBulkIndexBookDocuments() throws Exception {
+    @BeforeAll
+    public static void beforeAll() throws Exception {
         final OpenSearchClient openSearchClient = getOpenSearchClient();
+
+        // Define index mapping
+        openSearchClient.indices().create(
+                indexBuilder -> indexBuilder.index(gutenberg_top_100_books_index)
+                        .mappings(mappingBuilder -> mappingBuilder
+                                .withJson(BookDocument.class.getResourceAsStream("books.json"))));
 
         // Load the prepared dataset of 100 BookDocument objects
         final List<BookDocument> bookDocuments;
@@ -48,9 +42,11 @@ public class BookDocumentIntegrationTest extends AbstractIntegrationTest {
                     objectMapper.getTypeFactory().constructCollectionType(List.class, BookDocument.class));
         }
 
+        assertEquals(100, bookDocuments.size());
+
         // Index the BookDocuments in a batch operation
         openSearchClient.bulk(new BulkRequest.Builder()
-                .index(BOOKS_INDEX_NAME)
+                .index(gutenberg_top_100_books_index)
                 .operations(bookDocuments.stream()
                         .map(bookDocument -> new BulkOperation.Builder()
                                 .index(indexBuilder -> indexBuilder.document(bookDocument))
@@ -59,22 +55,45 @@ public class BookDocumentIntegrationTest extends AbstractIntegrationTest {
                 .build());
 
         // Wait for the books to be indexed
-        while (openSearchClient.indices()
-                .stats(indicesStatsRequestBuilder -> indicesStatsRequestBuilder.index(BOOKS_INDEX_NAME))
+        final Duration limit = Duration.ofSeconds(10);
+        final Instant timeout = Instant.now().plus(limit);
+        while (Instant.now().isBefore(timeout) && openSearchClient.indices()
+                .stats(indicesStatsRequestBuilder -> indicesStatsRequestBuilder.index(gutenberg_top_100_books_index))
                 .indices()
-                .get(BOOKS_INDEX_NAME)
+                .get(gutenberg_top_100_books_index)
                 .primaries()
                 .docs()
                 .count() < bookDocuments.size()) {
             Thread.sleep(Duration.ofMillis(500));
         }
+    }
 
-        // Search for some books
+    @Test
+    public void testBulkIndexBookDocuments() throws Exception {
+        final OpenSearchClient openSearchClient = getOpenSearchClient();
+
+        final long actualIndexedDocumentCount = openSearchClient.indices()
+                .stats(indicesStatsRequestBuilder -> indicesStatsRequestBuilder.index(gutenberg_top_100_books_index))
+                .indices()
+                .get(gutenberg_top_100_books_index)
+                .primaries()
+                .docs()
+                .count();
+        assertEquals(100, actualIndexedDocumentCount);
+    }
+
+    @Test
+    public void testQueryByTitle() throws Exception {
+        final OpenSearchClient openSearchClient = getOpenSearchClient();
+
+        // Search for books by title
         final SearchResponse<BookDocument> searchResponse = openSearchClient
                 .search(searchRequestBuilder -> searchRequestBuilder
+                        .index(gutenberg_top_100_books_index)
+                        .size(100)
                         .query(queryBuilder -> queryBuilder
                                 .match(matchQueryBuilder -> matchQueryBuilder
-                                        .field("title")
+                                        .field(BookDocument.TITLE_FIELD)
                                         .query(fieldValueBuilder -> fieldValueBuilder
                                                 .stringValue("Moby Dick")))),
                         BookDocument.class);
@@ -83,7 +102,6 @@ public class BookDocumentIntegrationTest extends AbstractIntegrationTest {
         // "Moby Dick; Or, The Whale",
         // "Moby Word Lists", and
         // "Moby Multiple Language Lists of Common Words"
-
         final List<Hit<BookDocument>> hits = searchResponse.hits().hits();
         assertEquals(3, hits.size());
 
@@ -95,5 +113,27 @@ public class BookDocumentIntegrationTest extends AbstractIntegrationTest {
         assertTrue(bookDocumentHits.stream()
                 .anyMatch(bookDocument -> "Moby Multiple Language Lists of Common Words"
                         .equals(bookDocument.getTitle())));
+    }
+
+    @Test
+    public void testQueryByPriceRange() throws Exception {
+        final OpenSearchClient openSearchClient = getOpenSearchClient();
+
+        // Search for books by price
+        final SearchResponse<BookDocument> searchResponse = openSearchClient.search(
+                searchRequestBuilder -> searchRequestBuilder
+                        .index(gutenberg_top_100_books_index)
+                        .size(100)
+                        .query(queryBuilder -> queryBuilder
+                                .range(rangeQueryBuilder -> rangeQueryBuilder
+                                        .field(BookDocument.PRICE_FIELD)
+                                        .gte(JsonData.of(100))
+                                        .lte(JsonData.of(5000)))),
+                BookDocument.class);
+
+        // Each book price increments by 100 from a starting price of 100
+        // We are therefore expecting 50 hits.
+        final List<Hit<BookDocument>> hits = searchResponse.hits().hits();
+        assertEquals(50, hits.size());
     }
 }

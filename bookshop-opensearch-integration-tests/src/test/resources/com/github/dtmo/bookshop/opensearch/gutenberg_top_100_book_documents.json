@@ -1,7 +1,7 @@
 [
   {
     "id": 35899,
-    "price": 0,
+    "price": 100,
     "stock_keeping_unit": "PGEBOOK35899",
     "title": "The Philippines a Century Hence",
     "production_credits": "Produced by Jeroen Hellingman and the Online Distributed Proofreading Team at https://www.pgdp.net/ for Project Gutenberg (This file was produced from images generously made available by The Internet Archive/American Libraries.)",
@@ -13,7 +13,7 @@
   },
   {
     "id": 100,
-    "price": 0,
+    "price": 200,
     "stock_keeping_unit": "PGEBOOK100",
     "title": "The Complete Works of William Shakespeare",
     "production_credits": null,
@@ -28,7 +28,7 @@
   },
   {
     "id": 30254,
-    "price": 0,
+    "price": 300,
     "stock_keeping_unit": "PGEBOOK30254",
     "title": "The Romance of Lust: A classic Victorian erotic novel",
     "production_credits": "Daniel Fromont Revised by Richard Tonsing.",
@@ -48,7 +48,7 @@
   },
   {
     "id": 84,
-    "price": 0,
+    "price": 400,
     "stock_keeping_unit": "PGEBOOK84",
     "title": "Frankenstein; Or, The Modern Prometheus",
     "production_credits": "Judith Boss, Christy Phillips, Lynn Hanninen and David Meltzer. HTML version by Al Haines. Further corrections by Menno de Leeuw.",
@@ -69,7 +69,7 @@
   },
   {
     "id": 1342,
-    "price": 0,
+    "price": 500,
     "stock_keeping_unit": "PGEBOOK1342",
     "title": "Pride and Prejudice",
     "production_credits": "Chuck Greif and the Online Distributed Proofreading Team at http://www.pgdp.net (This file was produced from images available at The Internet Archive) Updated: 2022-11-12.",
@@ -90,7 +90,7 @@
   },
   {
     "id": 75912,
-    "price": 0,
+    "price": 600,
     "stock_keeping_unit": "PGEBOOK75912",
     "title": "U.S. Marines In Vietnam, Volume 1 (of 9) : $b The advisory & combat assistance era 1954-1964",
     "production_credits": "Brian Coe and the Online Distributed Proofreading Team at https://www.pgdp.net (This file was produced from images generously made available by The Internet Archive)",
@@ -102,7 +102,7 @@
   },
   {
     "id": 1497,
-    "price": 0,
+    "price": 700,
     "stock_keeping_unit": "PGEBOOK1497",
     "title": "The Republic",
     "production_credits": "Sue Asscher and David Widger",
@@ -121,7 +121,7 @@
   },
   {
     "id": 16389,
-    "price": 0,
+    "price": 800,
     "stock_keeping_unit": "PGEBOOK16389",
     "title": "The Enchanted April",
     "production_credits": "Manette Rothermel Updated: 2022-12-27.",
@@ -140,7 +140,7 @@
   },
   {
     "id": 158,
-    "price": 0,
+    "price": 900,
     "stock_keeping_unit": "PGEBOOK158",
     "title": "Emma",
     "production_credits": "An Anonymous Volunteer and David Widger",
@@ -162,7 +162,7 @@
   },
   {
     "id": 1400,
-    "price": 0,
+    "price": 1000,
     "stock_keeping_unit": "PGEBOOK1400",
     "title": "Great Expectations",
     "production_credits": "An Anonymous Volunteer and David Widger",
@@ -184,7 +184,7 @@
   },
   {
     "id": 74,
-    "price": 0,
+    "price": 1100,
     "stock_keeping_unit": "PGEBOOK74",
     "title": "The Adventures of Tom Sawyer, Complete",
     "production_credits": "David Widger",
@@ -208,7 +208,7 @@
   },
   {
     "id": 3296,
-    "price": 0,
+    "price": 1200,
     "stock_keeping_unit": "PGEBOOK3296",
     "title": "The Confessions of St. Augustine",
     "production_credits": "Robert S. Munday",
@@ -226,7 +226,7 @@
   },
   {
     "id": 4280,
-    "price": 0,
+    "price": 1300,
     "stock_keeping_unit": "PGEBOOK4280",
     "title": "The Critique of Pure Reason",
     "production_credits": "Charles Aldarondo and David Widger",
@@ -244,7 +244,7 @@
   },
   {
     "id": 345,
-    "price": 0,
+    "price": 1400,
     "stock_keeping_unit": "PGEBOOK345",
     "title": "Dracula",
     "production_credits": "Chuck Greif and the Online Distributed Proofreading Team",
@@ -265,7 +265,7 @@
   },
   {
     "id": 2591,
-    "price": 0,
+    "price": 1500,
     "stock_keeping_unit": "PGEBOOK2591",
     "title": "Grimms' Fairy Tales",
     "production_credits": "Emma Dudding, John Bickers, Dagny and David Widger",
@@ -277,7 +277,7 @@
   },
   {
     "id": 2000,
-    "price": 0,
+    "price": 1600,
     "stock_keeping_unit": "PGEBOOK2000",
     "title": "Don Quijote",
     "production_credits": "an anonymous Project Gutenberg volunteer and Joaquin Cuenca Abela",
@@ -295,7 +295,7 @@
   },
   {
     "id": 2848,
-    "price": 0,
+    "price": 1700,
     "stock_keeping_unit": "PGEBOOK2848",
     "title": "Antiquities of the Jews",
     "production_credits": "Produced by David Reed, and David Widger",
@@ -307,7 +307,7 @@
   },
   {
     "id": 46,
-    "price": 0,
+    "price": 1800,
     "stock_keeping_unit": "PGEBOOK46",
     "title": "A Christmas Carol in Prose; Being a Ghost Story of Christmas",
     "production_credits": "Jose Menendez and David Widger",
@@ -328,7 +328,7 @@
   },
   {
     "id": 27827,
-    "price": 0,
+    "price": 1900,
     "stock_keeping_unit": "PGEBOOK27827",
     "title": "The Kama Sutra of Vatsyayana\r\nTranslated From the Sanscrit in Seven Parts With Preface, Introduction and Concluding Remarks",
     "production_credits": "Produced by Bruce Albrecht, Carla Foust, Jon Noring and the Online Distributed Proofreading Team at https://www.pgdp.net",
@@ -340,7 +340,7 @@
   },
   {
     "id": 76,
-    "price": 0,
+    "price": 2000,
     "stock_keeping_unit": "PGEBOOK76",
     "title": "Adventures of Huckleberry Finn",
     "production_credits": "David Widger",
@@ -365,7 +365,7 @@
   },
   {
     "id": 1184,
-    "price": 0,
+    "price": 2100,
     "stock_keeping_unit": "PGEBOOK1184",
     "title": "The Count of Monte Cristo",
     "production_credits": "Anonymous Project Gutenberg Volunteers, Dan Muller and David Widger",
@@ -386,7 +386,7 @@
   },
   {
     "id": 26471,
-    "price": 0,
+    "price": 2200,
     "stock_keeping_unit": "PGEBOOK26471",
     "title": "Spoon River Anthology",
     "production_credits": null,
@@ -398,7 +398,7 @@
   },
   {
     "id": 132,
-    "price": 0,
+    "price": 2300,
     "stock_keeping_unit": "PGEBOOK132",
     "title": "The Art of War",
     "production_credits": null,
@@ -414,7 +414,7 @@
   },
   {
     "id": 174,
-    "price": 0,
+    "price": 2400,
     "stock_keeping_unit": "PGEBOOK174",
     "title": "The Picture of Dorian Gray",
     "production_credits": "Judith Boss. HTML version by Al Haines.",
@@ -436,7 +436,7 @@
   },
   {
     "id": 4363,
-    "price": 0,
+    "price": 2500,
     "stock_keeping_unit": "PGEBOOK4363",
     "title": "Beyond Good and Evil",
     "production_credits": "Produced by John Mamoun, Charles Franks, David Widger and the Online Distributed Proofreading Team",
@@ -448,7 +448,7 @@
   },
   {
     "id": 2641,
-    "price": 0,
+    "price": 2600,
     "stock_keeping_unit": "PGEBOOK2641",
     "title": "A Room with a View",
     "production_credits": null,
@@ -467,7 +467,7 @@
   },
   {
     "id": 5740,
-    "price": 0,
+    "price": 2700,
     "stock_keeping_unit": "PGEBOOK5740",
     "title": "Tractatus Logico-Philosophicus",
     "production_credits": null,
@@ -483,7 +483,7 @@
   },
   {
     "id": 768,
-    "price": 0,
+    "price": 2800,
     "stock_keeping_unit": "PGEBOOK768",
     "title": "Wuthering Heights",
     "production_credits": "David Price",
@@ -507,7 +507,7 @@
   },
   {
     "id": 1259,
-    "price": 0,
+    "price": 2900,
     "stock_keeping_unit": "PGEBOOK1259",
     "title": "Twenty years after",
     "production_credits": "An Anonymous Volunteer and David Widger",
@@ -519,7 +519,7 @@
   },
   {
     "id": 2542,
-    "price": 0,
+    "price": 3000,
     "stock_keeping_unit": "PGEBOOK2542",
     "title": "A Doll's House : a play",
     "production_credits": "Martin Adamson and David Widger",
@@ -537,7 +537,7 @@
   },
   {
     "id": 4217,
-    "price": 0,
+    "price": 3100,
     "stock_keeping_unit": "PGEBOOK4217",
     "title": "A Portrait of the Artist as a Young Man",
     "production_credits": "Col Choat. HTML version by Al Haines. Further corrections by Menno de Leeuw.",
@@ -556,7 +556,7 @@
   },
   {
     "id": 2814,
-    "price": 0,
+    "price": 3200,
     "stock_keeping_unit": "PGEBOOK2814",
     "title": "Dubliners",
     "production_credits": "David Reed, Karol Pietrzak and David Widger",
@@ -568,7 +568,7 @@
   },
   {
     "id": 37106,
-    "price": 0,
+    "price": 3300,
     "stock_keeping_unit": "PGEBOOK37106",
     "title": "Little Women; Or, Meg, Jo, Beth, and Amy",
     "production_credits": "David Edwards, Ernest Schaal, Robert Homa, and the Online Distributed Proofreading Team",
@@ -592,7 +592,7 @@
   },
   {
     "id": 1727,
-    "price": 0,
+    "price": 3400,
     "stock_keeping_unit": "PGEBOOK1727",
     "title": "The Odyssey\r\nRendered into English prose for the use of those who cannot read the original",
     "production_credits": "Jim Tinsley and David Widger Updated: 2022-12-17.",
@@ -609,7 +609,7 @@
   },
   {
     "id": 75880,
-    "price": 0,
+    "price": 3500,
     "stock_keeping_unit": "PGEBOOK75880",
     "title": "Center pieces and lunch sets in crochet work",
     "production_credits": "Bob Taylor, Aaron Adrignola and the Online Distributed Proofreading Team at https://www.pgdp.net (This file was produced from images generously made available by The Internet Archive)",
@@ -621,7 +621,7 @@
   },
   {
     "id": 514,
-    "price": 0,
+    "price": 3600,
     "stock_keeping_unit": "PGEBOOK514",
     "title": "Little Women",
     "production_credits": null,
@@ -644,7 +644,7 @@
   },
   {
     "id": 3201,
-    "price": 0,
+    "price": 3700,
     "stock_keeping_unit": "PGEBOOK3201",
     "title": "Moby Word Lists",
     "production_credits": null,
@@ -656,7 +656,7 @@
   },
   {
     "id": 5200,
-    "price": 0,
+    "price": 3800,
     "stock_keeping_unit": "PGEBOOK5200",
     "title": "Metamorphosis",
     "production_credits": null,
@@ -668,7 +668,7 @@
   },
   {
     "id": 58585,
-    "price": 0,
+    "price": 3900,
     "stock_keeping_unit": "PGEBOOK58585",
     "title": "The Prophet",
     "production_credits": "David Widger",
@@ -680,7 +680,7 @@
   },
   {
     "id": 43,
-    "price": 0,
+    "price": 4000,
     "stock_keeping_unit": "PGEBOOK43",
     "title": "The Strange Case of Dr. Jekyll and Mr. Hyde",
     "production_credits": "David Widger",
@@ -701,7 +701,7 @@
   },
   {
     "id": 5197,
-    "price": 0,
+    "price": 4100,
     "stock_keeping_unit": "PGEBOOK5197",
     "title": "My Life — Volume 1",
     "production_credits": "John Mamoun, Charles Franks and the Online distributed proofreading website Updated: 2022-12-21.",
@@ -717,7 +717,7 @@
   },
   {
     "id": 2701,
-    "price": 0,
+    "price": 4200,
     "stock_keeping_unit": "PGEBOOK2701",
     "title": "Moby Dick; Or, The Whale",
     "production_credits": "Daniel Lazarus, Jonesey, and David Widger",
@@ -740,7 +740,7 @@
   },
   {
     "id": 75909,
-    "price": 0,
+    "price": 4300,
     "stock_keeping_unit": "PGEBOOK75909",
     "title": "The double dagger : $b Nat Ridley's Mexican trail",
     "production_credits": "Aaron Adrignola, Mary Meehan and the Online Distributed Proofreading Team at https://www.pgdp.net (This book was produced from images made available by the HathiTrust Digital Library.)",
@@ -752,7 +752,7 @@
   },
   {
     "id": 996,
-    "price": 0,
+    "price": 4400,
     "stock_keeping_unit": "PGEBOOK996",
     "title": "Don Quixote",
     "production_credits": "David Widger",
@@ -770,7 +770,7 @@
   },
   {
     "id": 3207,
-    "price": 0,
+    "price": 4500,
     "stock_keeping_unit": "PGEBOOK3207",
     "title": "Leviathan",
     "production_credits": "Edward White and David Widger",
@@ -786,7 +786,7 @@
   },
   {
     "id": 8800,
-    "price": 0,
+    "price": 4600,
     "stock_keeping_unit": "PGEBOOK8800",
     "title": "The divine comedy",
     "production_credits": "David Widger Updated: 2023-01-15.",
@@ -802,7 +802,7 @@
   },
   {
     "id": 67979,
-    "price": 0,
+    "price": 4700,
     "stock_keeping_unit": "PGEBOOK67979",
     "title": "The Blue Castle: a novel",
     "production_credits": "Laura Natal Rodrigues (Images generously made available by Hathi Trust Digital Library.) Updated: 2022-10-29.",
@@ -824,7 +824,7 @@
   },
   {
     "id": 75908,
-    "price": 0,
+    "price": 4800,
     "stock_keeping_unit": "PGEBOOK75908",
     "title": "Music and bad manners",
     "production_credits": "Carla Foust, Tim Lindell and the Online Distributed Proofreading Team at https://www.pgdp.net (This file was produced from images generously made available by The Internet Archive/American Libraries.)",
@@ -836,7 +836,7 @@
   },
   {
     "id": 23867,
-    "price": 0,
+    "price": 4900,
     "stock_keeping_unit": "PGEBOOK23867",
     "title": "斬鬼傳",
     "production_credits": "Produced by Shiou-Yun Lin",
@@ -848,7 +848,7 @@
   },
   {
     "id": 2160,
-    "price": 0,
+    "price": 5000,
     "stock_keeping_unit": "PGEBOOK2160",
     "title": "The Expedition of Humphry Clinker",
     "production_credits": "Produced by Martin Adamson, Andreas Philipp, and David Widger",
@@ -865,7 +865,7 @@
   },
   {
     "id": 75918,
-    "price": 0,
+    "price": 5100,
     "stock_keeping_unit": "PGEBOOK75918",
     "title": "Stories of Cape Cod",
     "production_credits": "Steve Mattern and the Online Distributed Proofreading Team at https://www.pgdp.net",
@@ -877,7 +877,7 @@
   },
   {
     "id": 2554,
-    "price": 0,
+    "price": 5200,
     "stock_keeping_unit": "PGEBOOK2554",
     "title": "Crime and Punishment",
     "production_credits": "John Bickers, Dagny and David Widger",
@@ -896,7 +896,7 @@
   },
   {
     "id": 20228,
-    "price": 0,
+    "price": 5300,
     "stock_keeping_unit": "PGEBOOK20228",
     "title": "Noli Me Tangere",
     "production_credits": "Produced by Tamiko I. Camacho, Pilar Somoza, and the Online Distributed Proofreading Team (http://www.pgdp.net). Thanks to the following for their help in making this project possible: Elmer Nocheseda, Jerome Espinosa Baladad, Matet Villanueva, Ateneo Rizal Library-Filipiniana Section, and the Filipinas Heritage Library. The ebook is being released in commemoration of Dr. José Rizal's 110th Death Anniversary on December 30, 2006. Handog ng Proyektong Gutenberg ng Pilipinas para sa pagpapahalaga ng panitikang Pilipino.(http://www.gutenberg.ph)",
@@ -912,7 +912,7 @@
   },
   {
     "id": 11,
-    "price": 0,
+    "price": 5400,
     "stock_keeping_unit": "PGEBOOK11",
     "title": "Alice's Adventures in Wonderland",
     "production_credits": "Arthur DiBianca and David Widger",
@@ -931,7 +931,7 @@
   },
   {
     "id": 36976,
-    "price": 0,
+    "price": 5500,
     "stock_keeping_unit": "PGEBOOK36976",
     "title": "裁判",
     "production_credits": "Produced by Kiyotoshi Hayashi",
@@ -943,7 +943,7 @@
   },
   {
     "id": 6761,
-    "price": 0,
+    "price": 5600,
     "stock_keeping_unit": "PGEBOOK6761",
     "title": "The Adventures of Ferdinand Count Fathom — Complete",
     "production_credits": "Tapio Riikonen and David Widger Updated: 2022-10-30.",
@@ -955,7 +955,7 @@
   },
   {
     "id": 64317,
-    "price": 0,
+    "price": 5700,
     "stock_keeping_unit": "PGEBOOK64317",
     "title": "The Great Gatsby",
     "production_credits": "Produced by Alex Cabal for the Standard Ebooks project, based on a transcription produced for Project Gutenberg Australia.",
@@ -974,7 +974,7 @@
   },
   {
     "id": 75910,
-    "price": 0,
+    "price": 5800,
     "stock_keeping_unit": "PGEBOOK75910",
     "title": "Ancient and modern engineering and the Isthmian canal",
     "production_credits": "Peter Becker and the Online Distributed Proofreading Team at https://www.pgdp.net (This file was produced from images generously made available by The Internet Archive)",
@@ -986,7 +986,7 @@
   },
   {
     "id": 2491,
-    "price": 0,
+    "price": 5900,
     "stock_keeping_unit": "PGEBOOK2491",
     "title": "Love or Fame; and Other Poems",
     "production_credits": null,
@@ -998,7 +998,7 @@
   },
   {
     "id": 98,
-    "price": 0,
+    "price": 6000,
     "stock_keeping_unit": "PGEBOOK98",
     "title": "A Tale of Two Cities",
     "production_credits": "Judith Boss and David Widger",
@@ -1021,7 +1021,7 @@
   },
   {
     "id": 219,
-    "price": 0,
+    "price": 6100,
     "stock_keeping_unit": "PGEBOOK219",
     "title": "Heart of Darkness",
     "production_credits": "Judith Boss and David Widger",
@@ -1041,7 +1041,7 @@
   },
   {
     "id": 3206,
-    "price": 0,
+    "price": 6200,
     "stock_keeping_unit": "PGEBOOK3206",
     "title": "Moby Multiple Language Lists of Common Words",
     "production_credits": "Produced by Mike Pullen",
@@ -1053,7 +1053,7 @@
   },
   {
     "id": 45,
-    "price": 0,
+    "price": 6300,
     "stock_keeping_unit": "PGEBOOK45",
     "title": "Anne of Green Gables",
     "production_credits": "David Widger and Charles Keller",
@@ -1076,7 +1076,7 @@
   },
   {
     "id": 6593,
-    "price": 0,
+    "price": 6400,
     "stock_keeping_unit": "PGEBOOK6593",
     "title": "History of Tom Jones, a Foundling",
     "production_credits": "Text file produced by Carlo Traverso, Charles Franks, and the Online Distributed Proofreading Team. This file has been cross-checked with two other different editions available on-line HTML file produced by David Widger",
@@ -1096,7 +1096,7 @@
   },
   {
     "id": 75913,
-    "price": 0,
+    "price": 6500,
     "stock_keeping_unit": "PGEBOOK75913",
     "title": "No stop-overs",
     "production_credits": "Roger Frank and Sue Clark",
@@ -1108,7 +1108,7 @@
   },
   {
     "id": 36,
-    "price": 0,
+    "price": 6600,
     "stock_keeping_unit": "PGEBOOK36",
     "title": "The War of the Worlds",
     "production_credits": null,
@@ -1129,7 +1129,7 @@
   },
   {
     "id": 7370,
-    "price": 0,
+    "price": 6700,
     "stock_keeping_unit": "PGEBOOK7370",
     "title": "Second Treatise of Government",
     "production_credits": "Dave Gowan and Chuck Greif",
@@ -1146,7 +1146,7 @@
   },
   {
     "id": 1998,
-    "price": 0,
+    "price": 6800,
     "stock_keeping_unit": "PGEBOOK1998",
     "title": "Thus Spake Zarathustra: A Book for All and None",
     "production_credits": "Sue Asscher and David Widger Revised by Richard Tonsing.",
@@ -1158,7 +1158,7 @@
   },
   {
     "id": 26,
-    "price": 0,
+    "price": 6900,
     "stock_keeping_unit": "PGEBOOK26",
     "title": "Paradise Lost",
     "production_credits": "Dr. Joseph Raben",
@@ -1176,7 +1176,7 @@
   },
   {
     "id": 1080,
-    "price": 0,
+    "price": 7000,
     "stock_keeping_unit": "PGEBOOK1080",
     "title": "A Modest Proposal\r\nFor preventing the children of poor people in Ireland, from being a burden on their parents or country, and for making them beneficial to the publick",
     "production_credits": "An Anonymous Volunteer and David Widger",
@@ -1193,7 +1193,7 @@
   },
   {
     "id": 205,
-    "price": 0,
+    "price": 7100,
     "stock_keeping_unit": "PGEBOOK205",
     "title": "Walden, and On The Duty Of Civil Disobedience",
     "production_credits": "Judith Boss, and David Widger",
@@ -1215,7 +1215,7 @@
   },
   {
     "id": 2650,
-    "price": 0,
+    "price": 7200,
     "stock_keeping_unit": "PGEBOOK2650",
     "title": "Du côté de chez Swann",
     "production_credits": "Sue Asscher",
@@ -1232,7 +1232,7 @@
   },
   {
     "id": 829,
-    "price": 0,
+    "price": 7300,
     "stock_keeping_unit": "PGEBOOK829",
     "title": "Gulliver's Travels into Several Remote Nations of the World",
     "production_credits": "David Price",
@@ -1251,7 +1251,7 @@
   },
   {
     "id": 730,
-    "price": 0,
+    "price": 7400,
     "stock_keeping_unit": "PGEBOOK730",
     "title": "Oliver Twist",
     "production_credits": "Peggy Gaugy and Leigh Little. HTML version by Al Haines Updated: 2023-01-27.",
@@ -1271,7 +1271,7 @@
   },
   {
     "id": 1513,
-    "price": 0,
+    "price": 7500,
     "stock_keeping_unit": "PGEBOOK1513",
     "title": "Romeo and Juliet",
     "production_credits": "the PG Shakespeare Team, a team of about twenty Project Gutenberg volunteers",
@@ -1292,7 +1292,7 @@
   },
   {
     "id": 394,
-    "price": 0,
+    "price": 7600,
     "stock_keeping_unit": "PGEBOOK394",
     "title": "Cranford",
     "production_credits": "David Price, Margaret Price and Richard Tonsing Updated: 2022-10-29.",
@@ -1312,7 +1312,7 @@
   },
   {
     "id": 2680,
-    "price": 0,
+    "price": 7700,
     "stock_keeping_unit": "PGEBOOK2680",
     "title": "Meditations",
     "production_credits": "J. Boulton and David Widger",
@@ -1324,7 +1324,7 @@
   },
   {
     "id": 25344,
-    "price": 0,
+    "price": 7800,
     "stock_keeping_unit": "PGEBOOK25344",
     "title": "The Scarlet Letter",
     "production_credits": "Markus Brenner, Irma Spehar and the Online Distributed Proofreading Team",
@@ -1349,7 +1349,7 @@
   },
   {
     "id": 145,
-    "price": 0,
+    "price": 7900,
     "stock_keeping_unit": "PGEBOOK145",
     "title": "Middlemarch",
     "production_credits": null,
@@ -1371,7 +1371,7 @@
   },
   {
     "id": 34647,
-    "price": 0,
+    "price": 8000,
     "stock_keeping_unit": "PGEBOOK34647",
     "title": "Letters of a Javanese Princess",
     "production_credits": "Produced by Marc D'Hooghe",
@@ -1389,7 +1389,7 @@
   },
   {
     "id": 1260,
-    "price": 0,
+    "price": 8100,
     "stock_keeping_unit": "PGEBOOK1260",
     "title": "Jane Eyre: An Autobiography",
     "production_credits": "David Price",
@@ -1414,7 +1414,7 @@
   },
   {
     "id": 1399,
-    "price": 0,
+    "price": 8200,
     "stock_keeping_unit": "PGEBOOK1399",
     "title": "Anna Karenina",
     "production_credits": "David Brannan, Andrew Sly and David Widger",
@@ -1433,7 +1433,7 @@
   },
   {
     "id": 16119,
-    "price": 0,
+    "price": 8300,
     "stock_keeping_unit": "PGEBOOK16119",
     "title": "Doctrina Christiana\r\nThe first book printed in the Philippines, Manila, 1593.",
     "production_credits": "Produced by Jeroen Hellingman, Tamiko I. Camacho, and the PG Distributed Proofreaders Team",
@@ -1451,7 +1451,7 @@
   },
   {
     "id": 4300,
-    "price": 0,
+    "price": 8400,
     "stock_keeping_unit": "PGEBOOK4300",
     "title": "Ulysses",
     "production_credits": "EBook produced by Col Choat.",
@@ -1475,7 +1475,7 @@
   },
   {
     "id": 244,
-    "price": 0,
+    "price": 8500,
     "stock_keeping_unit": "PGEBOOK244",
     "title": "A Study in Scarlet",
     "production_credits": "Roger Squires and David Widger",
@@ -1493,7 +1493,7 @@
   },
   {
     "id": 41445,
-    "price": 0,
+    "price": 8600,
     "stock_keeping_unit": "PGEBOOK41445",
     "title": "Frankenstein; Or, The Modern Prometheus",
     "production_credits": "Produced by Greg Weeks, Mary Meehan and the Online Distributed Proofreading Team at http://www.pgdp.net Revised by Richard Tonsing.",
@@ -1514,7 +1514,7 @@
   },
   {
     "id": 844,
-    "price": 0,
+    "price": 8700,
     "stock_keeping_unit": "PGEBOOK844",
     "title": "The Importance of Being Earnest: A Trivial Comedy for Serious People",
     "production_credits": "David Price",
@@ -1532,7 +1532,7 @@
   },
   {
     "id": 34901,
-    "price": 0,
+    "price": 8800,
     "stock_keeping_unit": "PGEBOOK34901",
     "title": "On Liberty",
     "production_credits": "Produced by Curtis Weyant, Martin Pettit and the Online Distributed Proofreading Team at http://www.pgdp.net",
@@ -1544,7 +1544,7 @@
   },
   {
     "id": 28054,
-    "price": 0,
+    "price": 8900,
     "stock_keeping_unit": "PGEBOOK28054",
     "title": "The Brothers Karamazov",
     "production_credits": null,
@@ -1562,7 +1562,7 @@
   },
   {
     "id": 6130,
-    "price": 0,
+    "price": 9000,
     "stock_keeping_unit": "PGEBOOK6130",
     "title": "The Iliad",
     "production_credits": "Anne Soulard, Juliet Sutherland, Charles Franks, and The Online Distributed Proofreading Team",
@@ -1580,7 +1580,7 @@
   },
   {
     "id": 408,
-    "price": 0,
+    "price": 9100,
     "stock_keeping_unit": "PGEBOOK408",
     "title": "The Souls of Black Folk",
     "production_credits": null,
@@ -1592,7 +1592,7 @@
   },
   {
     "id": 2600,
-    "price": 0,
+    "price": 9200,
     "stock_keeping_unit": "PGEBOOK2600",
     "title": "War and Peace",
     "production_credits": "An Anonymous Volunteer and David Widger",
@@ -1611,7 +1611,7 @@
   },
   {
     "id": 4085,
-    "price": 0,
+    "price": 9300,
     "stock_keeping_unit": "PGEBOOK4085",
     "title": "The Adventures of Roderick Random",
     "production_credits": "Tapio Riikonen and David Widger",
@@ -1633,7 +1633,7 @@
   },
   {
     "id": 1661,
-    "price": 0,
+    "price": 9400,
     "stock_keeping_unit": "PGEBOOK1661",
     "title": "The Adventures of Sherlock Holmes",
     "production_credits": "an anonymous Project Gutenberg volunteer and Jose Menendez",
@@ -1650,7 +1650,7 @@
   },
   {
     "id": 1952,
-    "price": 0,
+    "price": 9500,
     "stock_keeping_unit": "PGEBOOK1952",
     "title": "The Yellow Wallpaper",
     "production_credits": "An Anonymous Volunteer and David Widger",
@@ -1669,7 +1669,7 @@
   },
   {
     "id": 135,
-    "price": 0,
+    "price": 9600,
     "stock_keeping_unit": "PGEBOOK135",
     "title": "Les Misérables",
     "production_credits": "Judith Boss and David Widger",
@@ -1688,7 +1688,7 @@
   },
   {
     "id": 36034,
-    "price": 0,
+    "price": 9700,
     "stock_keeping_unit": "PGEBOOK36034",
     "title": "White Nights and Other Stories\nThe Novels of Fyodor Dostoevsky, Volume X",
     "production_credits": "Produced by Jan-Fabian Humann, Carol Ann Brown, and the Online Distributed Proofreading Team at http://www.pgdp.net. (This file was produced from images generously made available by The Internet Archive/American Libraries.)",
@@ -1704,7 +1704,7 @@
   },
   {
     "id": 26184,
-    "price": 0,
+    "price": 9800,
     "stock_keeping_unit": "PGEBOOK26184",
     "title": "Simple Sabotage Field Manual",
     "production_credits": "Produced by: David Reed",
@@ -1716,7 +1716,7 @@
   },
   {
     "id": 75915,
-    "price": 0,
+    "price": 9900,
     "stock_keeping_unit": "PGEBOOK75915",
     "title": "Wit and its relation to the unconscious",
     "production_credits": "Richard Tonsing and the Online Distributed Proofreading Team at https://www.pgdp.net (This book was produced from images made available by the HathiTrust Digital Library.)",
@@ -1728,7 +1728,7 @@
   },
   {
     "id": 1232,
-    "price": 0,
+    "price": 10000,
     "stock_keeping_unit": "PGEBOOK1232",
     "title": "The Prince",
     "production_credits": "John Bickers, David Widger and Others",

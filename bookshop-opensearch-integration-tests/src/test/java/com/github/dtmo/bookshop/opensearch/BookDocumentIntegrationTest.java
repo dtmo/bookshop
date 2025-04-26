@@ -1,19 +1,28 @@
 package com.github.dtmo.bookshop.opensearch;
 
+import static org.junit.Assert.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.io.InputStream;
 import java.time.Duration;
 import java.time.Instant;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Locale;
 import java.util.stream.Collectors;
 
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.opensearch.client.json.JsonData;
 import org.opensearch.client.opensearch.OpenSearchClient;
+import org.opensearch.client.opensearch._types.FieldValue;
+import org.opensearch.client.opensearch._types.query_dsl.BoolQuery;
+import org.opensearch.client.opensearch._types.query_dsl.ExistsQuery;
+import org.opensearch.client.opensearch._types.query_dsl.MatchQuery;
+import org.opensearch.client.opensearch._types.query_dsl.Query;
 import org.opensearch.client.opensearch.core.BulkRequest;
+import org.opensearch.client.opensearch.core.SearchRequest;
 import org.opensearch.client.opensearch.core.SearchResponse;
 import org.opensearch.client.opensearch.core.bulk.BulkOperation;
 import org.opensearch.client.opensearch.core.search.Hit;
@@ -135,5 +144,47 @@ public class BookDocumentIntegrationTest extends AbstractIntegrationTest {
         // We are therefore expecting 50 hits.
         final List<Hit<BookDocument>> hits = searchResponse.hits().hits();
         assertEquals(50, hits.size());
+    }
+
+    @Test
+    public void testQueryByLanguageOtherThanEnglish() throws Exception {
+        final OpenSearchClient openSearchClient = getOpenSearchClient();
+
+        // Search for books with a language other than English
+        final SearchResponse<BookDocument> searchResponse = openSearchClient.search(
+                new SearchRequest.Builder()
+                        .index(gutenberg_top_100_books_index)
+                        .size(100)
+                        .query(new Query.Builder()
+                                .bool(new BoolQuery.Builder()
+                                        .must(new Query.Builder()
+                                                .exists(new ExistsQuery.Builder()
+                                                        .field(BookDocument.LANGUAGE_FIELD)
+                                                        .build())
+                                                .build())
+                                        .mustNot(
+                                                new Query.Builder()
+                                                        .match(new MatchQuery.Builder()
+                                                                .field(BookDocument.LANGUAGE_FIELD)
+                                                                .query(new FieldValue.Builder()
+                                                                        .stringValue(Locale.ENGLISH.getLanguage())
+                                                                        .build())
+                                                                .build())
+                                                        .build())
+                                        .build())
+                                .build())
+                        .build(),
+                BookDocument.class);
+
+        // There are 6 books with a language other tham English in the top 100.
+        final List<Hit<BookDocument>> hits = searchResponse.hits().hits();
+        assertEquals(6, hits.size());
+
+        final Iterator<Hit<BookDocument>> hitIterator = hits.iterator();
+        while (hitIterator.hasNext()) {
+            final BookDocument nonEnglishBook = hitIterator.next().source();
+
+            assertNotEquals(Locale.ENGLISH.getLanguage(), nonEnglishBook);
+        }
     }
 }

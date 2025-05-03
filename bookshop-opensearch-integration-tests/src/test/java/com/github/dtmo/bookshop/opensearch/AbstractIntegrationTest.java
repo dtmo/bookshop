@@ -24,6 +24,7 @@ public abstract class AbstractIntegrationTest {
         final Network network = Network.newNetwork();
 
         // Initialise the OpenSearch container
+        @SuppressWarnings("resource")
         final OpensearchContainer<?> opensearchContainer = new OpensearchContainer<>(
                 DockerImageName.parse("opensearchproject/opensearch:1"))
                 .withNetwork(network);

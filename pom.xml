@@ -13,11 +13,12 @@
 
     <modules>
         <module>bookshop-db-schema</module>
-        <module>bookshop-jpa</module>
-        <module>bookshop-test-support</module>
+        <module>bookshop-gutenberg-support</module>
         <module>bookshop-jpa-integration-tests</module>
-        <module>bookshop-opensearch</module>
+        <module>bookshop-jpa-test-support</module>
+        <module>bookshop-jpa</module>
         <module>bookshop-opensearch-integration-tests</module>
+        <module>bookshop-opensearch</module>
     </modules>
 
     <scm>

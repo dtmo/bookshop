@@ -16,7 +16,7 @@
     <dependencies>
         <dependency>
             <groupId>${project.groupId}</groupId>
-            <artifactId>bookshop-test-support</artifactId>
+            <artifactId>bookshop-opensearch</artifactId>
             <version>${project.version}</version>
             <scope>test</scope>
         </dependency>

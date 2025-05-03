@@ -65,25 +65,6 @@ public class BookEntity {
     @NonNull
     private String stockKeepingUnit;
 
-    /** The book title. */
-    @Column(name = "title")
-    @NonNull
-    private String title;
-
-    /** Optional production credits. This may be <code>null</code>. */
-    @Column(name = "production_credits")
-    private String productionCredits;
-
-    /** Optional summary of the book. This may be <code>null</code>. */
-    @Column(name = "summary")
-    private String summary;
-
-    /**
-     * Optional ISO 639 language code for the book. This may be <code>null</code>.
-     */
-    @Column(name = "language")
-    private String language;
-
     /**
      * The book's authors. The book is the 'owning' entity
      * in the book / author many-to-many relationship, so adding an author to the

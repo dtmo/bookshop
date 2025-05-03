@@ -60,13 +60,6 @@
             <column name="stock_keeping_unit" type="varchar">
                 <constraints nullable="false" unique="true" />
             </column>
-            <column name="title" type="varchar">
-                <constraints nullable="false" />
-            </column>
-            <column name="production_credits" type="varchar" />
-            <column name="summary" type="text" />
-            <column name="language" type="text" />
-            <column name="subject" type="text" />
         </createTable>
 
         <addAutoIncrement tableName="book" columnName="id" />

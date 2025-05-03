@@ -1,6 +1,5 @@
 package com.github.dtmo.bookshop.jpa;
 
-import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertNotSame;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
@@ -43,34 +42,6 @@ public class BookEntityIntegrationTest extends AbstractIntegrationTest {
 
         assertNotSame(expectedBook, actualBook);
         BookEntities.verifyBookEntity(expectedBook, actualBook);
-    }
-
-    @Test
-    public void testRenameBook() {
-        entityManager.getTransaction().begin();
-        final AuthorEntity authorEntity = getAuthorEntitysupplier().get();
-        entityManager.persist(authorEntity);
-
-        final BookEntity bookEntity = getBookEntitySupplier().get();
-        bookEntity.getAuthors().add(authorEntity);
-        entityManager.persist(bookEntity);
-        entityManager.getTransaction().commit();
-
-        final String expectedBookTitle = String.format("%s (updated)", bookEntity.getTitle());
-
-        // Update the book title directly in the database
-        entityManager.getTransaction().begin();
-        entityManager.createQuery("UPDATE BookEntity b SET b.title = :title WHERE b = :book")
-                .setParameter("book", bookEntity)
-                .setParameter("title", expectedBookTitle)
-                .executeUpdate();
-        entityManager.getTransaction().commit();
-
-        assertNotEquals(bookEntity.getTitle(), expectedBookTitle);
-
-        // Update the book details and verify that it now has the expected title
-        entityManager.refresh(bookEntity);
-        assertEquals(expectedBookTitle, bookEntity.getTitle());
     }
 
     @Test

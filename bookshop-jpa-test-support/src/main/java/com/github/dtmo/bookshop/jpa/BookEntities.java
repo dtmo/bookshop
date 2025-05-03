@@ -3,7 +3,6 @@ package com.github.dtmo.bookshop.jpa;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.time.temporal.ChronoUnit;
-import java.util.Locale;
 import java.util.function.LongSupplier;
 import java.util.function.Supplier;
 
@@ -16,21 +15,16 @@ public class BookEntities {
             private final Supplier<String> stockKeepingUnitSupplier = () -> String.format("SKUBOOK#%s",
                     stockKeepingUnitCounter.getAsLong());
 
-            private final LongSupplier titleCounter = Suppliers.createIncrementingLongSupplier();
-            private final Supplier<String> titleSupplier = () -> String.format("Book #%s", titleCounter.getAsLong());
-
             @Override
             public BookEntity get() {
-                final BookEntity bookEntity = new BookEntity(priceSupplier.getAsLong(), stockKeepingUnitSupplier.get(),
-                        titleSupplier.get());
-                bookEntity.setLanguage(Locale.ENGLISH.getLanguage());
+                final BookEntity bookEntity = new BookEntity(priceSupplier.getAsLong(), stockKeepingUnitSupplier.get());
                 return bookEntity;
             }
         };
     }
 
     /**
-     * Asserts that all the local (non-reference) fields a BookEntity instance
+     * Asserts that all the local (non-reference) fields of a BookEntity instance
      * are as expected. This will not attempt to access any fields that may need to
      * be fetched separately.
      * 
@@ -45,9 +39,5 @@ public class BookEntities {
                 actual.getCreationTime().truncatedTo(ChronoUnit.MILLIS));
         assertEquals(expected.getStockKeepingUnit(), actual.getStockKeepingUnit());
         assertEquals(expected.getPrice(), actual.getPrice());
-        assertEquals(expected.getTitle(), actual.getTitle());
-        assertEquals(expected.getProductionCredits(), actual.getProductionCredits());
-        assertEquals(expected.getSummary(), actual.getSummary());
-        assertEquals(expected.getLanguage(), actual.getLanguage());
     }
 }

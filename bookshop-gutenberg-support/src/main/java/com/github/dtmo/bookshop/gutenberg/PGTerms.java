@@ -4,8 +4,19 @@ import org.apache.jena.rdf.model.Model;
 import org.apache.jena.rdf.model.ModelFactory;
 import org.apache.jena.rdf.model.Property;
 
+/**
+ * Vocabulary terms from <a href="https://www.gutenberg.org/">Project
+ * Gutenberg</a> RDF schema:
+ * <code>http://www.gutenberg.org/2009/pgterms/</code>.
+ */
 public class PGTerms {
+    /**
+     * <p>
+     * The RDF model that holds the vocabulary terms
+     * </p>
+     */
     private static final Model model = ModelFactory.createDefaultModel();
+
     /**
      * Creation/Production Credits Note.
      * 

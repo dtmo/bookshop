@@ -4,7 +4,6 @@ import java.time.Duration;
 import java.time.Instant;
 import java.time.LocalDate;
 import java.time.Month;
-import java.util.Locale;
 
 import org.junit.jupiter.api.Test;
 
@@ -24,16 +23,12 @@ public class InProgressOrderLineItemIdTest {
                 .id(1L)
                 .stockKeepingUnit("book1")
                 .price(1000L)
-                .title("Red Book")
-                .language(Locale.ENGLISH.getLanguage())
                 .build();
 
         final BookEntity blueBookEntity = BookEntity.builder()
                 .id(2L)
                 .stockKeepingUnit("book2")
                 .price(1000L)
-                .title("Blue Book")
-                .language(Locale.ENGLISH.getLanguage())
                 .build();
         blueBookEntity.getAuthors().add(authorEntity);
         authorEntity.getBooks().add(blueBookEntity);

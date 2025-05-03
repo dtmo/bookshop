@@ -18,7 +18,7 @@
       "type": "text",
       "analyzer": "english"
     },
-    "language": { "type": "keyword" },
+    "languages": { "type": "keyword" },
     "subjects": {
       "type": "text",
       "analyzer": "english"

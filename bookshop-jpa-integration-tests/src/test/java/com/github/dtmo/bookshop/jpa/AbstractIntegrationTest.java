@@ -48,6 +48,7 @@ public abstract class AbstractIntegrationTest {
 
         // PostgreSQL is going to be our relational database, but will need to
         // have the bookshop database schema installed before it can be useful.
+        @SuppressWarnings("resource")
         final PostgreSQLContainer<?> postgresContainer = new PostgreSQLContainer<>(
                 DockerImageName.parse("postgres:17"))
                 .withNetwork(network)
@@ -70,6 +71,7 @@ public abstract class AbstractIntegrationTest {
         // install the bookshop schema, and then naturally stop again.
         // We state that it depends on the PostgreSQL container to make sure it
         // doesn't start too soon.
+        @SuppressWarnings("resource")
         final GenericContainer<?> liquibaseContainer = new GenericContainer<>(DockerImageName.parse("liquibase:latest"))
                 .withNetwork(network)
                 .withWorkingDirectory("/liquibase/changelog")

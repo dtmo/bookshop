@@ -22,7 +22,7 @@ public final class BookDocument {
     public static final String TITLE_FIELD = "title";
     public static final String PRODUCTION_CREDITS_FIELD = "production_credits";
     public static final String SUMMARY_FIELD = "summary";
-    public static final String LANGUAGE_FIELD = "language";
+    public static final String LANGUAGES_FIELD = "languages";
     public static final String SUBJECTS_FIELD = "subjects";
     public static final String AUTHOR_NAMES_FIELD = "author_names";
     public static final String AUTHOR_IDS_FIELD = "author_ids";
@@ -65,11 +65,10 @@ public final class BookDocument {
     private final String summary;
 
     /**
-     * Optional book language represented as an ISO 639 language code. This may be
-     * <code>null</code.
+     * The set of languages used in the book, represented as ISO 639 language codes.
      */
-    @JsonProperty(LANGUAGE_FIELD)
-    private final String language;
+    @JsonProperty(LANGUAGES_FIELD)
+    private final Set<String> languages;
 
     /**
      * A set of book subject identifiers. This may not be <code>null</code> but may

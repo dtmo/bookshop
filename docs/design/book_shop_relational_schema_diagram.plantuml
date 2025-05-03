@@ -1,0 +1,100 @@
+@startuml
+
+left to right direction
+
+entity customer {
+    * id : number <<generated>>
+    --
+    * creation_time : timestamp
+    * name : varchar
+}
+
+entity account {
+    * id : number <<generated>>
+    --
+    * creation_time : timestamp
+    * name : varchar
+}
+
+entity account_customers {
+    * id : number <<generated>>
+    --
+    * account_id : number
+    * customer_id : number
+}
+
+entity shopping_basket_item {
+    * account_id : number
+    * book_id : number
+    --
+    * quantity : number
+}
+
+entity payment_card {
+    * id : number <<generated>>
+    --
+    * creation_time : timestamp
+    * name : varchar
+    * cardholder_name : varchar
+    * card_number : varchar
+    * expiry : date
+    * account_id : number
+}
+
+entity in_progress_order {
+    * id : number <<generated>>
+    --
+    * creation_time : timestamp
+    * payment_card_id : number
+    * order_state : varchar
+    * account_id : number
+}
+
+entity in_progress_order_line_item {
+    * in_progress_order_id : number
+    * book_id : number
+    --
+    * quantity : number
+    * unit_price : number
+}
+
+entity author {
+    * id : number <<generated>>
+    --
+    * creation_time : timestamp
+    * name : varchar
+    alias : varchar
+}
+
+entity book {
+    * id : number <<generated>>
+    --
+    * creation_time : timestamp
+    * price : number
+    * stock_keeping_unit : varchar
+    * title : varchar
+    production_credits : varchar
+    summary : varchar
+    language : varchar
+    subject : varchar
+}
+
+entity book_authors {
+    * book_id : number
+    * author_id : number
+    --
+}
+
+customer::id ||--|{ account_customers::customer_id
+account_customers::account_id }|--|| account::id
+account::id ||--o{ shopping_basket_item::account_id
+shopping_basket_item::book_id }o--|| book::id
+account::id ||--o{ payment_card::account_id
+account::id ||--o{ in_progress_order::account_id
+in_progress_order::id ||--|{ in_progress_order_line_item::in_progress_order_id
+in_progress_order::payment_card_id }o--|| payment_card::id
+in_progress_order_line_item::book_id }o--|| book::id
+book::id ||--|{ book_authors::book_id
+book_authors::author_id }|--|| author::id
+
+@enduml

@@ -1,0 +1,91 @@
+@startuml
+
+' Based on Project Gutenberg agent
+class Author {
+    Instant creationTimestamp
+    String name
+}
+
+class Book {
+    Instant creationTimestamp
+    String stockKeepingUnit
+    long price
+    String title
+    ' https://www.loc.gov/marc/bibliographic/bd508.html
+    String productionCredits
+    ' https://www.loc.gov/marc/bibliographic/bd520.html
+    String summary
+    String language
+    String subject
+}
+
+Book "*" --> "authors 1..*" Author
+
+class PaymentCard {
+    Instant creationTimestamp
+    String cardNumber
+    LocalDate expiryDate
+}
+
+class OrderLineItem {
+    int quantity
+    long unitPrice
+}
+
+OrderLineItem "*" --> "book 1" Book
+
+note as N2
+    OrderLineItem unitPrice records the book
+    price at the point where the order was made
+    so changes to the book price during order
+    processing will not result in unexpected
+    payments.
+endnote
+N2 ... OrderLineItem
+
+enum OrderState {
+    WAITING
+    PROCESSING
+    DISPATCHED
+    CANCELLED
+}
+
+class Order {
+    Instant creationTimestamp
+}
+
+Order *--> "orderState 1" OrderState
+Order "1" *--> "lineItems 1..*" OrderLineItem
+Order "*" --> "paymentCard 1" PaymentCard
+
+class ShoppingBasketItem {
+    int quantity
+}
+
+ShoppingBasketItem "*" --> "book 1" Book
+
+note as N1
+    ShoppingBasketItem does not include
+    the book unit price which means the
+    book price may change until the order
+    is created.
+endnote
+N1 ... ShoppingBasketItem
+class Account {
+    Instant creationTimestamp
+    addShoppingBasketItem(Product product, long Quantity)
+    removeShoppingBasketItem(Product product)
+    updateShoppingBasketItem(Product product, int quantity)
+}
+
+Account "1" --> "orders *" Order
+Account "1" *--> "paymentCard *" PaymentCard
+Account "1" *--> "shoppingBasketItems *" ShoppingBasketItem
+
+class Customer {
+    Instant creationTimestamp
+    String name
+}
+Customer "1" *--> "account 1" Account
+
+@enduml

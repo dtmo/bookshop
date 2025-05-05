@@ -13,7 +13,7 @@ public class CustomerEntities {
 
             @Override
             public CustomerEntity get() {
-                return new CustomerEntity(String.format("Customer #%s", counter.getAsLong()));
+                return new CustomerEntity(String.format("Customer#%s", counter.getAsLong()));
             }
         };
     }
@@ -33,6 +33,6 @@ public class CustomerEntities {
         // them for comparisons
         assertEquals(expected.getCreationTime().truncatedTo(ChronoUnit.MILLIS),
                 actual.getCreationTime().truncatedTo(ChronoUnit.MILLIS));
-        assertEquals(expected.getName(), actual.getName());
+        assertEquals(expected.getUsername(), actual.getUsername());
     }
 }

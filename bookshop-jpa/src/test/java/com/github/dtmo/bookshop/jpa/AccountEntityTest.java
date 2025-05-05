@@ -38,7 +38,7 @@ public class AccountEntityTest {
 
         final CustomerEntity redCustomerEntity = CustomerEntity.builder()
                 .id(1L)
-                .name("Red Customer")
+                .username("Red Customer")
                 .build();
 
         final AccountEntity redAccountEntity = AccountEntity.builder()
@@ -79,7 +79,7 @@ public class AccountEntityTest {
 
         final CustomerEntity blueCustomerEntity = CustomerEntity.builder()
                 .id(2L)
-                .name("Blue Customer")
+                .username("Blue Customer")
                 .build();
 
         final AccountEntity blueAccountEntity = AccountEntity.builder()

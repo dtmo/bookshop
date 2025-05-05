@@ -49,7 +49,7 @@ public class CustomerEntityIntegrationTest extends AbstractIntegrationTest {
     }
 
     @Test
-    public void testRenameCustomerEntity() {
+    public void testUpdateCustomerEntityUsername() {
         // Create a customer entity
         final CustomerEntity expectedCustomerEntity = getCustomerEntitySupplier().get();
 
@@ -60,7 +60,7 @@ public class CustomerEntityIntegrationTest extends AbstractIntegrationTest {
 
         // Change the name and update the database
         entityManager.getTransaction().begin();
-        expectedCustomerEntity.setName(String.format("%s (updated)", expectedCustomerEntity.getName()));
+        expectedCustomerEntity.setUsername(String.format("%s (updated)", expectedCustomerEntity.getUsername()));
         entityManager.getTransaction().commit();
 
         // Forget about the initial entity to avoid finding the cached instance
@@ -82,7 +82,8 @@ public class CustomerEntityIntegrationTest extends AbstractIntegrationTest {
     public void testDeleteCustomerEntity() {
         // Create a customer and an account
         final CustomerEntity customerEntity = getCustomerEntitySupplier().get();
-        final AccountEntity accountEntity = new AccountEntity(String.format("%s Account", customerEntity.getName()));
+        final AccountEntity accountEntity = new AccountEntity(
+                String.format("%s Account", customerEntity.getUsername()));
 
         entityManager.getTransaction().begin();
         entityManager.persist(customerEntity);

@@ -1,0 +1,21 @@
+openapi: 3.1.1
+info:
+  title: Bookshop API
+  version: 1.0.0
+paths:
+  /basket:
+    put:
+      description: Puts an book in the shopping basket.
+      parameters:
+        - name: account_id
+          in: query
+          description: The account that owns the shopping basket in which the item is being put.
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        200:
+          description: Shopping basket updated.
+          content:
+            application/json: {}

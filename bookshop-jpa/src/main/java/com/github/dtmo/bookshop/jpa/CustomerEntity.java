@@ -54,13 +54,13 @@ public class CustomerEntity {
     private Instant creationTime = Instant.now();
 
     /**
-     * The customer's name. This may be updated and so cannot be relied on to remain
-     * static over time. As such, any reference to a customer should use the
-     * customer's ID.
+     * The unique customer user name. This may be updated and so cannot be
+     * relied on to remain static over time. As such, any reference to a customer
+     * should use the customer's ID.
      */
-    @Column(name = "name")
+    @Column(name = "username")
     @NonNull
-    private String name;
+    private String username;
 
     /**
      * The set of accounts to which the customer has access. The set of associated

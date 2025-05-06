@@ -85,6 +85,7 @@
                             <configOptions>
                                 <sourceFolder>src/gen/java/main</sourceFolder>
                                 <apiPackage>com.github.dtmo.bookshop.rest</apiPackage>
+                                <interfaceOnly>true</interfaceOnly>
                                 <legacyDiscriminatorBehavior>false</legacyDiscriminatorBehavior>
                                 <useSpringBoot3>true</useSpringBoot3>
                             </configOptions>

@@ -9,7 +9,21 @@ paths:
       parameters:
         - name: account_id
           in: query
-          description: The account that owns the shopping basket in which the item is being put.
+          description: The ID of the account that owns the shopping basket in which the item is being put.
+          required: true
+          schema:
+            type: integer
+            format: int64
+        - name: book_id
+          in: query
+          description: The ID of the book to put in the shopping basket.
+          required: true
+          schema:
+            type: integer
+            format: int64
+        - name: quantity
+          in: query
+          description: The quantity of the specific book to put in the shopping.
           required: true
           schema:
             type: integer

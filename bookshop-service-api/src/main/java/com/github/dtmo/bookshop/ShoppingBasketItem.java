@@ -10,11 +10,9 @@ import lombok.extern.jackson.Jacksonized;
 @Builder
 @Jacksonized
 public class ShoppingBasketItem {
-    @JsonProperty("account_id")
-    private long accountId;
 
-    @JsonProperty("book_id")
-    private long bookId;
+    @JsonProperty("book")
+    private Book book;
 
     @JsonProperty("quantity")
     private long quantity;

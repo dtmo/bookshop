@@ -39,9 +39,10 @@ import lombok.ToString;
 @Builder
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
 public class BookEntity {
+
     /**
-     * The database generated unique ID of the book. This field is <code>null</code>
-     * until the entity is persisted.
+     * The database generated unique ID of the book. This field is
+     * <code>null</code> until the entity is persisted.
      */
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -50,26 +51,39 @@ public class BookEntity {
     @EqualsAndHashCode.Include
     private Long id;
 
-    /** The time at which the book entity was created. */
+    /**
+     * The time at which the book entity was created.
+     */
     @Column(name = "creation_time")
     @Builder.Default
     private Instant creationTime = Instant.now();
 
-    /** The book price in pennies, cents, etc. */
+    /**
+     * The book title.
+     */
+    @Column(name = "title")
+    @NonNull
+    private String title;
+
+    /**
+     * The book price in pennies, cents, etc.
+     */
     @Column(name = "price")
     @NonNull
     private Long price;
 
-    /** The unique stock keeping unit (SKU) code of the book. */
+    /**
+     * The unique stock keeping unit (SKU) code of the book.
+     */
     @Column(name = "stock_keeping_unit")
     @NonNull
     private String stockKeepingUnit;
 
     /**
-     * The book's authors. The book is the 'owning' entity
-     * in the book / author many-to-many relationship, so adding an author to the
-     * set of book authors will have the side-effect of adding the book to the
-     * author's set of books.
+     * The book's authors. The book is the 'owning' entity in the book / author
+     * many-to-many relationship, so adding an author to the set of book authors
+     * will have the side-effect of adding the book to the author's set of
+     * books.
      */
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(name = "book_authors", joinColumns = @JoinColumn(name = "book_id"), inverseJoinColumns = @JoinColumn(name = "author_id"))

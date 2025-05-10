@@ -1,0 +1,90 @@
+openapi: 3.1.0
+info:
+  title: Bookshop API
+  version: 1.0.0
+components:
+  schemas:
+    Book:
+      type: object
+      properties:
+        id:
+          description: The unique ID of the book.
+          type: integer
+          format: int64
+        price:
+          type: integer
+          format: int64
+        stock_keeping_unit:
+          type: string
+        title:
+          description: The title of the book.
+          type: string
+        production_credits:
+          type: string
+        summary:
+          type: string
+        languages:
+          type: array
+          items:
+            type: string
+    ShoppingBasketItem:
+      description: ShoppingBasketItem represents an item in a shopping basket.
+      type: object
+      properties:
+        book:
+          description: The unique ID of the book.
+          $ref: "#/components/schemas/Book"
+        quantity:
+          description: The quantity of the book that has been added.
+          type: integer
+          format: int64
+          
+paths:
+  /book/search:
+    get:
+      description: Search for books.
+      parameters:
+        - name: query
+          in: query
+          required: true
+          schema:
+            type: string
+      responses:
+        200:
+          description: Found books
+          content:
+            application/json: {}
+  /basket:
+    put:
+      description: Puts an book in the shopping basket.
+      parameters:
+        - name: account_id
+          in: query
+          description: The ID of the account that owns the shopping basket in which the item is being put.
+          required: true
+          schema:
+            type: integer
+            format: int64
+        - name: book_id
+          in: query
+          description: The ID of the book to put in the shopping basket.
+          required: true
+          schema:
+            type: integer
+            format: int64
+        - name: quantity
+          in: query
+          description: The quantity of the specific book to put in the shopping.
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        200:
+          description: Shopping basket updated.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/ShoppingBasketItem"

@@ -12,6 +12,7 @@ import com.github.dtmo.bookshop.jpa.InProgressOrderEntity.InProgressOrderState;
 import nl.jqno.equalsverifier.EqualsVerifier;
 
 public class InProgressOrderLineItemIdTest {
+
     @Test
     void testEqualsHashCode() {
         final AuthorEntity authorEntity = AuthorEntity.builder()
@@ -21,12 +22,14 @@ public class InProgressOrderLineItemIdTest {
 
         final BookEntity redBookEntity = BookEntity.builder()
                 .id(1L)
+                .title("Red Book")
                 .stockKeepingUnit("book1")
                 .price(1000L)
                 .build();
 
         final BookEntity blueBookEntity = BookEntity.builder()
                 .id(2L)
+                .title("Blue Book")
                 .stockKeepingUnit("book2")
                 .price(1000L)
                 .build();

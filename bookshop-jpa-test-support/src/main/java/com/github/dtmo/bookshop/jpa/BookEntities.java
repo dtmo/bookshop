@@ -1,15 +1,19 @@
 package com.github.dtmo.bookshop.jpa;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-
 import java.time.temporal.ChronoUnit;
 import java.util.function.LongSupplier;
 import java.util.function.Supplier;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
 public class BookEntities {
+
     public static Supplier<BookEntity> createIncrementingBookSupplier() {
         return new Supplier<BookEntity>() {
             final LongSupplier priceSupplier = () -> (long) (1000 + (Math.random() * 1000));
+
+            private final LongSupplier titleCounter = Suppliers.createIncrementingLongSupplier();
+            private final Supplier<String> titleSupplier = () -> String.format("Book #%s", titleCounter.getAsLong());
 
             private final LongSupplier stockKeepingUnitCounter = Suppliers.createIncrementingLongSupplier();
             private final Supplier<String> stockKeepingUnitSupplier = () -> String.format("SKUBOOK#%s",
@@ -17,19 +21,20 @@ public class BookEntities {
 
             @Override
             public BookEntity get() {
-                final BookEntity bookEntity = new BookEntity(priceSupplier.getAsLong(), stockKeepingUnitSupplier.get());
+                final BookEntity bookEntity = new BookEntity(titleSupplier.get(), priceSupplier.getAsLong(), stockKeepingUnitSupplier.get());
                 return bookEntity;
             }
         };
     }
 
     /**
-     * Asserts that all the local (non-reference) fields of a BookEntity instance
-     * are as expected. This will not attempt to access any fields that may need to
-     * be fetched separately.
-     * 
-     * @param expected The BookEntity instance that represents the expected values.
-     * @param actual   The BookEntity instance that is to be verified.
+     * Asserts that all the local (non-reference) fields of a BookEntity
+     * instance are as expected. This will not attempt to access any fields that
+     * may need to be fetched separately.
+     *
+     * @param expected The BookEntity instance that represents the expected
+     * values.
+     * @param actual The BookEntity instance that is to be verified.
      */
     public static void verifyBookEntity(final BookEntity expected, final BookEntity actual) {
         assertEquals(expected.getId(), actual.getId());

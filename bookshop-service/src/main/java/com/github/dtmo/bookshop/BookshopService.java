@@ -12,6 +12,7 @@ import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
 
 public class BookshopService {
+
     private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
     private final AuditLogger auditLogger;
@@ -37,7 +38,7 @@ public class BookshopService {
                     .getSingleResultOrNull());
 
             if (customerEntity.isPresent()) {
-                final BookEntity bookEntity = entityManager.getReference(BookEntity.class, bookId);
+                final BookEntity bookEntity = entityManager.find(BookEntity.class, bookId);
                 final ShoppingBasketItemEntity shoppingBasketItemEntity = new ShoppingBasketItemEntity(accountEntity,
                         bookEntity, quantity);
 
@@ -51,8 +52,12 @@ public class BookshopService {
                         .parameter("quantity", String.valueOf(quantity))
                         .build());
                 return ShoppingBasketItem.builder()
-                        .accountId(accountId)
-                        .bookId(bookId)
+                        .book(Book.builder()
+                                .id(bookEntity.getId())
+                                .price(bookEntity.getPrice())
+                                .stockKeepingUnit(bookEntity.getStockKeepingUnit())
+                                .title(bookEntity.getTitle())
+                                .build())
                         .quantity(quantity)
                         .build();
             } else {

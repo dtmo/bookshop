@@ -13,6 +13,7 @@ import nl.jqno.equalsverifier.EqualsVerifier;
 import nl.jqno.equalsverifier.Warning;
 
 public class InProgressOrderEntityTest {
+
     @Test
     void testEqualsHashCode() {
         final AuthorEntity authorEntity = AuthorEntity.builder()
@@ -22,6 +23,7 @@ public class InProgressOrderEntityTest {
 
         final BookEntity redBookEntity = BookEntity.builder()
                 .id(1L)
+                .title("Red Book")
                 .stockKeepingUnit("book1")
                 .price(1000L)
                 .build();
@@ -30,6 +32,7 @@ public class InProgressOrderEntityTest {
 
         final BookEntity blueBookEntity = BookEntity.builder()
                 .id(2L)
+                .title("Blue Book")
                 .stockKeepingUnit("book2")
                 .price(1000L)
                 .build();

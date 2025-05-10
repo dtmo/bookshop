@@ -54,6 +54,9 @@
             <column name="creation_time" type="timestamp" defaultValueComputed="CURRENT_TIMESTAMP">
                 <constraints nullable="false" />
             </column>
+            <column name="title" type="varchar">
+                <constraints nullable="false" />
+            </column>
             <column name="price" type="number">
                 <constraints nullable="false" />
             </column>
